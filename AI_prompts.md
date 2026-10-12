@@ -43,3 +43,33 @@ Log this prompt in `AI_prompts.md` as “Problem 2 - Study the Campus Customs da
 ### Follow-up
 
 None.
+
+## Problem 3 - Build the MCP server
+
+### Prompt
+
+````text
+Problem 3: Build the MCP server.
+
+Make an MCP server in mcp_server/ using FastMCP. It reads data/campus_customs_new.db. You do not need to run it.
+
+Write three read-only tools for the three open tickets (101, 102, 103). Look at the tickets and the database first, then pick the three tools that unlock them. Give each tool a clear name.
+
+Rules:
+- Only use data from the database. Never make up data.
+- Read the database inside each tool call. Do not hardcode any values.
+- Do not touch data/campus_customs.db.
+- Do not add any AI calls yet.
+
+Then:
+1. In output/harness.md, add a section for the MCP tools. For each tool, write: the table it reads, which ticket it helps (101, 102 or 103), and one sentence on why it is the right tool for that ticket. Name the real ticket facts, so it does not sound vague.
+2. Write a short mcp_server/README.md: what the server is for, which database file it uses, and the three tools.
+3. Add a Problem 3 section to AI_prompts.md.
+4. Commit as "Problem 3 - Build the MCP server". Do not push.
+
+When done, show me git status and git log.
+````
+
+### Follow-up
+
+None.

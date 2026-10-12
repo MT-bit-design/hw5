@@ -48,3 +48,22 @@ Links marked *implied* are not declared foreign keys; agents must join on them b
 - Fields: `id` (PK), `kind`, `ref_id`, `amount`, `account`, `paid_at`, `approved_by`
 - Links: `ref_id` → invoices or leases depending on `kind` (*implied*), `account` → cash_accounts.name (*implied*)
 - Why: The record of money paid out, with who approved it; empty at the start.
+
+## MCP Tools
+
+Server: `mcp_server/server.py` (FastMCP). All tools are read-only and query `data/campus_customs_new.db` on every call.
+
+### check_stock(sku, size)
+- Reads: inventory, pricing
+- Helps: ticket 101
+- Why: The customer wants one Classic Bulldog Tee in size S, and this tool shows size S has 0 on hand while M, L, and XL are in stock, so the agent can't promise shipment and can offer another size or a restock.
+
+### get_bills_and_cash()
+- Reads: desk, leases, invoices, vendors, cash_accounts
+- Helps: ticket 102
+- Why: The rent notice says rent is due in 2 days, and this tool confirms against the lease that $2,400 is due 2026-09-02, shows $3,400 in checking, and surfaces the overdue $840 Bulldog Print Co invoice that would leave only $160 if both are paid.
+
+### quote_bulk_order(sku, size, qty)
+- Reads: desk, inventory, pricing, vendors
+- Helps: ticket 103
+- Why: The club wants 20 navy hoodies in size M at a discount, and this tool shows only 8 are on hand (12 short, Bulldog Print Co lead time 5 days) and that unit cost is $22 against a $58 list price, so any discount must stay above cost.
