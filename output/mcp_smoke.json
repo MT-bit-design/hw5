@@ -1,0 +1,176 @@
+{
+  "server": "campus-customs (.mcp.json, stdio)",
+  "database": "data/campus_customs_new.db",
+  "user_prompt": "Problem 4: test all three tools by really calling them through the MCP connection, then check each output against data/campus_customs_new.db with a plain SQL query.",
+  "all_tools_match_db": true,
+  "results": [
+    {
+      "ticket": 101,
+      "prompt": "Ticket 101: Is the Classic Bulldog Tee (CC-TEE-WHITE) in size S in stock, and what does it cost?",
+      "tool": "mcp__campus-customs__check_stock",
+      "arguments": {
+        "sku": "CC-TEE-WHITE",
+        "size": "S"
+      },
+      "tool_output": {
+        "found": true,
+        "sku": "CC-TEE-WHITE",
+        "name": "Classic Bulldog Tee",
+        "size": "S",
+        "qty_on_hand": 0,
+        "in_stock": false,
+        "location": "Aisle B",
+        "list_price": 28,
+        "unit_cost": 8,
+        "other_sizes": {
+          "L": 3,
+          "M": 5,
+          "XL": 2
+        }
+      },
+      "sql_check": {
+        "queries": [
+          "SELECT i.name, i.qty, i.location, p.list_price, p.unit_cost FROM inventory i JOIN pricing p USING (sku) WHERE i.sku='CC-TEE-WHITE' AND i.size='S'",
+          "SELECT size, qty FROM inventory WHERE sku='CC-TEE-WHITE' AND size<>'S'"
+        ],
+        "fields_matched": {
+          "name": true,
+          "qty_on_hand": true,
+          "in_stock": true,
+          "location": true,
+          "list_price": true,
+          "unit_cost": true,
+          "other_sizes": true
+        },
+        "all_match": true
+      }
+    },
+    {
+      "ticket": 102,
+      "prompt": "Ticket 102: The landlord says rent is due in 2 days. What do we owe, when, and do we have the cash?",
+      "tool": "mcp__campus-customs__get_bills_and_cash",
+      "arguments": {},
+      "tool_output": {
+        "date_today": "2026-08-31",
+        "leases": [
+          {
+            "id": 1,
+            "space_name": "Chapel Street shop",
+            "landlord": "Elm City Properties",
+            "monthly_rent": 2400,
+            "next_due": "2026-09-02",
+            "days_until_due": 2
+          }
+        ],
+        "unpaid_invoices": [
+          {
+            "id": 501,
+            "vendor_id": 1,
+            "vendor": "Bulldog Print Co",
+            "amount": 840,
+            "due_date": "2026-08-28",
+            "status": "open",
+            "description": "Rush reprint CC-TEE-WHITE S",
+            "days_until_due": -3,
+            "overdue": true
+          }
+        ],
+        "cash_accounts": [
+          {
+            "name": "checking",
+            "balance": 3400,
+            "date": "2026-08-31"
+          }
+        ],
+        "total_cash": 3400,
+        "total_due": 3240,
+        "cash_after_paying_all": 160
+      },
+      "sql_check": {
+        "queries": [
+          "SELECT l.monthly_rent, l.next_due, CAST(julianday(l.next_due) - julianday(d.date_today) AS INT) FROM leases l, desk d WHERE l.id=1",
+          "SELECT i.amount, i.due_date, i.status, v.name, CAST(julianday(i.due_date) - julianday(d.date_today) AS INT) FROM invoices i JOIN vendors v ON v.id=i.vendor_id, desk d WHERE i.id=501",
+          "SELECT (SELECT SUM(balance) FROM cash_accounts), (SELECT SUM(monthly_rent) FROM leases) + (SELECT SUM(amount) FROM invoices WHERE status<>'paid'), (SELECT date_today FROM desk)"
+        ],
+        "fields_matched": {
+          "date_today": true,
+          "rent": true,
+          "rent_due": true,
+          "rent_days_until_due": true,
+          "invoice_amount": true,
+          "invoice_due": true,
+          "invoice_status": true,
+          "invoice_vendor": true,
+          "invoice_days_until_due": true,
+          "invoice_overdue": true,
+          "total_cash": true,
+          "total_due": true,
+          "cash_after_paying_all": true
+        },
+        "all_match": true
+      }
+    },
+    {
+      "ticket": 103,
+      "prompt": "Ticket 103: The club wants 20 navy hoodies (CC-HOOD-NAVY) in size M at a bulk discount. Can we fill it, and how low can the price go?",
+      "tool": "mcp__campus-customs__quote_bulk_order",
+      "arguments": {
+        "sku": "CC-HOOD-NAVY",
+        "size": "M",
+        "qty": 20
+      },
+      "tool_output": {
+        "found": true,
+        "date_today": "2026-08-31",
+        "sku": "CC-HOOD-NAVY",
+        "name": "Basic Hoodie Big Yale",
+        "size": "M",
+        "qty_requested": 20,
+        "qty_on_hand": 8,
+        "shortfall": 12,
+        "list_price": 58,
+        "unit_cost": 22,
+        "list_total": 1160,
+        "cost_total": 440,
+        "max_discount_pct_before_loss": 62.1,
+        "vendors": [
+          {
+            "id": 3,
+            "name": "QuickShip CT",
+            "specialty": "local courier",
+            "lead_days": 1
+          },
+          {
+            "id": 2,
+            "name": "Elm City Gifts",
+            "specialty": "mugs and small goods",
+            "lead_days": 3
+          },
+          {
+            "id": 1,
+            "name": "Bulldog Print Co",
+            "specialty": "apparel reprint",
+            "lead_days": 5
+          }
+        ]
+      },
+      "sql_check": {
+        "queries": [
+          "SELECT i.qty, MAX(20 - i.qty, 0), p.list_price, p.unit_cost, p.list_price*20, p.unit_cost*20, ROUND((1 - p.unit_cost/p.list_price)*100, 1) FROM inventory i JOIN pricing p USING (sku) WHERE i.sku='CC-HOOD-NAVY' AND i.size='M'",
+          "SELECT id, name, specialty, lead_days FROM vendors ORDER BY lead_days"
+        ],
+        "fields_matched": {
+          "qty_on_hand": true,
+          "shortfall": true,
+          "list_price": true,
+          "unit_cost": true,
+          "list_total": true,
+          "cost_total": true,
+          "max_discount_pct_before_loss": true,
+          "vendors": true
+        },
+        "all_match": true
+      }
+    }
+  ]
+}

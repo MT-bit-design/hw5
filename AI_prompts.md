@@ -73,3 +73,29 @@ When done, show me git status and git log.
 ### Follow-up
 
 None.
+
+## Problem 4 - Add the MCP server to the vibe coder and test it
+
+### Prompt
+
+````text
+Problem 4: Add the MCP server to the vibe coder and test each tool.
+
+1. Add my MCP server to this project so you can call the tools. Save it in .mcp.json at the project root (project scope). Use relative paths only. No personal paths, no keys, nothing secret in the file.
+2. If you need me to restart you or approve the server, tell me what to do, then wait.
+3. When it is connected, test all three tools by really calling them through the MCP connection. Do not just run the Python code by hand.
+4. For each tool, check the output against data/campus_customs_new.db with a plain SQL query. The values must match.
+5. Save the evidence in output/mcp_smoke.json. For each tool include: the prompt I asked you, the tool name, and the tool output.
+6. Add a Problem 4 section to AI_prompts.md.
+7. Commit as "Problem 4 - Add the MCP server to the vibe coder and test it". Do not push.
+
+When done, show me git status, git log, and the contents of output/mcp_smoke.json.
+````
+
+### Follow-up
+
+````text
+can you do all of this in a new HW5 folder. so the HW4 remains untoched
+````
+
+After the first try the MCP server could not connect, because the Claude Code session was still running in the HW4 folder, so it never loaded HW5's `.mcp.json`.
