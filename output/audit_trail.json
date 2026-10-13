@@ -1,0 +1,2669 @@
+[
+  {
+    "time": "2026-10-12T23:56:57+00:00",
+    "run_id": "d1970180b1d1",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 0,
+    "step_type": "error",
+    "result_summary": "ModelHTTPError: status_code: 400, model_name: gpt-6-luna, body: {'message': \"azure-openai error: Function tools with reasoning_effort are not supported for gpt-6-luna-global in /v1/chat/completions. To use function tools, use /v1/responses or set reasoning_effort to 'none'.\", 'type': 'invalid_request_error', 'param': 'reasoning_effort', 'code': None}"
+  },
+  {
+    "time": "2026-10-12T23:57:31+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1490,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:31+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"[REDACTED-PHONE]T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-12T23:57:33+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1618,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:33+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer order: SKU CC-TEE-WHITE, size S, qty 1; customer needs a tee. Check stock. If short, identify available restock vendor and lead time from vendor records."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-12T23:57:35+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1288,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:35+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"[REDACTED-PHONE]T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-12T23:57:37+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 6,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_stock",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1416,
+      "output": 26
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:37+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 7,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-12T23:57:38+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 8,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1523,
+      "output": 25
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:38+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 9,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"[REDACTED-PHONE]\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE ..."
+  },
+  {
+    "time": "2026-10-12T23:57:40+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 10,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1859,
+      "output": 110
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:40+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 10,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: CC-TEE-WHITE size S qty 1 is out of stock. Best-fit exact-SKU vendor Bulldog Print Co (vendor id 1) has lead 5 days, ready [REDACTED-PHONE], but is blocked by open unpaid invoice 501 for $840 due [REDACTED-PHONE]. Please handle the required invoice/restock purchasing follow-up per your role; no promise to customer."
+    },
+    "result_summary": "inventory handed work to accounting",
+    "handoff_from": "inventory",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-12T23:57:43+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 11,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_bills_and_cash, get_invoice, find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1784,
+      "output": 85
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:43+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 12,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"[REDACTED-PHONE]T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-12T23:57:43+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 13,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"[REDACTED-PHONE]\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"[REDACTED-PHONE]\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", ..."
+  },
+  {
+    "time": "2026-10-12T23:57:43+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 14,
+    "step_type": "tool_call",
+    "tool": "get_invoice",
+    "tool_input": {
+      "invoice_id": 501
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 501, \"vendor_id\": 1, \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"vendor\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"days_until_due\": -3, \"overdue\": true, \"linked_tickets\": [{\"id\": 101, \"type\": \"customer_order\", \"subject\": \"Bulldog tee\", \"status..."
+  },
+  {
+    "time": "2026-10-12T23:57:43+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"[REDACTED-PHONE]\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE ..."
+  },
+  {
+    "time": "2026-10-12T23:57:45+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 16,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_payment",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2601,
+      "output": 70
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:45+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 17,
+    "step_type": "tool_call",
+    "tool": "request_payment",
+    "tool_input": {
+      "ticket_id": 101,
+      "kind": "invoice",
+      "ref_id": 501,
+      "amount": 840,
+      "account": "checking",
+      "reason": "Pay overdue invoice 501 to clear Bulldog Print Co's shipping block and enable the requested CC-TEE-WHITE size S restock.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": true, \"status\": \"pending_human_approval\", \"paid\": false, \"kind\": \"invoice\", \"ref_id\": 501, \"amount\": 840.0, \"account\": \"checking\", \"balance_now\": 3400.0, \"balance_after_if_approved\": 2560.0, \"existing_payments_for_this_ref\": 0}"
+  },
+  {
+    "time": "2026-10-12T23:57:49+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 18,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2746,
+      "output": 231
+    }
+  },
+  {
+    "time": "2026-10-12T23:57:49+00:00",
+    "run_id": "b6aae7fbef2b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 18,
+    "step_type": "error",
+    "result_summary": "TypeError: 'RunUsage' object is not callable"
+  },
+  {
+    "time": "2026-10-12T23:58:07+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1490,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:07+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[PAYMENT REQUEST - NEEDS HUMAN APPROVAL | [REDACTED-PHONE] | by Accounting] Pay invoice 501: 840.00 from checking (balance..."
+  },
+  {
+    "time": "2026-10-12T23:58:09+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1696,
+      "output": 62
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:09+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer order: CC-TEE-WHITE size S, qty 1. Check on-hand stock and if short identify available restock vendor and lead time. Note existing invoice/payment note if relevant."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-12T23:58:12+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, check_stock",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1287,
+      "output": 57
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:12+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[PAYMENT REQUEST - NEEDS HUMAN APPROVAL | [REDACTED-PHONE] | by Accounting] Pay invoice 501: 840.00 from checking (balance..."
+  },
+  {
+    "time": "2026-10-12T23:58:12+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 6,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-12T23:58:14+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 7,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1610,
+      "output": 25
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:14+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 8,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"[REDACTED-PHONE]\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE ..."
+  },
+  {
+    "time": "2026-10-12T23:58:17+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 9,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1946,
+      "output": 244
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:17+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 9,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"Size S is out of stock (0 on hand). Bulldog Print Co is the best-fit restock vendor and can have it ready by [REDACTED-PHONE] if ordered today, but it is blocked by unpaid, overdue invoice 501; sizes M, L, and XL are available as swaps.\", \"facts\": [\"CC-TEE-WHITE size S: 0 on hand, located in Aisle B (check_stock).\", \"Other sizes on hand: M 5, L 3, XL 2 (check_stock...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 8029,
+      "ticket_output_total": 407
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:17+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 10,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer order: CC-TEE-WHITE size S, qty 1. Check on-hand stock and if short identify available restock vendor and lead time. Note existing invoice/payment note if relevant."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"Size S is out of stock (0 on hand). Bulldog Print Co is the best-fit restock vendor and can have it ready by [REDACTED-PHONE] if ordered today, but it is blocked by unpaid, overdue invoice 501; sizes M, L, and XL are available as swaps.\",\"facts\":[\"CC-TEE-WHITE size S: 0 on hand, located in Aisle B (check_stock).\",\"Other sizes on hand: M 5, L 3, XL 2 (check_stock).\",\"B..."
+  },
+  {
+    "time": "2026-10-12T23:58:20+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 11,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate, delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1999,
+      "output": 301
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:20+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 11,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101 order CC-TEE-WHITE size S qty 1. Inventory reports 0 on hand; Bulldog Print Co restock lead 5 days, blocked by overdue unpaid invoice 501 ($840, due [REDACTED-PHONE]). Ticket already has payment request for invoice 501 with checking balance $3,400 after payment $2,560. Verify invoice/cash and whether any purchase order request is appropriate; do not approve payment."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-12T23:58:20+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 11,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101: Customer needs CC-TEE-WHITE size S qty 1. Inventory says 0 on hand; Bulldog Print Co could provide by [REDACTED-PHONE] if ordered today, but shipment is blocked by unpaid overdue invoice 501 and human approval of existing payment request is required. Draft a customer reply that accurately conveys stock/timing and pending steps; do not send."
+    },
+    "result_summary": "boss handed work to customer_service",
+    "handoff_from": "boss",
+    "handoff_to": "customer_service"
+  },
+  {
+    "time": "2026-10-12T23:58:22+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 12,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1196,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:22+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 13,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[PAYMENT REQUEST - NEEDS HUMAN APPROVAL | [REDACTED-PHONE] | by Accounting] Pay invoice 501: 840.00 from checking (balance..."
+  },
+  {
+    "time": "2026-10-12T23:58:22+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 14,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_bills_and_cash, get_invoice, get_ticket, find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1787,
+      "output": 85
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:22+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"[REDACTED-PHONE]\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"[REDACTED-PHONE]\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", ..."
+  },
+  {
+    "time": "2026-10-12T23:58:22+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 16,
+    "step_type": "tool_call",
+    "tool": "get_invoice",
+    "tool_input": {
+      "invoice_id": 501
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 501, \"vendor_id\": 1, \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"vendor\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"days_until_due\": -3, \"overdue\": true, \"linked_tickets\": [{\"id\": 101, \"type\": \"customer_order\", \"subject\": \"Bulldog tee\", \"status..."
+  },
+  {
+    "time": "2026-10-12T23:58:22+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 17,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[PAYMENT REQUEST - NEEDS HUMAN APPROVAL | [REDACTED-PHONE] | by Accounting] Pay invoice 501: 840.00 from checking (balance..."
+  },
+  {
+    "time": "2026-10-12T23:58:22+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 18,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"[REDACTED-PHONE]\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE ..."
+  },
+  {
+    "time": "2026-10-12T23:58:23+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 19,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_stock",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1402,
+      "output": 26
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:23+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 20,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-12T23:58:26+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 21,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1509,
+      "output": 118
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:26+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 21,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101. Confirm whether Bulldog Print Co's potential supply of CC-TEE-WHITE size S has a restock date and whether shipment is blocked/pending payment approval. Customer service needs customer-safe facts; do not disclose internal invoice/payment details."
+    },
+    "result_summary": "customer_service handed work to inventory",
+    "handoff_from": "customer_service",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-12T23:58:26+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 22,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2682,
+      "output": 459
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:26+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 22,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Invoice 501 is open and 3 days overdue; the $840 payment request is already on ticket 101 and needs human approval (I did not approve it). Checking has $3,400, so paying it leaves $2,560; rent of $2,400 is due in 2 days, leaving only $160 if both are paid. Do not submit a purchase order now: Bulldog Print Co is blocked by invoice 501, so its restock cannot s...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 18604,
+      "ticket_output_total": 1415
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:28+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 2,
+    "step": 23,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1295,
+      "output": 56
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:28+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 2,
+    "step": 24,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[PAYMENT REQUEST - NEEDS HUMAN APPROVAL | [REDACTED-PHONE] | by Accounting] Pay invoice 501: 840.00 from checking (balance..."
+  },
+  {
+    "time": "2026-10-12T23:58:28+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 2,
+    "step": 25,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"[REDACTED-PHONE]\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"[REDACTED-PHONE]\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"[REDACTED-PHONE]\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE ..."
+  },
+  {
+    "time": "2026-10-12T23:58:31+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 2,
+    "step": 26,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1847,
+      "output": 232
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:31+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 2,
+    "step": 26,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"Bulldog Print Co could have CC-TEE-WHITE size S ready by September 5, 2026, if ordered today. Shipment is currently blocked pending payment approval; no shipment can be confirmed until the block is cleared.\", \"facts\": [\"Bulldog Print Co is a prior supplier of this exact SKU/size (find_restock_vendors).\", \"Vendor lead time is 5 days; ready-by date if ordered today i...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 21746,
+      "ticket_output_total": 1703
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:31+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 27,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101. Confirm whether Bulldog Print Co's potential supply of CC-TEE-WHITE size S has a restock date and whether shipment is blocked/pending payment approval. Customer service needs customer-safe facts; do not disclose internal invoice/payment details."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"Bulldog Print Co could have CC-TEE-WHITE size S ready by September 5, 2026, if ordered today. Shipment is currently blocked pending payment approval; no shipment can be confirmed until the block is cleared.\",\"facts\":[\"Bulldog Print Co is a prior supplier of this exact SKU/size (find_restock_vendors).\",\"Vendor lead time is 5 days; ready-by date if ordered today is [RED..."
+  },
+  {
+    "time": "2026-10-12T23:58:34+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 28,
+    "step_type": "model_call",
+    "result_summary": "requested tools: draft_customer_message",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1774,
+      "output": 213
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:34+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 29,
+    "step_type": "tool_call",
+    "tool": "draft_customer_message",
+    "tool_input": {
+      "ticket_id": 101,
+      "message": "Hi there,\n\nWe’re out of size S at the moment. Sizes M (5), L (3), and XL (2) are currently in stock. Our supplier may be able to have size S ready by September 5 if we order today, but that timing is not confirmed while the required approval is pending. A team member will confirm the next step with you.\n\nCampus Customs",
+      "written_by": "customer_service"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"saved_as\": \"draft on the ticket\", \"sent\": false}"
+  },
+  {
+    "time": "2026-10-12T23:58:36+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 30,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2022,
+      "output": 129
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:36+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 30,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Saved a draft explaining size S is out of stock, other sizes are available, and the possible September 5 restock is not confirmed while approval is pending.\", \"facts\": [\"Ticket stock check: size S has 0 on hand; M has 5, L has 3, and XL has 2.\", \"Inventory confirmed supplier may have size S ready by September 5, 2026, if ordered today; timing is not confirme...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 25542,
+      "ticket_output_total": 2045
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:36+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 31,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101 order CC-TEE-WHITE size S qty 1. Inventory reports 0 on hand; Bulldog Print Co restock lead 5 days, blocked by overdue unpaid invoice 501 ($840, due [REDACTED-PHONE]). Ticket already has payment request for invoice 501 with checking balance $3,400 after payment $2,560. Verify invoice/cash and whether any purchase order request is appropriate; do not approve payment."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Invoice 501 is open and 3 days overdue; the $840 payment request is already on ticket 101 and needs human approval (I did not approve it). Checking has $3,400, so paying it leaves $2,560; rent of $2,400 is due in 2 days, leaving only $160 if both are paid. Do not submit a purchase order now: Bulldog Print Co is blocked by invoice 501, so its restock cannot ship..."
+  },
+  {
+    "time": "2026-10-12T23:58:36+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 32,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101: Customer needs CC-TEE-WHITE size S qty 1. Inventory says 0 on hand; Bulldog Print Co could provide by [REDACTED-PHONE] if ordered today, but shipment is blocked by unpaid overdue invoice 501 and human approval of existing payment request is required. Draft a customer reply that accurately conveys stock/timing and pending steps; do not send."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Saved a draft explaining size S is out of stock, other sizes are available, and the possible September 5 restock is not confirmed while approval is pending.\",\"facts\":[\"Ticket stock check: size S has 0 on hand; M has 5, L has 3, and XL has 2.\",\"Inventory confirmed supplier may have size S ready by September 5, 2026, if ordered today; timing is not confirmed whil..."
+  },
+  {
+    "time": "2026-10-12T23:58:39+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 33,
+    "step_type": "model_call",
+    "result_summary": "requested tools: record_decision",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2725,
+      "output": 192
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:39+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 34,
+    "step_type": "tool_call",
+    "tool": "record_decision",
+    "tool_input": {
+      "ticket_id": 101,
+      "decision": "Size S is out of stock, so the order cannot be fulfilled now. Bulldog Print Co can potentially restock by [REDACTED-PHONE], but shipment is blocked by unpaid invoice 501; the existing $840 payment request requires human approval. Do not place a purchase order until the invoice is paid and the vendor block clears. Customer Service has drafted a reply; a human must review/send it and decide whether to approve the payment, then a restock order can be considered.",
+      "decided_by": "Boss"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"recorded\": true}"
+  },
+  {
+    "time": "2026-10-12T23:58:42+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 35,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2944,
+      "output": 234
+    }
+  },
+  {
+    "time": "2026-10-12T23:58:42+00:00",
+    "run_id": "2dca3434a7f4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 35,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Size S is out of stock and cannot be fulfilled now. Bulldog Print Co may restock it by [REDACTED-PHONE], but its shipment is blocked by unpaid invoice 501; do not place a restock order until the invoice is paid and the block clears. Customer Service drafted a reply for human review.\", \"facts\": [\"CC-TEE-WHITE size S: 0 on hand (inventory).\", \"Restock lead tim...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 31211,
+      "ticket_output_total": 2471
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:46+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1490,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:46+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:24:46+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1618,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:46+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer order: SKU CC-TEE-WHITE, size S, qty 1; customer needs a tee. Check stock. If short, identify available restock vendor and lead time from vendor records."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-13T01:24:47+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1288,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:47+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:24:47+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 6,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_stock",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1416,
+      "output": 26
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:47+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 7,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-13T01:24:47+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 8,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1523,
+      "output": 25
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:47+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 9,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"overdue\": tru..."
+  },
+  {
+    "time": "2026-10-13T01:24:47+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 10,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1859,
+      "output": 110
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:47+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 10,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: CC-TEE-WHITE size S qty 1 is out of stock. Best-fit exact-SKU vendor Bulldog Print Co (vendor id 1) has lead 5 days, ready 2026-09-05, but is blocked by open unpaid invoice 501 for $840 due 2026-08-28. Please handle the required invoice/restock purchasing follow-up per your role; no promise to customer."
+    },
+    "result_summary": "inventory handed work to accounting",
+    "handoff_from": "inventory",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 11,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_bills_and_cash, get_invoice, find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1784,
+      "output": 85
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 12,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 13,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"days_until_due\": ..."
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 14,
+    "step_type": "tool_call",
+    "tool": "get_invoice",
+    "tool_input": {
+      "invoice_id": 501
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 501, \"vendor_id\": 1, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"vendor\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"days_until_due\": -3, \"overdue\": true, \"linked_tickets\": [{\"id\": 101, \"type\": \"customer_order\", \"subject\": \"Bulldog tee\", \"status\": \"open\"}]}"
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"overdue\": tru..."
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 16,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_payment",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2601,
+      "output": 70
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 17,
+    "step_type": "tool_call",
+    "tool": "request_payment",
+    "tool_input": {
+      "ticket_id": 101,
+      "kind": "invoice",
+      "ref_id": 501,
+      "amount": 840,
+      "account": "checking",
+      "reason": "Pay overdue invoice 501 to clear Bulldog Print Co's shipping block and enable the requested CC-TEE-WHITE size S restock.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": true, \"status\": \"pending_human_approval\", \"paid\": false, \"kind\": \"invoice\", \"ref_id\": 501, \"amount\": 840.0, \"account\": \"checking\", \"balance_now\": 3400.0, \"balance_after_if_approved\": 2560.0, \"existing_payments_for_this_ref\": 0}"
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 18,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2746,
+      "output": 231
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 18,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Requested human approval to pay overdue invoice 501; it has not been paid. I have not requested the restock order: Bulldog Print Co remains blocked until the invoice is paid, and paying it would leave $2,560, less than the $2,400 rent due in two days only by $160 before any other outflows.\", \"facts\": [\"Invoice 501 is $840 and 3 days overdue (get_invoice).\", ...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 16325,
+      "ticket_output_total": 648
+    }
+  },
+  {
+    "time": "2026-10-13T01:24:48+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 19,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: CC-TEE-WHITE size S qty 1 is out of stock. Best-fit exact-SKU vendor Bulldog Print Co (vendor id 1) has lead 5 days, ready 2026-09-05, but is blocked by open unpaid invoice 501 for $840 due 2026-08-28. Please handle the required invoice/restock purchasing follow-up per your role; no promise to customer."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Requested human approval to pay overdue invoice 501; it has not been paid. I have not requested the restock order: Bulldog Print Co remains blocked until the invoice is paid, and paying it would leave $2,560, less than the $2,400 rent due in two days only by $160 before any other outflows.\",\"facts\":[\"Invoice 501 is $840 and 3 days overdue (get_invoice).\",\"Check..."
+  },
+  {
+    "time": "2026-10-13T01:29:28+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 20,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2197,
+      "output": 234
+    }
+  },
+  {
+    "time": "2026-10-13T01:29:29+00:00",
+    "run_id": "00b08d14504a",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 20,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Size S is out of stock (0 on hand). Sizes M (5), L (3), and XL (2) are available. Bulldog Print Co is the best-fit restock vendor because it previously supplied this exact SKU, but it is blocked by unpaid invoice 501 ($840, due 2026-08-28); if ordered today, its listed ready-by date is 2026-09-05.\", \"facts\": [\"CC-TEE-WHITE size S: 0 on hand, located Aisle B ...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 18522,
+      "ticket_output_total": 882
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:05+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1490,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:05+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:30:06+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1618,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:06+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer order: SKU CC-TEE-WHITE, size S, qty 1; customer needs a tee. Check stock. If short, identify available restock vendor and lead time from vendor records."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-13T01:30:06+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1288,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:06+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:30:06+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 6,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_stock",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1416,
+      "output": 26
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:06+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 7,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-13T01:30:07+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 8,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1523,
+      "output": 25
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:07+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 9,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"overdue\": tru..."
+  },
+  {
+    "time": "2026-10-13T01:30:07+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 10,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1859,
+      "output": 110
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:07+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 10,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: CC-TEE-WHITE size S qty 1 is out of stock. Best-fit exact-SKU vendor Bulldog Print Co (vendor id 1) has lead 5 days, ready 2026-09-05, but is blocked by open unpaid invoice 501 for $840 due 2026-08-28. Please handle the required invoice/restock purchasing follow-up per your role; no promise to customer."
+    },
+    "result_summary": "inventory handed work to accounting",
+    "handoff_from": "inventory",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-13T01:30:07+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 11,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_bills_and_cash, get_invoice, find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1784,
+      "output": 85
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:07+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 12,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:30:07+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 13,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"days_until_due\": ..."
+  },
+  {
+    "time": "2026-10-13T01:30:07+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 14,
+    "step_type": "tool_call",
+    "tool": "get_invoice",
+    "tool_input": {
+      "invoice_id": 501
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 501, \"vendor_id\": 1, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"vendor\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"days_until_due\": -3, \"overdue\": true, \"linked_tickets\": [{\"id\": 101, \"type\": \"customer_order\", \"subject\": \"Bulldog tee\", \"status\": \"open\"}]}"
+  },
+  {
+    "time": "2026-10-13T01:30:08+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"overdue\": tru..."
+  },
+  {
+    "time": "2026-10-13T01:30:08+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 16,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_payment",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2601,
+      "output": 70
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:08+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 17,
+    "step_type": "tool_call",
+    "tool": "request_payment",
+    "tool_input": {
+      "ticket_id": 101,
+      "kind": "invoice",
+      "ref_id": 501,
+      "amount": 840,
+      "account": "checking",
+      "reason": "Pay overdue invoice 501 to clear Bulldog Print Co's shipping block and enable the requested CC-TEE-WHITE size S restock.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": true, \"status\": \"pending_human_approval\", \"paid\": false, \"kind\": \"invoice\", \"ref_id\": 501, \"amount\": 840.0, \"account\": \"checking\", \"balance_now\": 3400.0, \"balance_after_if_approved\": 2560.0, \"existing_payments_for_this_ref\": 0}"
+  },
+  {
+    "time": "2026-10-13T01:30:08+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 18,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2746,
+      "output": 231
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:08+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 2,
+    "step": 18,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Requested human approval to pay overdue invoice 501; it has not been paid. I have not requested the restock order: Bulldog Print Co remains blocked until the invoice is paid, and paying it would leave $2,560, less than the $2,400 rent due in two days only by $160 before any other outflows.\", \"facts\": [\"Invoice 501 is $840 and 3 days overdue (get_invoice).\", ...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 16325,
+      "ticket_output_total": 648
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:08+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 19,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: CC-TEE-WHITE size S qty 1 is out of stock. Best-fit exact-SKU vendor Bulldog Print Co (vendor id 1) has lead 5 days, ready 2026-09-05, but is blocked by open unpaid invoice 501 for $840 due 2026-08-28. Please handle the required invoice/restock purchasing follow-up per your role; no promise to customer."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Requested human approval to pay overdue invoice 501; it has not been paid. I have not requested the restock order: Bulldog Print Co remains blocked until the invoice is paid, and paying it would leave $2,560, less than the $2,400 rent due in two days only by $160 before any other outflows.\",\"facts\":[\"Invoice 501 is $840 and 3 days overdue (get_invoice).\",\"Check..."
+  },
+  {
+    "time": "2026-10-13T01:30:09+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 20,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2197,
+      "output": 234
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:09+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 20,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Size S is out of stock (0 on hand). Sizes M (5), L (3), and XL (2) are available. Bulldog Print Co is the best-fit restock vendor because it previously supplied this exact SKU, but it is blocked by unpaid invoice 501 ($840, due 2026-08-28); if ordered today, its listed ready-by date is 2026-09-05.\", \"facts\": [\"CC-TEE-WHITE size S: 0 on hand, located Aisle B ...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 18522,
+      "ticket_output_total": 882
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:09+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 21,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer order: SKU CC-TEE-WHITE, size S, qty 1; customer needs a tee. Check stock. If short, identify available restock vendor and lead time from vendor records."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Size S is out of stock (0 on hand). Sizes M (5), L (3), and XL (2) are available. Bulldog Print Co is the best-fit restock vendor because it previously supplied this exact SKU, but it is blocked by unpaid invoice 501 ($840, due 2026-08-28); if ordered today, its listed ready-by date is 2026-09-05.\",\"facts\":[\"CC-TEE-WHITE size S: 0 on hand, located Aisle B (chec..."
+  },
+  {
+    "time": "2026-10-13T01:30:12+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 22,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate, delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1912,
+      "output": 197
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:12+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 22,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101 customer order, SKU CC-TEE-WHITE size S qty 1. Inventory reports vendor Bulldog Print Co is blocked by unpaid invoice 501 for $840, due 2026-08-28, and stock ready-by 2026-09-05 if ordered. Check cash/invoice status, whether payment can be requested under cash rules, and report whether vendor can ship; do not approve or pay."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-13T01:30:12+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 22,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101: customer requests 1 CC-TEE-WHITE size S. Inventory says 0 in stock; Bulldog Print Co potential replenishment ready-by 2026-09-05 but vendor blocked by unpaid invoice 501. Draft an accurate customer reply; do not send."
+    },
+    "result_summary": "boss handed work to customer_service",
+    "handoff_from": "boss",
+    "handoff_to": "customer_service"
+  },
+  {
+    "time": "2026-10-13T01:30:14+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 23,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1174,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:14+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 24,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[PAYMENT REQUEST - NEEDS HUMAN APPROVAL | 2026-08-31 | by Accounting] Pay invoice 501: 840.00 from checking (balance 3400.00, af..."
+  },
+  {
+    "time": "2026-10-13T01:30:14+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 25,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_bills_and_cash, get_invoice, find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1781,
+      "output": 70
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:14+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 26,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"days_until_due\": ..."
+  },
+  {
+    "time": "2026-10-13T01:30:14+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 27,
+    "step_type": "tool_call",
+    "tool": "get_invoice",
+    "tool_input": {
+      "invoice_id": 501
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 501, \"vendor_id\": 1, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"vendor\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"days_until_due\": -3, \"overdue\": true, \"linked_tickets\": [{\"id\": 101, \"type\": \"customer_order\", \"subject\": \"Bulldog tee\", \"status\": \"open\"}]}"
+  },
+  {
+    "time": "2026-10-13T01:30:14+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 28,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"overdue\": tru..."
+  },
+  {
+    "time": "2026-10-13T01:30:16+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 29,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_stock",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1380,
+      "output": 26
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:16+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 30,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-13T01:30:17+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 31,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_payment",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2476,
+      "output": 141
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:17+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 32,
+    "step_type": "tool_call",
+    "tool": "request_payment",
+    "tool_input": {
+      "ticket_id": 101,
+      "kind": "invoice",
+      "ref_id": 501,
+      "amount": 840,
+      "account": "checking",
+      "reason": "Pay overdue Bulldog Print Co invoice 501 so vendor can ship the customer order; note rent of $2,400 is due 2026-09-02.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": true, \"status\": \"pending_human_approval\", \"paid\": false, \"kind\": \"invoice\", \"ref_id\": 501, \"amount\": 840.0, \"account\": \"checking\", \"balance_now\": 3400.0, \"balance_after_if_approved\": 2560.0, \"existing_payments_for_this_ref\": 0}"
+  },
+  {
+    "time": "2026-10-13T01:30:19+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 33,
+    "step_type": "model_call",
+    "result_summary": "requested tools: draft_customer_message",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1487,
+      "output": 163
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:19+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 34,
+    "step_type": "tool_call",
+    "tool": "draft_customer_message",
+    "tool_input": {
+      "ticket_id": 101,
+      "message": "Hi there,\nWe’re out of the Classic Bulldog Tee in size S right now. Sizes M, L, and XL are currently available, or you can wait for size S to be restocked; we don’t have a confirmed restock date yet. A team member will confirm the next step with you.\nCampus Customs",
+      "written_by": "customer_service"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"saved_as\": \"draft on the ticket\", \"sent\": false}"
+  },
+  {
+    "time": "2026-10-13T01:30:21+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 35,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2692,
+      "output": 283
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:21+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 35,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"A request to pay invoice 501 for $840 from checking is pending human approval; it has not been paid. This is affordable under the cash rule, but the $2,400 rent is due in 2 days and paying both invoice and rent would leave only $160. Bulldog Print Co remains blocked and cannot ship while invoice 501 is unpaid; if ordered today, the reported ready-by date is ...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 31424,
+      "ticket_output_total": 1781
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:21+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 36,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1685,
+      "output": 129
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:21+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 36,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Saved a draft explaining that size S is out of stock, sizes M, L, and XL are available, and no restock date is confirmed.\", \"facts\": [\"Size S on hand: 0; source: stock check for CC-TEE-WHITE.\", \"Sizes M: 5, L: 3, XL: 2 on hand; source: stock check for CC-TEE-WHITE.\", \"No confirmed restock date is available from the ticket information.\"], \"human_action\": \"Rev...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 33109,
+      "ticket_output_total": 1910
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:21+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 37,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101 customer order, SKU CC-TEE-WHITE size S qty 1. Inventory reports vendor Bulldog Print Co is blocked by unpaid invoice 501 for $840, due 2026-08-28, and stock ready-by 2026-09-05 if ordered. Check cash/invoice status, whether payment can be requested under cash rules, and report whether vendor can ship; do not approve or pay."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"A request to pay invoice 501 for $840 from checking is pending human approval; it has not been paid. This is affordable under the cash rule, but the $2,400 rent is due in 2 days and paying both invoice and rent would leave only $160. Bulldog Print Co remains blocked and cannot ship while invoice 501 is unpaid; if ordered today, the reported ready-by date is 202..."
+  },
+  {
+    "time": "2026-10-13T01:30:21+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 38,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101: customer requests 1 CC-TEE-WHITE size S. Inventory says 0 in stock; Bulldog Print Co potential replenishment ready-by 2026-09-05 but vendor blocked by unpaid invoice 501. Draft an accurate customer reply; do not send."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Saved a draft explaining that size S is out of stock, sizes M, L, and XL are available, and no restock date is confirmed.\",\"facts\":[\"Size S on hand: 0; source: stock check for CC-TEE-WHITE.\",\"Sizes M: 5, L: 3, XL: 2 on hand; source: stock check for CC-TEE-WHITE.\",\"No confirmed restock date is available from the ticket information.\"],\"human_action\":\"Review and s..."
+  },
+  {
+    "time": "2026-10-13T01:30:24+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 39,
+    "step_type": "model_call",
+    "result_summary": "requested tools: record_decision",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2499,
+      "output": 208
+    }
+  },
+  {
+    "time": "2026-10-13T01:30:24+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 40,
+    "step_type": "tool_call",
+    "tool": "record_decision",
+    "tool_input": {
+      "ticket_id": 101,
+      "decision": "The requested size S tee cannot be fulfilled now: there are 0 in stock and the only identified exact-SKU restock vendor, Bulldog Print Co, is blocked by unpaid invoice 501. Accounting has prepared an $840 payment request pending human approval; if paid, the vendor may then be considered for a separate restock order (reported ready-by 2026-09-05 if ordered today). Customer Service has saved a draft noting size S is unavailable and other sizes are available; a human must review/send it. No order or customer message has been placed/sent.",
+      "decided_by": "Boss"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"recorded\": true}"
+  },
+  {
+    "time": "2026-10-13T01:30:41+00:00",
+    "run_id": "f96820a623b4",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 41,
+    "step_type": "limit_stop",
+    "result_summary": "ticket 101 hit 40 steps"
+  },
+  {
+    "time": "2026-10-13T01:31:53+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1564,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-13T01:31:53+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:31:56+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1692,
+      "output": 67
+    }
+  },
+  {
+    "time": "2026-10-13T01:31:56+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer order: SKU CC-TEE-WHITE, size S, qty 1; requester needs a tee size S. Check on-hand stock. If short, identify eligible restock vendor and lead time from vendors table."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-13T01:31:59+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1338,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-13T01:31:59+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:32:01+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 6,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_stock",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1466,
+      "output": 26
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:01+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 7,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-13T01:32:03+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 8,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1573,
+      "output": 25
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:03+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 9,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"overdue\": tru..."
+  },
+  {
+    "time": "2026-10-13T01:32:07+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 10,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1909,
+      "output": 214
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:07+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 10,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"Size S is out of stock (0 on hand). Bulldog Print Co is the best-fit restock vendor because it has invoiced this exact SKU, but it is blocked by unpaid invoice 501; if ordered today, its listed lead time is 5 days and ready-by date is 2026-09-05. Sizes M, L, and XL are available as swaps.\", \"facts\": [\"CC-TEE-WHITE size S: 0 on hand, located in Aisle B (check_stock)...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 9542,
+      "ticket_output_total": 370
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:07+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 11,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer order: SKU CC-TEE-WHITE, size S, qty 1; requester needs a tee size S. Check on-hand stock. If short, identify eligible restock vendor and lead time from vendors table."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"Size S is out of stock (0 on hand). Bulldog Print Co is the best-fit restock vendor because it has invoiced this exact SKU, but it is blocked by unpaid invoice 501; if ordered today, its listed lead time is 5 days and ready-by date is 2026-09-05. Sizes M, L, and XL are available as swaps.\",\"facts\":[\"CC-TEE-WHITE size S: 0 on hand, located in Aisle B (check_stock)\",\"Ot..."
+  },
+  {
+    "time": "2026-10-13T01:32:11+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 12,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1970,
+      "output": 88
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:11+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 12,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101. Inventory reports size S CC-TEE-WHITE qty 1 unavailable; Bulldog Print Co can restock in 5 days but blocked by unpaid invoice 501 for $840, due 2026-08-28. Check invoice/cash and whether payment request is possible/needed; do not pay or order."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-13T01:32:13+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 13,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_invoice, get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1832,
+      "output": 65
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:13+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 14,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:32:13+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "get_invoice",
+    "tool_input": {
+      "invoice_id": 501
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 501, \"vendor_id\": 1, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"vendor\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"days_until_due\": -3, \"overdue\": true, \"linked_tickets\": [{\"id\": 101, \"type\": \"customer_order\", \"subject\": \"Bulldog tee\", \"status\": \"open\"}]}"
+  },
+  {
+    "time": "2026-10-13T01:32:13+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 16,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"days_until_due\": ..."
+  },
+  {
+    "time": "2026-10-13T01:32:18+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 17,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2320,
+      "output": 386
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:18+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 17,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"Invoice 501 is overdue and is the blocker to Bulldog Print Co restocking. A payment request is technically possible from checking, but paying it alongside the rent due in two days would leave only $160; payment is needed to unblock the vendor, but no payment request or order was made.\", \"facts\": [\"Invoice 501: $840, due 2026-08-28, 3 days overdue (get_invoice).\", \"...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 15664,
+      "ticket_output_total": 909
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:18+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 18,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101. Inventory reports size S CC-TEE-WHITE qty 1 unavailable; Bulldog Print Co can restock in 5 days but blocked by unpaid invoice 501 for $840, due 2026-08-28. Check invoice/cash and whether payment request is possible/needed; do not pay or order."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"Invoice 501 is overdue and is the blocker to Bulldog Print Co restocking. A payment request is technically possible from checking, but paying it alongside the rent due in two days would leave only $160; payment is needed to unblock the vendor, but no payment request or order was made.\",\"facts\":[\"Invoice 501: $840, due 2026-08-28, 3 days overdue (get_invoice).\",\"Checki..."
+  },
+  {
+    "time": "2026-10-13T01:32:20+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 19,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2217,
+      "output": 144
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:20+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 19,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101 customer asks CC-TEE-WHITE size S qty 1. Inventory: 0 in stock. Bulldog Print Co lead time 5 days / ready-by 2026-09-05 only if order placed today, but vendor blocked by overdue unpaid invoice 501 ($840); no payment request or order made. Other sizes M/L/XL available if customer wants a swap. Draft customer reply; do not send."
+    },
+    "result_summary": "boss handed work to customer_service",
+    "handoff_from": "boss",
+    "handoff_to": "customer_service"
+  },
+  {
+    "time": "2026-10-13T01:32:23+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 20,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1227,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:23+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 21,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-13T01:32:25+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 22,
+    "step_type": "model_call",
+    "result_summary": "requested tools: draft_customer_message",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1355,
+      "output": 98
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:25+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 23,
+    "step_type": "tool_call",
+    "tool": "draft_customer_message",
+    "tool_input": {
+      "ticket_id": 101,
+      "message": "Hi there,\nSize S is currently out of stock, and we can’t confirm a restock date yet. Sizes M, L, and XL are available if you’d like to swap to one of those, or you can wait while we check on restocking. A team member will confirm the next step with you.\nCampus Customs",
+      "written_by": "customer_service"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"saved_as\": \"draft on the ticket\", \"sent\": false}"
+  },
+  {
+    "time": "2026-10-13T01:32:27+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 24,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1488,
+      "output": 139
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:27+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 24,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Saved a draft explaining size S is out of stock, no restock date can be confirmed, and M/L/XL are available as swap options.\", \"facts\": [\"Ticket 101 says size S is needed; ticket date is 2026-08-31.\", \"User-provided inventory facts: size S has 0 in stock; sizes M/L/XL are available.\", \"The vendor\\u2019s tentative date depends on placing an order today, but n...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 21951,
+      "ticket_output_total": 1309
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:27+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 25,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101 customer asks CC-TEE-WHITE size S qty 1. Inventory: 0 in stock. Bulldog Print Co lead time 5 days / ready-by 2026-09-05 only if order placed today, but vendor blocked by overdue unpaid invoice 501 ($840); no payment request or order made. Other sizes M/L/XL available if customer wants a swap. Draft customer reply; do not send."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Saved a draft explaining size S is out of stock, no restock date can be confirmed, and M/L/XL are available as swap options.\",\"facts\":[\"Ticket 101 says size S is needed; ticket date is 2026-08-31.\",\"User-provided inventory facts: size S has 0 in stock; sizes M/L/XL are available.\",\"The vendor’s tentative date depends on placing an order today, but no order has ..."
+  },
+  {
+    "time": "2026-10-13T01:32:32+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "model_call",
+    "result_summary": "requested tools: record_decision",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2497,
+      "output": 111
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:32+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 27,
+    "step_type": "tool_call",
+    "tool": "record_decision",
+    "tool_input": {
+      "ticket_id": 101,
+      "decision": "Size S (CC-TEE-WHITE, qty 1) is out of stock. Do not promise a restock date: Bulldog Print Co is blocked by overdue invoice 501, and no payment request or purchase order has been made. Customer Service has drafted a reply explaining unavailability and offering sizes M/L/XL as swaps; a human must review and send it. Any vendor payment/order requires human approval.",
+      "decided_by": "Boss"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"recorded\": true}"
+  },
+  {
+    "time": "2026-10-13T01:32:35+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 28,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2635,
+      "output": 238
+    }
+  },
+  {
+    "time": "2026-10-13T01:32:35+00:00",
+    "run_id": "684a794762f9",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 28,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Size S (CC-TEE-WHITE, qty 1) is out of stock, and no restock date can be promised because the vendor is blocked by overdue invoice 501. Customer Service drafted a reply explaining the stock situation and offering M/L/XL as swaps; the draft has not been sent. A human must review and send it, and separately approve any payment or purchase order needed to resto...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 27083,
+      "ticket_output_total": 1658
+    }
+  }
+]
