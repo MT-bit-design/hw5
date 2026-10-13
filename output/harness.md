@@ -72,6 +72,7 @@ Server: `mcp_server/server.py` (FastMCP). These first three tools are read-only 
 
 PydanticAI, code in `backend/`. Run one ticket with `python -m backend.run 101`.
 Every agent uses the one model set in `backend/config.py`, through Portkey with `PORTKEY_API_KEY` from `backend/.env`.
+Model name note: the code requests only `gpt-6-luna`; the provider (Azure OpenAI behind Portkey) reports back its deployment name `gpt-6-luna-global`, and each audit step logs the two separately as `model` and `served_model`.
 Every agent has a `delegate` tool, so any agent can hand work to any other. Each agent sees only its own MCP tools.
 
 | Agent | Role file / prompt | Job | MCP tools |

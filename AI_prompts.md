@@ -161,4 +161,9 @@ When done, show me git status, git log, the MCP tool list, and the first few row
 
 ### Follow-up
 
-None.
+````text
+* search the whole repo, including docs and `.env.example`, for `gpt-4`, `gpt-5`, `o3`, `claude` and `sonnet`. 
+* The model name note. add the one line to `output/harness.md`. i want to check that the code requests only `gpt-6-luna` and the provider reports back `gpt-6-luna-global`. also show me the log of the two names as separate fields in the audit step
+````
+
+After the first run, the audit trail showed `gpt-6-luna-global` with no explanation, which could look like a second model.
