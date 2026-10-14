@@ -421,3 +421,9 @@ one small design problem: the Customer Service is not aligned with the other fun
 ````
 
 After the run, the "Customer Service" name was too long to fit beside its avatar in the narrow seats, so it dropped below the "C" instead of lining up with the other agents.
+
+````text
+you can make the width of that block slightly wider so its aligns with the rest.
+````
+
+After the first fix, "Customer Service" still wrapped onto two lines, so its header did not line up with the other seats.
