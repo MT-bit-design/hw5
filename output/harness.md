@@ -105,7 +105,7 @@ The agents get shop facts only from this server. There is no second tool layer.
 | request_purchase_order | desk, vendors, invoices, inventory, pricing, cash_accounts, tickets (append note) | yes | Asks a human to approve a restock. Refuses a vendor with an open unpaid invoice, short cash, and duplicates. Never orders |
 | record_decision | tickets (append note) | yes | Boss writes the final call on the board |
 
-No tool writes to `payments` or `cash_accounts`, or changes stock or prices. Money only moves when a human approves outside the agent system.
+No MCP tool writes to `payments` or `cash_accounts`, or changes stock or prices. Money only moves when a human clicks Approve on the board (`POST /api/requests/{id}/approve`, see Backend Routes).
 
 ## Audit Trail
 
@@ -130,6 +130,24 @@ Limits that keep token use in check (all in `backend/config.py`):
 - Delegation depth: at most 2 levels (Boss, then a specialist, then one more).
 - Steps per ticket: at most 60 model calls plus tool calls across all agents.
 - PydanticAI `UsageLimits`, shared by every agent on a ticket: 30 model requests, 40 tool calls, 100,000 total tokens.
-- At most 2,000 output tokens per reply, with low reasoning effort.
+- At most 4,000 output tokens per reply (reasoning included), with low reasoning effort. 2,000 was too tight: the Boss ran out before writing its final answer.
 - Short, structured answers (`AgentReply`), no self-delegation, and the prompts say not to ask the same question twice.
 - When a limit is hit, the run stops cleanly, a `limit_stop` row is logged, and the ticket is handed to a human.
+
+## Backend Routes
+
+FastAPI in `backend/main.py`. Start it from `backend/` with `..\.venv\Scripts\python.exe -m uvicorn main:app --reload --port 8000`. CORS allows only localhost origins (the React dev server).
+
+- `GET /api/tickets`: the three tickets with their real `tickets.status` (open or resolved), plus whether each has a Boss decision and how many requests are pending.
+- `POST /api/tickets/{id}/run`: starts the agent team on one ticket in the background and returns a `run_id` right away (202). Refuses if a run is going or the ticket is resolved.
+- `GET /api/events?ticket=&limit=&run_id=`: agent events from the audit trail, newest first (what each agent said, its tools and handoffs). Defaults to the latest run. Key, emails, and phones are scrubbed.
+- `GET /api/requests?status=pending|approved|all`: payment and purchase order requests, so the board can show an Approve button.
+- `POST /api/requests/{request_id}/approve` (body `{"approved_by": "name"}`): the only route that moves cash. Refuses if the request is not pending, cash is short, the vendor has an open unpaid invoice, or the approver is an agent.
+- `GET /api/cash`: the current checking balance from `cash_accounts`.
+- `POST /api/reset`: copies `campus_customs.db` over `campus_customs_new.db`. Refuses while a run is going. Keeps the audit trail.
+
+How a ticket becomes resolved: the Boss has recorded a decision on it, and no payment or purchase request on it is still pending. The backend checks this after every run and every approval, and then sets `tickets.status = 'resolved'`.
+
+Requests live in `tickets.notes`, because there is no requests table. Each is one line: `[REQUEST R102-1 | PENDING | date | by agent] kind=... amount=... account=... :: text`. Approval changes `PENDING` to `APPROVED by <name> on <date>`.
+Cash rules live in one place, `mcp_server/ledger.py`, which both the MCP request tools and the approve route use. `approve_request` is not an MCP tool, so agents cannot reach it.
+On approval: cash goes down, a `payments` row is added (with `approved_by`), and then an invoice is marked `paid`, or a lease's `next_due` moves forward one month. A purchase order adds no stock, because goods have not arrived.

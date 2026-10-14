@@ -207,3 +207,42 @@ Commit as "Problem 6 - Plan the three tickets". Do not push.
 ### Follow-up
 
 None.
+
+## Problem 7 - Backend routes
+
+### Prompt
+
+````text
+Problem 7: Backend routes.
+
+First check that Problem 6 is committed. If not, stop and tell me. Do not edit the Expected sections in output/desk_tickets.html, ever.
+
+Build a FastAPI backend in backend/main.py. From the backend/ folder, this must start it: uvicorn main:app --reload --port 8000. Tell me the exact Windows command to do that with the .venv. Make it work from backend/: the path to the MCP server and to the database must not depend on the current folder. Add fastapi and uvicorn to requirements. Allow CORS only for localhost (the React dev server).
+
+Routes:
+1. Get the three tickets and whether each is open or resolved. Use the real status in the tickets table. Tell me how a ticket becomes resolved.
+2. Run the agent team on one ticket id. It takes a while, so start it in the background and answer right away. The board then reads progress from the events route. Refuse if a run is already going, or if the ticket is already resolved.
+3. Get recent agent events from the audit trail: what each agent said and which tools it used. Newest first. Filters: ticket and limit. Default to the latest run. Keep the key, customer emails and phones out.
+4. List pending payment and purchase requests, so the board can show an Approve button.
+5. Approve one pending request. This is the only thing that moves cash, and only a human click calls it. Rules:
+   - refuse if it is not pending, so nothing is paid twice
+   - refuse if cash is short, so no negative balance
+   - refuse a purchase if that vendor has an open unpaid invoice
+   - when it works, update the relevant tables (cash, payments, the invoice or rent that was paid, and the request status). Use only the tables that exist. Do not invent stock arriving.
+   Put this logic in one shared function next to the MCP tools code so the cash rules live in one place. Do not make it an MCP tool, and give agents no way to call it.
+6. Get the current checking balance from cash_accounts.
+7. Reset the working copy data/campus_customs_new.db from the original. Refuse if a run is going. Do not touch the original. Do not wipe audit_trail.json.
+
+Keep gpt-6-luna as the only model. Do not email or call anyone.
+
+Test it for real: start the server and call every route. Then run ticket 102 through the run route, approve its payment through the approve route, and check that cash drops by the rent. Check that approving again is refused. Then reset, and check the balance is back to the original. Leave no test data behind.
+
+Docs: in output/harness.md, add each route as one line: the URL and what it does. Add a Problem 7 section to AI_prompts.md.
+Commit as "Problem 7 - Backend routes". Do not push.
+
+When done, show me git status, git log, the route list, and a short sample response from each route.
+````
+
+### Follow-up
+
+None.

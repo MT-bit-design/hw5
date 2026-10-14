@@ -37,7 +37,9 @@ def build_mcp_toolset() -> MCPToolset:
         cwd=str(config.ROOT),
         env=env,
     )
-    return MCPToolset(transport, id="campus-customs", max_retries=1)
+    return MCPToolset(
+        transport, id="campus-customs", max_retries=1, init_timeout=config.MCP_INIT_TIMEOUT_S
+    )
 
 
 def roster(me: AgentName) -> str:
@@ -167,8 +169,8 @@ class Team:
 
     # ---------- entry point ----------
 
-    async def run_ticket(self, ticket_id: int) -> AgentReply:
-        run = TicketRun(ticket_id=ticket_id, run_id=uuid.uuid4().hex[:12], audit=self.audit)
+    async def run_ticket(self, ticket_id: int, run_id: str | None = None) -> AgentReply:
+        run = TicketRun(ticket_id=ticket_id, run_id=run_id or uuid.uuid4().hex[:12], audit=self.audit)
         task = (
             f"Work ticket {ticket_id}. Read it with get_ticket, send the right parts to the right agents, "
             "then make the final call and record it with record_decision."

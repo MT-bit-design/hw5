@@ -21,10 +21,13 @@ load_dotenv(BACKEND_DIR / ".env")
 MODEL_NAME = "gpt-6-luna"
 PORTKEY_BASE_URL = "https://api.portkey.ai/v1"
 
+# The MCP server can take ~10s to start (FastMCP import on a synced folder); PydanticAI's default is 5s.
+MCP_INIT_TIMEOUT_S = 30
+
 # Safety limits so nothing loops forever or burns tokens.
 MAX_DELEGATION_DEPTH = 2        # Boss -> specialist -> one more specialist, no deeper
 MAX_STEPS_PER_TICKET = 60       # model calls + tool calls across every agent on one ticket
-MAX_OUTPUT_TOKENS = 2_000       # per model reply, reasoning included
+MAX_OUTPUT_TOKENS = 4_000       # per model reply, reasoning included (2,000 was too tight)
 REASONING_EFFORT = "low"        # enough to follow the rules, cheap on tokens
 USAGE_LIMITS = UsageLimits(     # shared by every agent working on one ticket
     request_limit=30,

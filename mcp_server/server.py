@@ -4,64 +4,33 @@ Every tool opens data/campus_customs_new.db on each call, so answers always
 reflect the current working copy and nothing is hardcoded. Most tools are
 read-only. The few "board" tools only append notes to a ticket (drafts,
 requests, decisions). No tool moves money: payments need a human.
+
+The cash rules live in ledger.py, shared with the backend's approve route.
+ledger.approve_request is deliberately NOT registered here, so agents cannot call it.
 """
 
 import re
-import sqlite3
+import sys
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Literal
 
 from fastmcp import FastMCP
 
-DB_PATH = Path(__file__).resolve().parent.parent / "data" / "campus_customs_new.db"
-assert DB_PATH.name == "campus_customs_new.db", "never point the server at the original database"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import ledger  # noqa: E402
+from ledger import (  # noqa: E402
+    append_ticket_note as _append_ticket_note,
+    connect as _connect,
+    open_invoices as _open_invoices,
+    refuse as _refuse,
+    today as _today,
+)
 
 EMAIL_RE = re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+")
 PHONE_RE = re.compile(r"(?<!\d)(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]\d{4}(?!\d)")
 
 mcp = FastMCP("campus-customs")
-
-
-def _connect(write: bool = False) -> sqlite3.Connection:
-    """Open the working copy (read-only unless write=True); fails if the file is missing."""
-    mode = "rw" if write else "ro"
-    con = sqlite3.connect(f"file:{DB_PATH.as_posix()}?mode={mode}", uri=True)
-    con.row_factory = sqlite3.Row
-    return con
-
-
-def _today(con: sqlite3.Connection) -> date:
-    return date.fromisoformat(con.execute("SELECT date_today FROM desk").fetchone()["date_today"])
-
-
-def _refuse(reason: str, **facts) -> dict:
-    return {"ok": False, "refused": reason, **facts}
-
-
-def _open_invoices(con: sqlite3.Connection, vendor_id: int) -> list[dict]:
-    today = _today(con)
-    rows = con.execute(
-        "SELECT id, amount, due_date, status, description FROM invoices"
-        " WHERE vendor_id = ? AND status != 'paid'", (vendor_id,)
-    ).fetchall()
-    return [
-        {**dict(r), "overdue": date.fromisoformat(r["due_date"]) < today} for r in rows
-    ]
-
-
-def _ticket_notes(con: sqlite3.Connection, ticket_id: int) -> str:
-    row = con.execute("SELECT notes FROM tickets WHERE id = ?", (ticket_id,)).fetchone()
-    return (row["notes"] or "") if row else ""
-
-
-def _append_ticket_note(con: sqlite3.Connection, ticket_id: int, note: str) -> bool:
-    cur = con.execute(
-        "UPDATE tickets SET notes = CASE WHEN notes IS NULL OR notes = '' THEN ?"
-        " ELSE notes || char(10) || ? END WHERE id = ?",
-        (note, note, ticket_id),
-    )
-    return cur.rowcount == 1
 
 
 def check_stock(sku: str, size: str) -> dict:
@@ -367,65 +336,20 @@ def request_payment(
     """Ask a human to approve paying an invoice or rent. This never pays anything.
 
     Refuses if the invoice or lease does not exist, the amount does not match,
-    the invoice is already paid, or the account does not have enough cash.
-    Reads: desk, invoices, leases, cash_accounts, payments. Writes: tickets.notes (append only).
+    the invoice is already paid, the same request is already pending, or the
+    account does not have enough cash. Returns a request_id a human can approve.
+    Reads: desk, invoices, leases, cash_accounts, tickets. Writes: tickets.notes (append only).
     """
     con = _connect(write=True)
     try:
-        today = _today(con)
-        if kind == "invoice":
-            ref = con.execute("SELECT amount, status FROM invoices WHERE id = ?", (ref_id,)).fetchone()
-            if ref is None:
-                return _refuse(f"No invoice {ref_id}.")
-            if ref["status"] == "paid":
-                return _refuse(f"Invoice {ref_id} is already paid.")
-            owed = ref["amount"]
-        else:
-            ref = con.execute("SELECT monthly_rent FROM leases WHERE id = ?", (ref_id,)).fetchone()
-            if ref is None:
-                return _refuse(f"No lease {ref_id}.")
-            owed = ref["monthly_rent"]
-        if abs(amount - owed) > 0.005:
-            return _refuse(f"Amount {amount} does not match the {kind} amount {owed}.", amount_owed=owed)
-        already = con.execute(
-            "SELECT COUNT(*) FROM payments WHERE kind = ? AND ref_id = ?", (kind, ref_id)
-        ).fetchone()[0]
-        if f"Pay {kind} {ref_id}:" in _ticket_notes(con, ticket_id):
-            return _refuse(
-                f"A payment request for {kind} {ref_id} is already on ticket {ticket_id}, "
-                "waiting for a human. Do not ask twice."
-            )
-        acct = con.execute("SELECT balance FROM cash_accounts WHERE name = ?", (account,)).fetchone()
-        if acct is None:
-            return _refuse(f"No cash account {account!r}.")
-        balance = acct["balance"]
-        if amount > balance:
-            return _refuse(
-                "Cash is short. Payments can never take the balance below zero.",
-                account=account, balance=balance, amount=amount, short_by=round(amount - balance, 2),
-            )
-        note = (
-            f"[PAYMENT REQUEST - NEEDS HUMAN APPROVAL | {today} | by {requested_by}] "
-            f"Pay {kind} {ref_id}: {amount:.2f} from {account} (balance {balance:.2f}, "
-            f"after {balance - amount:.2f}). Reason: {reason}"
+        result = ledger.add_payment_request(
+            con, ticket_id, kind, ref_id, amount, account, reason, requested_by
         )
-        if not _append_ticket_note(con, ticket_id, note):
-            return _refuse(f"No ticket {ticket_id}.")
-        con.commit()
+        if result.get("ok"):
+            con.commit()
+        return result
     finally:
         con.close()
-    return {
-        "ok": True,
-        "status": "pending_human_approval",
-        "paid": False,
-        "kind": kind,
-        "ref_id": ref_id,
-        "amount": amount,
-        "account": account,
-        "balance_now": balance,
-        "balance_after_if_approved": round(balance - amount, 2),
-        "existing_payments_for_this_ref": already,
-    }
 
 
 def request_purchase_order(
@@ -441,69 +365,20 @@ def request_purchase_order(
     """Ask a human to approve a restock order from a vendor. This never orders or pays.
 
     Refuses if the vendor has an open unpaid invoice (they will not ship), the SKU/size
-    does not exist, or the account cannot cover the cost (pricing.unit_cost x qty).
-    Reads: desk, vendors, invoices, inventory, pricing, cash_accounts. Writes: tickets.notes (append only).
+    does not exist, the same request is already pending, or the account cannot cover
+    the cost (pricing.unit_cost x qty). Returns a request_id a human can approve.
+    Reads: desk, vendors, invoices, inventory, pricing, cash_accounts, tickets. Writes: tickets.notes (append only).
     """
-    if qty <= 0:
-        return _refuse("Quantity must be at least 1.")
     con = _connect(write=True)
     try:
-        today = _today(con)
-        vendor = con.execute(
-            "SELECT name, specialty, lead_days FROM vendors WHERE id = ?", (vendor_id,)
-        ).fetchone()
-        if vendor is None:
-            return _refuse(f"No vendor {vendor_id}.")
-        open_inv = _open_invoices(con, vendor_id)
-        if open_inv:
-            return _refuse(
-                f"{vendor['name']} has an open unpaid invoice, so they will not ship. "
-                "The invoice must be paid (with human approval) first.",
-                open_unpaid_invoices=open_inv,
-            )
-        item = con.execute(
-            "SELECT 1 FROM inventory WHERE sku = ? AND size = ?", (sku, size)
-        ).fetchone()
-        price = con.execute("SELECT unit_cost FROM pricing WHERE sku = ?", (sku,)).fetchone()
-        if item is None or price is None:
-            return _refuse(f"No inventory or pricing for {sku!r} size {size!r}.")
-        if f"{sku} size {size} from {vendor['name']}" in _ticket_notes(con, ticket_id):
-            return _refuse(
-                f"A purchase order request for {sku} size {size} from {vendor['name']} is already "
-                f"on ticket {ticket_id}, waiting for a human. Do not ask twice."
-            )
-        cost = round(price["unit_cost"] * qty, 2)
-        acct = con.execute("SELECT balance FROM cash_accounts WHERE name = ?", (account,)).fetchone()
-        if acct is None:
-            return _refuse(f"No cash account {account!r}.")
-        if cost > acct["balance"]:
-            return _refuse(
-                "Cash is short. Payments can never take the balance below zero.",
-                estimated_cost=cost, balance=acct["balance"],
-            )
-        ready = (today + timedelta(days=vendor["lead_days"])).isoformat()
-        note = (
-            f"[PURCHASE ORDER REQUEST - NEEDS HUMAN APPROVAL | {today} | by {requested_by}] "
-            f"{qty} x {sku} size {size} from {vendor['name']} (vendor {vendor_id}), "
-            f"est. cost {cost:.2f} from {account}, ready about {ready}. Reason: {reason}"
+        result = ledger.add_purchase_request(
+            con, ticket_id, vendor_id, sku, size, qty, account, reason, requested_by
         )
-        if not _append_ticket_note(con, ticket_id, note):
-            return _refuse(f"No ticket {ticket_id}.")
-        con.commit()
+        if result.get("ok"):
+            con.commit()
+        return result
     finally:
         con.close()
-    return {
-        "ok": True,
-        "status": "pending_human_approval",
-        "ordered": False,
-        "vendor": vendor["name"],
-        "specialty": vendor["specialty"],
-        "qty": qty,
-        "estimated_cost": cost,
-        "cost_basis": "pricing.unit_cost x qty",
-        "ready_by_if_approved_today": ready,
-        "balance_now": acct["balance"],
-    }
 
 
 def record_decision(ticket_id: int, decision: str, decided_by: str) -> dict:

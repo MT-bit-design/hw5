@@ -33,6 +33,12 @@ A small [FastMCP](https://gofastmcp.com) server, and the only way the Campus Cus
 | `request_purchase_order(ticket_id, vendor_id, sku, size, qty, account, reason, requested_by)` | desk, vendors, invoices, inventory, pricing, cash_accounts, tickets | Asks a human to approve a restock. Refuses a vendor with an open unpaid invoice, short cash, or a duplicate. Never orders |
 | `record_decision(ticket_id, decision, decided_by)` | tickets | Records the Boss's final call |
 
+## Cash rules (`ledger.py`)
+
+`ledger.py` holds the cash rules: no negative balance, no purchase from a vendor with an open unpaid invoice, no duplicate or double payments. The request tools above and the backend's approve route both use it.
+Request tools return a `request_id` (like `R102-1`) and save the request as a line in `tickets.notes`.
+`ledger.approve_request` is the only code that moves cash. It is **not** an MCP tool, so agents cannot call it. Only the human Approve route (`POST /api/requests/{id}/approve`) does.
+
 ## Run
 
 ```bash
