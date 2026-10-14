@@ -197,5 +197,7 @@ code { font-family: Consolas, "Courier New", monospace; font-size: 0.88em; backg
 }
 
 /* In the four smaller seats, the state sits under the name so nothing crowds. */
-.seats .seat-head { flex-wrap: wrap; }
+.seats .seat-head { flex-wrap: wrap; align-items: flex-start; }
+/* The name block shrinks and wraps its own text, so a long name ("Customer Service") stays beside its avatar. */
+.seats .seat-head > div { flex: 1 1 0; min-width: 0; }
 .seats .seat-state { flex-basis: 100%; margin-left: 44px; margin-top: -4px; }

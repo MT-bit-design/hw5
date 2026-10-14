@@ -415,3 +415,9 @@ yes, ping the provider and retry 103
 ````
 
 After the first try, the model provider failed on 4 of 7 runs (HTTP 500 three times, one timeout), and my first click on R102-1 never reached the backend, so I had to approve again, raise the timeout, and allow a health check before each retry.
+
+````text
+one small design problem: the Customer Service is not aligned with the other functions. it is below the C. i want it to be aligned with all the other functions.
+````
+
+After the run, the "Customer Service" name was too long to fit beside its avatar in the narrow seats, so it dropped below the "C" instead of lining up with the other agents.
