@@ -11,7 +11,8 @@ Requests are stored as one line in tickets.notes (no new table):
 
     [REQUEST R102-1 | PENDING | 2026-08-31 | by accounting] kind=rent ref=1 amount=2400.00 account=checking :: <plain text>
 
-On approval the status becomes "APPROVED by <name> on <date>".
+On approval the status becomes "APPROVED by <name> on <date>"; on decline,
+"DECLINED by <name> on <date>". A declined request is never filed again on that ticket.
 """
 
 from __future__ import annotations
@@ -108,7 +109,12 @@ def _parse_line(ticket_id: int, line: str) -> dict | None:
     req = {
         "request_id": m["id"],
         "ticket_id": ticket_id,
-        "status": "pending" if status_text == "PENDING" else "approved" if status_text.startswith("APPROVED") else status_text.lower(),
+        "status": (
+            "pending" if status_text == "PENDING"
+            else "approved" if status_text.startswith("APPROVED")
+            else "declined" if status_text.startswith("DECLINED")
+            else status_text.lower()
+        ),
         "status_text": status_text,
         "requested_on": m["date"],
         "requested_by": m["by"].strip(),
@@ -165,6 +171,8 @@ def add_payment_request(
         return refuse(f"Amount {amount} does not match the {kind} amount {owed}.", amount_owed=owed)
     if any(r["kind"] == kind and r.get("ref_id") == ref_id for r in list_requests(con, "pending")):
         return refuse(f"A payment request for {kind} {ref_id} is already pending. Do not ask twice.")
+    if any(r["kind"] == kind and r.get("ref_id") == ref_id for r in list_requests(con, "declined", ticket_id)):
+        return refuse(f"A person declined paying {kind} {ref_id} on ticket {ticket_id}. Do not file it again.")
     balance, refusal = check_cash(con, account, amount)
     if refusal:
         return refusal
@@ -211,6 +219,11 @@ def add_purchase_request(
         for r in list_requests(con, "pending")
     ):
         return refuse(f"A purchase order request for {sku} size {size} from {vendor['name']} is already pending.")
+    if any(
+        r["kind"] == "purchase_order" and (r["sku"], r["size"]) == (sku, size)
+        for r in list_requests(con, "declined", ticket_id)
+    ):
+        return refuse(f"A person declined a purchase order for {sku} size {size} on ticket {ticket_id}. Do not file it again.")
     cost = round(price["unit_cost"] * qty, 2)
     balance, refusal = check_cash(con, account, cost)
     if refusal:
@@ -237,13 +250,20 @@ def add_purchase_request(
 
 # ---------- approval: the only code that moves cash ----------
 
+def _human_name(raw: str, action: str) -> tuple[str, dict | None]:
+    name = _clean(raw)[:60]
+    if not name:
+        return name, refuse(f"{action}_by is required: the name of the person.")
+    if name.lower() in AGENT_NAMES:
+        return name, refuse(f"Agents cannot {action} requests. A person must.")
+    return name, None
+
+
 def approve_request(request_id: str, approved_by: str) -> dict:
     """Approve one pending request. Called only by the human approve route, never by agents."""
-    name = _clean(approved_by)[:60]
-    if not name:
-        return refuse("approved_by is required: the name of the person approving.")
-    if name.lower() in AGENT_NAMES:
-        return refuse("Agents cannot approve payments. A person must approve.")
+    name, refusal = _human_name(approved_by, "approve")
+    if refusal:
+        return refusal
     con = connect(write=True)
     try:
         con.execute("BEGIN IMMEDIATE")  # lock, so two clicks cannot both pay
@@ -324,6 +344,38 @@ def approve_request(request_id: str, approved_by: str) -> dict:
     }
 
 
+def decline_request(request_id: str, declined_by: str, reason: str = "") -> dict:
+    """Decline one pending request. Moves no cash; only the request's status line changes.
+    Called only by the human decline route, never by agents. Not an MCP tool."""
+    name, refusal = _human_name(declined_by, "decline")
+    if refusal:
+        return refusal
+    con = connect(write=True)
+    try:
+        con.execute("BEGIN IMMEDIATE")
+        req = next((r for r in list_requests(con) if r["request_id"] == request_id), None)
+        if req is None:
+            return refuse(f"No request {request_id}.", code="not_found")
+        if req["status"] != "pending":
+            return refuse(f"Request {request_id} is not pending ({req['status_text']}).")
+        now = today(con)
+        why = _clean(reason)[:120]
+        status = f"DECLINED by {name} on {now}" + (f" ({why})" if why else "")
+        _set_request_status(con, req["ticket_id"], request_id, status)
+        ticket_status = resolve_ticket_if_done(con, req["ticket_id"])
+        con.commit()
+    except Exception:
+        con.rollback()
+        raise
+    finally:
+        con.close()
+    return {
+        "ok": True, "request_id": request_id, "kind": req["kind"], "amount": req["amount"],
+        "declined_by": name, "declined_on": now.isoformat(), "cash_moved": False,
+        "ticket_id": req["ticket_id"], "ticket_status": ticket_status,
+    }
+
+
 def _set_request_status(con: sqlite3.Connection, ticket_id: int, request_id: str, status: str) -> None:
     lines = ticket_notes(con, ticket_id).splitlines()
     prefix = f"[REQUEST {request_id} | PENDING |"
@@ -342,8 +394,9 @@ def open_reasons(con: sqlite3.Connection, ticket_id: int) -> list[str]:
     Rules:
     - the Boss has recorded a decision on it;
     - no payment or purchase request on it is still pending;
-    - a customer order that is short on stock needs an approved restock purchase
-      order for that SKU and size first (paying a vendor's invoice is not enough).
+    - a customer order that is short on stock needs a restock purchase order for
+      that SKU and size that a person approved or declined (paying a vendor's
+      invoice is not enough). Declined requests never hold a ticket open.
     """
     row = con.execute(
         "SELECT type, sku, size, qty, notes FROM tickets WHERE id = ?", (ticket_id,)
@@ -361,14 +414,16 @@ def open_reasons(con: sqlite3.Connection, ticket_id: int) -> list[str]:
             "SELECT qty FROM inventory WHERE sku = ? AND size = ?", (row["sku"], row["size"])
         ).fetchone()
         on_hand = stock["qty"] if stock else 0
+        # Settled once a person approved OR declined a restock order for this SKU and size.
         restocked = any(
-            r["kind"] == "purchase_order" and (r["sku"], r["size"]) == (row["sku"], row["size"])
-            for r in list_requests(con, "approved", ticket_id)
+            r["kind"] == "purchase_order" and r["status"] in ("approved", "declined")
+            and (r["sku"], r["size"]) == (row["sku"], row["size"])
+            for r in list_requests(con, None, ticket_id)
         )
         if on_hand < row["qty"] and not restocked:
             reasons.append(
                 f"short on stock ({on_hand} of {row['qty']} {row['sku']} {row['size']}): "
-                "needs an approved restock purchase order"
+                "needs a restock purchase order approved or declined by a person"
             )
     return reasons
 

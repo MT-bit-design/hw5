@@ -196,7 +196,7 @@ def get_events(
 
 
 @app.get("/api/requests")
-def get_requests(status: str = Query("pending", pattern="^(pending|approved|all)$")) -> dict:
+def get_requests(status: str = Query("pending", pattern="^(pending|approved|declined|all)$")) -> dict:
     """Payment and purchase order requests (pending by default), for the Approve button."""
     con = ledger.connect()
     try:
@@ -216,6 +216,20 @@ def approve(request_id: str, body: Approval):
     if not re.fullmatch(r"R\d+-\d+", request_id):
         return _refusal({"ok": False, "refused": "Bad request id.", "code": "not_found"})
     result = ledger.approve_request(request_id, body.approved_by)
+    return result if result.get("ok") else _refusal(result)
+
+
+class Decline(BaseModel):
+    declined_by: str = Field(min_length=1, max_length=60, description="Name of the person declining.")
+    reason: str = Field("", max_length=120, description="Optional short reason.")
+
+
+@app.post("/api/requests/{request_id}/decline")
+def decline(request_id: str, body: Decline):
+    """Decline one pending request. Moves no cash; only the request status changes. A human click calls it."""
+    if not re.fullmatch(r"R\d+-\d+", request_id):
+        return _refusal({"ok": False, "refused": "Bad request id.", "code": "not_found"})
+    result = ledger.decline_request(request_id, body.declined_by, body.reason)
     return result if result.get("ok") else _refusal(result)
 
 

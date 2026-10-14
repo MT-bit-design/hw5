@@ -273,3 +273,19 @@ Show me the rule, the test result, git status and git log.
 ````
 
 The rule in the code only checked `customer_order` tickets, so 103 could already resolve. But the Boss prompt said "a customer order that is short on stock stays open" without naming the type, so the Boss could have held 103 open waiting for a purchase order.
+
+````text
+Yes, add Decline.
+
+Add a route to decline a pending request, next to Approve. Declining moves no cash and changes no table except the request status. Only a human click calls it. Agents cannot. A declined request no longer holds the ticket open. If the ticket has a decision and nothing else is pending, it can resolve.
+
+Tell the agents, in the Boss and Accounting prompts, that a declined request must not be filed again, and that they should read the notes from earlier runs.
+
+Test it on a scratch copy of the database: decline a request, check that cash is unchanged, declining again is refused, and the ticket status is right. No agent runs.
+Update output/harness.md (one line for the route) and AI_prompts.md. Commit as a follow-up. Do not push.
+
+Show me git status and git log.
+````
+
+Before this follow-up there was no way to say no to a request: a pending payment or purchase order held its ticket open until someone approved it.
+

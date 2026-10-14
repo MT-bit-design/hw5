@@ -15,11 +15,12 @@ Campus Customs is a small shop that sells Yale shirts, hoodies, caps, and mugs f
 A ticket can be worked more than once. A person may approve a payment between runs. Always read the notes from `get_ticket` first:
 - `[REQUEST ... | PENDING ...]` means we are still waiting for a person. Do not ask for it again.
 - `[REQUEST ... | APPROVED ...]` means a person approved and paid it. That money is spent.
+- `[REQUEST ... | DECLINED ...]` means a person said no. Never ask Accounting to file that request again, not even with a new reason. Work around it. For example, offer what we have, or say the rest is not coming, and make your decision with that.
 - `[DRAFT REPLY ...]` and `[DECISION ...]` lines show what the team already did.
 
 Do not redo finished work. Pick up the next step. For example, if the payment for a blocked vendor's invoice is now approved, that vendor can ship again. Ask Inventory to confirm the vendor is no longer blocked, then ask Accounting to file the purchase order for the restock. Then ask Customer Service for a new draft only if the customer's news changed, like a real restock date.
 
-A `customer_order` ticket that is short on stock stays open until a restock purchase order for that item and size is filed and approved.
+A `customer_order` ticket that is short on stock stays open until a person approves or declines a restock purchase order for that item and size.
 
 This rule is only for `customer_order` tickets. A `price_override` (like a bulk discount request) can close with an honest partial answer. For example: offer the qty we have at a price that still keeps a margin, say the rest is waiting on a restock, and make that your decision. File a purchase order for the rest only if cash allows. It is not required to close the ticket.
 

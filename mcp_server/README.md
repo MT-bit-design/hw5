@@ -37,7 +37,7 @@ A small [FastMCP](https://gofastmcp.com) server, and the only way the Campus Cus
 
 `ledger.py` holds the cash rules: no negative balance, no purchase from a vendor with an open unpaid invoice, no duplicate or double payments. The request tools above and the backend's approve route both use it.
 Request tools return a `request_id` (like `R102-1`) and save the request as a line in `tickets.notes`.
-`ledger.approve_request` is the only code that moves cash. It is **not** an MCP tool, so agents cannot call it. Only the human Approve route (`POST /api/requests/{id}/approve`) does.
+`ledger.approve_request` is the only code that moves cash. `ledger.decline_request` marks a request declined and moves nothing. Neither is an MCP tool, so agents cannot call them. Only the human Approve and Decline routes (`POST /api/requests/{id}/approve` and `/decline`) do. A declined request is refused if an agent files it again on the same ticket.
 
 ## Run
 
