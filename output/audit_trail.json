@@ -5956,5 +5956,2450 @@
       "decided_by": "boss"
     },
     "result_summary": "{\"ok\": true, \"ticket_id\": 102, \"recorded\": true}"
+  },
+  {
+    "time": "2026-10-14T16:38:28+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1868,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T16:38:28+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:39:32+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1996,
+      "output": 56
+    }
+  },
+  {
+    "time": "2026-10-14T16:39:32+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer_order: requester needs 1 CC-TEE-WHITE, size S. Check stock. If short, identify restock vendor and lead time from vendor table."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-14T16:39:35+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_stock, get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1323,
+      "output": 57
+    }
+  },
+  {
+    "time": "2026-10-14T16:39:35+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-14T16:39:35+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 6,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:39:48+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 7,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1568,
+      "output": 25
+    }
+  },
+  {
+    "time": "2026-10-14T16:39:48+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 8,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [{\"id\": 501, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"overdue\": tru..."
+  },
+  {
+    "time": "2026-10-14T16:39:51+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 9,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1904,
+      "output": 228
+    }
+  },
+  {
+    "time": "2026-10-14T16:39:51+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 9,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"Size S is out of stock (0 on hand, Aisle B). Bulldog Print Co is the best restock match: it previously invoiced this exact SKU and specializes in apparel, but it is blocked by an overdue unpaid invoice; if ordered today, its stated lead time is 5 days, ready by 2026-09-05. Sizes M, L, and XL are available as possible swaps.\", \"facts\": [\"CC-TEE-WHITE size S qty 0, l...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 8659,
+      "ticket_output_total": 385
+    }
+  },
+  {
+    "time": "2026-10-14T16:39:51+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 10,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101 customer_order: requester needs 1 CC-TEE-WHITE, size S. Check stock. If short, identify restock vendor and lead time from vendor table."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"Size S is out of stock (0 on hand, Aisle B). Bulldog Print Co is the best restock match: it previously invoiced this exact SKU and specializes in apparel, but it is blocked by an overdue unpaid invoice; if ordered today, its stated lead time is 5 days, ready by 2026-09-05. Sizes M, L, and XL are available as possible swaps.\",\"facts\":[\"CC-TEE-WHITE size S qty 0, locati..."
+  },
+  {
+    "time": "2026-10-14T16:39:55+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 11,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2277,
+      "output": 136
+    }
+  },
+  {
+    "time": "2026-10-14T16:39:55+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 11,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: customer needs 1 CC-TEE-WHITE size S, inventory reports 0 stock and Bulldog Print Co blocked by overdue invoice 501 for $840, due 2026-08-28. Check invoice and cash; if policy/cash permits prepare payment request to clear invoice 501 so vendor can ship. Do not place purchase order yet."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-14T16:39:57+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 12,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_invoice, get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2002,
+      "output": 65
+    }
+  },
+  {
+    "time": "2026-10-14T16:39:57+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 13,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\", \"created_at\": \"2026-08-31T09:15:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:39:57+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 14,
+    "step_type": "tool_call",
+    "tool": "get_invoice",
+    "tool_input": {
+      "invoice_id": 501
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 501, \"vendor_id\": 1, \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"vendor\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"days_until_due\": -3, \"overdue\": true, \"linked_tickets\": [{\"id\": 101, \"type\": \"customer_order\", \"subject\": \"Bulldog tee\", \"status\": \"open\"}]}"
+  },
+  {
+    "time": "2026-10-14T16:39:57+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"days_until_due\": ..."
+  },
+  {
+    "time": "2026-10-14T16:40:19+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 16,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_payment",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2490,
+      "output": 71
+    }
+  },
+  {
+    "time": "2026-10-14T16:40:19+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 17,
+    "step_type": "tool_call",
+    "tool": "request_payment",
+    "tool_input": {
+      "ticket_id": 101,
+      "kind": "invoice",
+      "ref_id": 501,
+      "amount": 840,
+      "account": "checking",
+      "reason": "Clear overdue Bulldog Print Co invoice so the vendor can ship the customer's requested CC-TEE-WHITE size S; no purchase order requested yet.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": true, \"request_id\": \"R101-1\", \"status\": \"pending_human_approval\", \"paid\": false, \"kind\": \"invoice\", \"ref_id\": 501, \"amount\": 840.0, \"account\": \"checking\", \"balance_now\": 3400.0, \"balance_after_if_approved\": 2560.0}"
+  },
+  {
+    "time": "2026-10-14T16:41:28+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 18,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2635,
+      "output": 215
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:28+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 18,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Invoice 501 is overdue, and cash is sufficient to request payment. If approved, checking would have $2,560 remaining; the $2,400 rent is due in 2 days, leaving $160 after both bills. No purchase order has been placed.\", \"facts\": [\"Invoice 501: $840, 3 days overdue (get_invoice).\", \"Checking balance: $3,400; rent due in 2 days: $2,400; cash after paying all l...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 18063,
+      "ticket_output_total": 872
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:28+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 19,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: customer needs 1 CC-TEE-WHITE size S, inventory reports 0 stock and Bulldog Print Co blocked by overdue invoice 501 for $840, due 2026-08-28. Check invoice and cash; if policy/cash permits prepare payment request to clear invoice 501 so vendor can ship. Do not place purchase order yet."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Invoice 501 is overdue, and cash is sufficient to request payment. If approved, checking would have $2,560 remaining; the $2,400 rent is due in 2 days, leaving $160 after both bills. No purchase order has been placed.\",\"facts\":[\"Invoice 501: $840, 3 days overdue (get_invoice).\",\"Checking balance: $3,400; rent due in 2 days: $2,400; cash after paying all listed ..."
+  },
+  {
+    "time": "2026-10-14T16:41:33+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 20,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2587,
+      "output": 168
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:33+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 20,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101: Draft customer reply for requested CC-TEE-WHITE size S qty 1. Inventory: size S 0 on hand; vendor Bulldog Print Co lead time 5 days / ready 2026-09-05 if ordered today, but currently blocked by unpaid invoice 501. Accounting has pending human payment approval request for $840; no restock PO placed, so date is not certain. Do not promise delivery; convey status accurately and ask if they'd accept waiting or a different available size (M 5, L 3, XL 2)."
+    },
+    "result_summary": "boss handed work to customer_service",
+    "handoff_from": "boss",
+    "handoff_to": "customer_service"
+  },
+  {
+    "time": "2026-10-14T16:41:39+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 21,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1251,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:39+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 22,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[REQUEST R101-1 | PENDING | 2026-08-31 | by Accounting] kind=invoice ref=501 amount=840.00 account=checking :: Pay invoice 501: ..."
+  },
+  {
+    "time": "2026-10-14T16:41:42+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 23,
+    "step_type": "model_call",
+    "result_summary": "requested tools: draft_customer_message",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1476,
+      "output": 100
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:42+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 24,
+    "step_type": "tool_call",
+    "tool": "draft_customer_message",
+    "tool_input": {
+      "ticket_id": 101,
+      "message": "Hi there,\nSize S is currently out of stock, and we can’t confirm when it will be available again. We do have sizes M (5), L (3), and XL (2) available. Would you prefer to wait for size S or choose one of those sizes? A team member will confirm the next step.\nCampus Customs",
+      "written_by": "customer_service"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"saved_as\": \"draft on the ticket\", \"sent\": false}"
+  },
+  {
+    "time": "2026-10-14T16:41:45+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 25,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1611,
+      "output": 117
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:45+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 25,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Saved a draft explaining that size S is out of stock with no confirmed restock date, and offering available sizes M, L, or XL as alternatives.\", \"facts\": [\"Ticket 101 states size S is out of stock; the provided inventory details show M: 5, L: 3, and XL: 2 available.\", \"Restock date is not certain; no purchase order has been placed.\"], \"human_action\": \"Review...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 24988,
+      "ticket_output_total": 1276
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:45+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101: Draft customer reply for requested CC-TEE-WHITE size S qty 1. Inventory: size S 0 on hand; vendor Bulldog Print Co lead time 5 days / ready 2026-09-05 if ordered today, but currently blocked by unpaid invoice 501. Accounting has pending human payment approval request for $840; no restock PO placed, so date is not certain. Do not promise delivery; convey status accurately and ask if they'd accept waiting or a different available size (M 5, L 3, XL 2)."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Saved a draft explaining that size S is out of stock with no confirmed restock date, and offering available sizes M, L, or XL as alternatives.\",\"facts\":[\"Ticket 101 states size S is out of stock; the provided inventory details show M: 5, L: 3, and XL: 2 available.\",\"Restock date is not certain; no purchase order has been placed.\"],\"human_action\":\"Review and sen..."
+  },
+  {
+    "time": "2026-10-14T16:41:54+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 27,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2869,
+      "output": 317
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:54+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 27,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Size S is out of stock, so the order cannot be fulfilled now. A payment request for overdue invoice 501 is pending; if approved, the vendor can be unblocked, but no restock purchase order has been placed and no restock date is confirmed. The customer-service draft offers available sizes M, L, or XL as alternatives.\", \"facts\": [\"CC-TEE-WHITE size S: 0 on hand...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 27857,
+      "ticket_output_total": 1593
+    }
+  },
+  {
+    "time": "2026-10-14T16:41:54+00:00",
+    "run_id": "432bd05d484b",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 27,
+    "step_type": "tool_call",
+    "tool": "record_decision",
+    "tool_input": {
+      "ticket_id": 101,
+      "decision": "[needs_human] Size S is out of stock, so the order cannot be fulfilled now. A payment request for overdue invoice 501 is pending; if approved, the vendor can be unblocked, but no restock purchase order has been placed and no restock date is confirmed. The customer-service draft offers available sizes M, L, or XL as alternatives. Human action: Approve payment request R101-1 for $840 to clear invoice 501, then review and send the customer-service draft.",
+      "decided_by": "boss"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"recorded\": true}"
+  },
+  {
+    "time": "2026-10-14T16:48:27+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1868,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T16:48:27+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[REQUEST R101-1 | APPROVED by MT on 2026-08-31 | 2026-08-31 | by Accounting] kind=invoice ref=501 amount=840.00 account=checking..."
+  },
+  {
+    "time": "2026-10-14T16:48:48+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2313,
+      "output": 123
+    }
+  },
+  {
+    "time": "2026-10-14T16:48:48+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101: Customer order 1 × CC-TEE-WHITE size S. Earlier note says invoice 501 for $840 was approved and paid on 2026-08-31. Confirm current stock and whether Bulldog Print Co is now unblocked; identify restock vendor/lead time and whether a restock PO can be placed."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-14T16:48:52+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, check_stock, find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1356,
+      "output": 78
+    }
+  },
+  {
+    "time": "2026-10-14T16:48:52+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[REQUEST R101-1 | APPROVED by MT on 2026-08-31 | 2026-08-31 | by Accounting] kind=invoice ref=501 amount=840.00 account=checking..."
+  },
+  {
+    "time": "2026-10-14T16:48:52+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 6,
+    "step_type": "tool_call",
+    "tool": "check_stock",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S"
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"size\": \"S\", \"qty_on_hand\": 0, \"in_stock\": false, \"location\": \"Aisle B\", \"list_price\": 28.0, \"unit_cost\": 8.0, \"other_sizes\": {\"L\": 3, \"M\": 5, \"XL\": 2}}"
+  },
+  {
+    "time": "2026-10-14T16:48:52+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 7,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [], \"blocked_by_unpaid_invoice\": false, \"past_invoices_for_this_sku\": [{\"id\": 501, \"status\": \"paid\", \"description\": \"Rush reprint CC-T..."
+  },
+  {
+    "time": "2026-10-14T16:49:44+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 8,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2206,
+      "output": 378
+    }
+  },
+  {
+    "time": "2026-10-14T16:49:44+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 8,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"CC-TEE-WHITE size S is out of stock (0 on hand, Aisle B). Bulldog Print Co is now unblocked: invoice 501 is listed as paid, and it is the best-fit restock vendor because it previously invoiced this exact SKU. Its lead time is 5 days, with a ready-by date of 2026-09-05 if ordered today; no restock PO is shown as placed, and I cannot place one.\", \"facts\": [\"Ticket 10...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 7743,
+      "ticket_output_total": 598
+    }
+  },
+  {
+    "time": "2026-10-14T16:49:44+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 9,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 101: Customer order 1 × CC-TEE-WHITE size S. Earlier note says invoice 501 for $840 was approved and paid on 2026-08-31. Confirm current stock and whether Bulldog Print Co is now unblocked; identify restock vendor/lead time and whether a restock PO can be placed."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"CC-TEE-WHITE size S is out of stock (0 on hand, Aisle B). Bulldog Print Co is now unblocked: invoice 501 is listed as paid, and it is the best-fit restock vendor because it previously invoiced this exact SKU. Its lead time is 5 days, with a ready-by date of 2026-09-05 if ordered today; no restock PO is shown as placed, and I cannot place one.\",\"facts\":[\"Ticket 101 say..."
+  },
+  {
+    "time": "2026-10-14T16:49:52+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 10,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2710,
+      "output": 133
+    }
+  },
+  {
+    "time": "2026-10-14T16:49:52+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 10,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: Request purchase order for customer-required shortfall 1 × CC-TEE-WHITE size S. Invoice 501 ($840) is approved/paid; inventory confirms Bulldog Print Co is unblocked, lead time 5 days, ready by 2026-09-05 if ordered today. Check cash and prepare PO request for this restock only; report amount/status and any human action."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-14T16:50:01+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 11,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2010,
+      "output": 50
+    }
+  },
+  {
+    "time": "2026-10-14T16:50:01+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 12,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[REQUEST R101-1 | APPROVED by MT on 2026-08-31 | 2026-08-31 | by Accounting] kind=invoice ref=501 amount=840.00 account=checking..."
+  },
+  {
+    "time": "2026-10-14T16:50:01+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 13,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [], \"cash_accounts\": [{\"name\": \"checking\", \"balance\": 2560.0, \"date\": \"2026-08-31\"}], \"total_cash\": 2560.0, \"total_due\": 2400.0, \"cash_after_paying_all\": 160.0}"
+  },
+  {
+    "time": "2026-10-14T16:50:16+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 14,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_purchase_order",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2614,
+      "output": 86
+    }
+  },
+  {
+    "time": "2026-10-14T16:50:16+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "request_purchase_order",
+    "tool_input": {
+      "ticket_id": 101,
+      "vendor_id": 0,
+      "sku": "CC-TEE-WHITE",
+      "size": "S",
+      "qty": 1,
+      "account": "checking",
+      "reason": "Restock 1 customer-required CC-TEE-WHITE size S shortfall on ticket 101; Bulldog Print Co is reportedly unblocked after approved invoice 501 payment.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": false, \"refused\": \"No vendor 0.\"}"
+  },
+  {
+    "time": "2026-10-14T16:50:24+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 16,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2726,
+      "output": 55
+    }
+  },
+  {
+    "time": "2026-10-14T16:50:24+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 17,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-TEE-WHITE"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-TEE-WHITE\", \"name\": \"Classic Bulldog Tee\", \"vendors\": [{\"id\": 1, \"name\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"lead_days\": 5, \"ready_by_if_ordered_today\": \"2026-09-05\", \"open_unpaid_invoices\": [], \"blocked_by_unpaid_invoice\": false, \"past_invoices_for_this_sku\": [{\"id\": 501, \"status\": \"paid\", \"description\": \"Rush reprint CC-T..."
+  },
+  {
+    "time": "2026-10-14T16:50:46+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 18,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_purchase_order",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 3050,
+      "output": 89
+    }
+  },
+  {
+    "time": "2026-10-14T16:50:46+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 19,
+    "step_type": "tool_call",
+    "tool": "request_purchase_order",
+    "tool_input": {
+      "ticket_id": 101,
+      "vendor_id": 1,
+      "sku": "CC-TEE-WHITE",
+      "size": "S",
+      "qty": 1,
+      "account": "checking",
+      "reason": "Restock the 1-unit customer-required CC-TEE-WHITE size S shortfall on ticket 101; invoice 501 is approved/paid and Bulldog Print Co is unblocked.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": true, \"request_id\": \"R101-2\", \"status\": \"pending_human_approval\", \"ordered\": false, \"vendor\": \"Bulldog Print Co\", \"specialty\": \"apparel reprint\", \"qty\": 1, \"estimated_cost\": 8.0, \"cost_basis\": \"pricing.unit_cost x qty\", \"ready_by_if_approved_today\": \"2026-09-05\", \"balance_now\": 2560.0}"
+  },
+  {
+    "time": "2026-10-14T16:50:57+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 20,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 3234,
+      "output": 228
+    }
+  },
+  {
+    "time": "2026-10-14T16:50:57+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 20,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Purchase order request R101-2 was prepared for one CC-TEE-WHITE size S from Bulldog Print Co, estimated at $8.00. It is pending human approval and has not been ordered; if approved today, ready by 2026-09-05.\", \"facts\": [\"Checking balance: $2,560.00 (get_bills_and_cash); rent of $2,400.00 is due in 2 days, leaving $160.00 if all current bills are paid.\", \"Bu...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 24087,
+      "ticket_output_total": 1239
+    }
+  },
+  {
+    "time": "2026-10-14T16:50:57+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 21,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 101: Request purchase order for customer-required shortfall 1 × CC-TEE-WHITE size S. Invoice 501 ($840) is approved/paid; inventory confirms Bulldog Print Co is unblocked, lead time 5 days, ready by 2026-09-05 if ordered today. Check cash and prepare PO request for this restock only; report amount/status and any human action."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Purchase order request R101-2 was prepared for one CC-TEE-WHITE size S from Bulldog Print Co, estimated at $8.00. It is pending human approval and has not been ordered; if approved today, ready by 2026-09-05.\",\"facts\":[\"Checking balance: $2,560.00 (get_bills_and_cash); rent of $2,400.00 is due in 2 days, leaving $160.00 if all current bills are paid.\",\"Bulldog ..."
+  },
+  {
+    "time": "2026-10-14T16:51:06+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 22,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 3068,
+      "output": 162
+    }
+  },
+  {
+    "time": "2026-10-14T16:51:06+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 22,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 101: Customer order 1 × CC-TEE-WHITE size S. Update the customer draft based on changed facts: size S remains out of stock; Bulldog Print Co is unblocked, and PO request R101-2 for the single S tee estimated $8 is pending human approval, not yet ordered. If approved today, expected ready-by 2026-09-05 (5-day lead time); do not promise until order approved. Sizes M 5, L 3, XL 2 remain alternatives. Draft an honest reply only; do not send."
+    },
+    "result_summary": "boss handed work to customer_service",
+    "handoff_from": "boss",
+    "handoff_to": "customer_service"
+  },
+  {
+    "time": "2026-10-14T16:51:15+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 23,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1252,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T16:51:15+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 24,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 101
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 101, \"type\": \"customer_order\", \"requester\": \"[CUSTOMER]\", \"subject\": \"Bulldog tee\", \"sku\": \"CC-TEE-WHITE\", \"size\": \"S\", \"qty\": 1, \"lease_id\": null, \"invoice_id\": 501, \"status\": \"open\", \"notes\": \"Needs a tee in size S.\\n[REQUEST R101-1 | APPROVED by MT on 2026-08-31 | 2026-08-31 | by Accounting] kind=invoice ref=501 amount=840.00 account=checking..."
+  },
+  {
+    "time": "2026-10-14T16:52:31+00:00",
+    "run_id": "ef809f2a173f",
+    "ticket": 101,
+    "agent": "boss",
+    "depth": 0,
+    "step": 24,
+    "step_type": "error",
+    "result_summary": "ModelHTTPError: status_code: 500, model_name: gpt-6-luna, body: {'status': 'failure', 'message': 'Internal Server Error', 'request_id': 'cec52650-4ec2-4a6a-801f-616a673a2e7e'}"
+  },
+  {
+    "time": "2026-10-14T16:56:13+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1868,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T16:56:13+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\", \"created_at\": \"2026-08-31T11:05:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:56:13+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate, delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1992,
+      "output": 153
+    }
+  },
+  {
+    "time": "2026-10-14T16:56:13+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "facilities",
+      "task": "Ticket 102 rent_notice, lease_id 1. Notice says shop rent due in 2 days; today 2026-08-31. Check notice against the real lease and report amount/due date/any issue."
+    },
+    "result_summary": "boss handed work to facilities",
+    "handoff_from": "boss",
+    "handoff_to": "facilities"
+  },
+  {
+    "time": "2026-10-14T16:56:13+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 102 rent_notice, lease_id 1. Check current cash and bills; determine whether rent can be paid and prepare a payment request for the proper rent amount if possible. Do not request without confirmed amount from lease; you may look up lease as needed."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-14T16:56:13+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_lease, get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1142,
+      "output": 66
+    }
+  },
+  {
+    "time": "2026-10-14T16:56:13+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 5,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1981,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-14T16:56:14+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 5,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "facilities",
+      "task": "Ticket 102 rent_notice, lease_id 1. Check lease against notice and provide confirmed monthly rent amount. User asks check current cash/bills and prepare rent payment request if possible; accounting will check cash."
+    },
+    "result_summary": "accounting handed work to facilities",
+    "handoff_from": "accounting",
+    "handoff_to": "facilities"
+  },
+  {
+    "time": "2026-10-14T16:56:14+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 6,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\", \"created_at\": \"2026-08-31T11:05:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:56:14+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 7,
+    "step_type": "tool_call",
+    "tool": "get_lease",
+    "tool_input": {
+      "lease_id": 1
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"notes\": null, \"days_until_due\": 2, \"overdue\": false, \"linked_tickets\": [{\"id\": 102, \"type\": \"rent_notice\", \"subject\": \"Rent due\", \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\"}]}"
+  },
+  {
+    "time": "2026-10-14T16:56:14+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 8,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [], \"cash_accounts\": [{\"name\": \"checking\", \"balance\": 2552.0, \"date\": \"2026-08-31\"}], \"total_cash\": 2552.0, \"total_due\": 2400.0, \"cash_after_paying_all\": 152.0}"
+  },
+  {
+    "time": "2026-10-14T16:56:14+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 9,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_lease, get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1138,
+      "output": 66
+    }
+  },
+  {
+    "time": "2026-10-14T16:56:14+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 10,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\", \"created_at\": \"2026-08-31T11:05:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:56:14+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 11,
+    "step_type": "tool_call",
+    "tool": "get_lease",
+    "tool_input": {
+      "lease_id": 1
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"notes\": null, \"days_until_due\": 2, \"overdue\": false, \"linked_tickets\": [{\"id\": 102, \"type\": \"rent_notice\", \"subject\": \"Rent due\", \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\"}]}"
+  },
+  {
+    "time": "2026-10-14T16:56:14+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 12,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [], \"cash_accounts\": [{\"name\": \"checking\", \"balance\": 2552.0, \"date\": \"2026-08-31\"}], \"total_cash\": 2552.0, \"total_due\": 2400.0, \"cash_after_paying_all\": 152.0}"
+  },
+  {
+    "time": "2026-10-14T16:56:40+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 13,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1552,
+      "output": 109
+    }
+  },
+  {
+    "time": "2026-10-14T16:56:40+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 14,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 102 rent_notice, lease 1. Please assess cash/bills and prepare/request payment only if possible and appropriate. Confirm exact amount $2,400 and due date 2026-09-02. Lease notice matches landlord Elm City Properties and says due in 2 days. Cash data shows checking $2,552, unpaid invoices none, rent $2,400, remainder $152. Any payment still requires human approval."
+    },
+    "result_summary": "Refused: max delegation depth (2) reached. Answer with what you already know and say what is missing."
+  },
+  {
+    "time": "2026-10-14T16:56:45+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 15,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1694,
+      "output": 208
+    }
+  },
+  {
+    "time": "2026-10-14T16:56:45+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 15,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"The notice matches lease 1: Elm City Properties, monthly rent $2,400, due 2026-09-02 (in 2 days). Cash is sufficient against listed bills, with $152 remaining, but I could not hand off a payment request because delegation was blocked; a human must arrange/approve payment through Accounting.\", \"facts\": [\"Lease 1 monthly_rent $2,400; landlord Elm City Properti...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 11367,
+      "ticket_output_total": 684
+    }
+  },
+  {
+    "time": "2026-10-14T16:56:45+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 16,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "facilities",
+      "task": "Ticket 102 rent_notice, lease_id 1. Check lease against notice and provide confirmed monthly rent amount. User asks check current cash/bills and prepare rent payment request if possible; accounting will check cash."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"The notice matches lease 1: Elm City Properties, monthly rent $2,400, due 2026-09-02 (in 2 days). Cash is sufficient against listed bills, with $152 remaining, but I could not hand off a payment request because delegation was blocked; a human must arrange/approve payment through Accounting.\",\"facts\":[\"Lease 1 monthly_rent $2,400; landlord Elm City Properties; n..."
+  },
+  {
+    "time": "2026-10-14T16:57:07+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 17,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2249,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T16:57:07+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 18,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\", \"created_at\": \"2026-08-31T11:05:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:57:12+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 19,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2373,
+      "output": 17
+    }
+  },
+  {
+    "time": "2026-10-14T16:57:12+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 20,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [], \"cash_accounts\": [{\"name\": \"checking\", \"balance\": 2552.0, \"date\": \"2026-08-31\"}], \"total_cash\": 2552.0, \"total_due\": 2400.0, \"cash_after_paying_all\": 152.0}"
+  },
+  {
+    "time": "2026-10-14T16:57:15+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 21,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1556,
+      "output": 172
+    }
+  },
+  {
+    "time": "2026-10-14T16:57:15+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 21,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"The notice matches lease 1: $2,400 due September 2, 2026, in 2 days. Cash is sufficient to cover rent, with $152 remaining; any payment requires human approval.\", \"facts\": [\"Ticket 102 notice says rent is due in 2 days; requester is Elm City Properties (get_ticket).\", \"Lease 1 landlord is Elm City Properties, monthly rent is $2,400, next due date is 2026-09-02, and...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 17545,
+      "ticket_output_total": 892
+    }
+  },
+  {
+    "time": "2026-10-14T16:57:45+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 22,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_payment",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2520,
+      "output": 65
+    }
+  },
+  {
+    "time": "2026-10-14T16:57:45+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 23,
+    "step_type": "tool_call",
+    "tool": "request_payment",
+    "tool_input": {
+      "ticket_id": 102,
+      "kind": "rent",
+      "ref_id": 1,
+      "amount": 2400,
+      "account": "checking",
+      "reason": "Monthly rent for Chapel Street shop due 2026-09-02; confirmed against lease 1.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": true, \"request_id\": \"R102-1\", \"status\": \"pending_human_approval\", \"paid\": false, \"kind\": \"rent\", \"ref_id\": 1, \"amount\": 2400.0, \"account\": \"checking\", \"balance_now\": 2552.0, \"balance_after_if_approved\": 152.0}"
+  },
+  {
+    "time": "2026-10-14T16:57:49+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 24,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2659,
+      "output": 201
+    }
+  },
+  {
+    "time": "2026-10-14T16:57:49+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 24,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Rent is confirmed at $2,400 and is due September 2, 2026. Cash is sufficient, and a payment request is pending human approval; approving it would leave $152 in checking.\", \"facts\": [\"Lease 1 monthly rent: $2,400; due in 2 days (get_bills_and_cash; facilities confirmed lease amount).\", \"Checking balance: $2,552; unpaid invoices: none; cash after rent: $152 (g...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 22724,
+      "ticket_output_total": 1158
+    }
+  },
+  {
+    "time": "2026-10-14T16:57:49+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 25,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "facilities",
+      "task": "Ticket 102 rent_notice, lease_id 1. Notice says shop rent due in 2 days; today 2026-08-31. Check notice against the real lease and report amount/due date/any issue."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"The notice matches lease 1: $2,400 due September 2, 2026, in 2 days. Cash is sufficient to cover rent, with $152 remaining; any payment requires human approval.\",\"facts\":[\"Ticket 102 notice says rent is due in 2 days; requester is Elm City Properties (get_ticket).\",\"Lease 1 landlord is Elm City Properties, monthly rent is $2,400, next due date is 2026-09-02, and days_..."
+  },
+  {
+    "time": "2026-10-14T16:57:49+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 102 rent_notice, lease_id 1. Check current cash and bills; determine whether rent can be paid and prepare a payment request for the proper rent amount if possible. Do not request without confirmed amount from lease; you may look up lease as needed."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Rent is confirmed at $2,400 and is due September 2, 2026. Cash is sufficient, and a payment request is pending human approval; approving it would leave $152 in checking.\",\"facts\":[\"Lease 1 monthly rent: $2,400; due in 2 days (get_bills_and_cash; facilities confirmed lease amount).\",\"Checking balance: $2,552; unpaid invoices: none; cash after rent: $152 (get_bil..."
+  },
+  {
+    "time": "2026-10-14T16:59:30+00:00",
+    "run_id": "3871abba50ed",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "error",
+    "result_summary": "ModelAPIError: Request timed out."
+  },
+  {
+    "time": "2026-10-14T17:04:59+00:00",
+    "run_id": "ecf4790fddde",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1868,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T17:04:59+00:00",
+    "run_id": "ecf4790fddde",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\\n[REQUEST R102-1 | APPROVED by MT on 2026-08-31 | 2026-08-31 | by Accounting] kind=rent ref=1 amount=2400.00 account=checking..."
+  },
+  {
+    "time": "2026-10-14T17:06:10+00:00",
+    "run_id": "ecf4790fddde",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "error",
+    "result_summary": "ModelHTTPError: status_code: 500, model_name: gpt-6-luna, body: {'status': 'failure', 'message': 'Internal Server Error', 'request_id': 'a7d67f8c-07d6-4a64-9426-2adfce0fdb4a'}"
+  },
+  {
+    "time": "2026-10-14T17:20:13+00:00",
+    "run_id": "c6c0eb18580c",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1868,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T17:20:13+00:00",
+    "run_id": "c6c0eb18580c",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\\n[REQUEST R102-1 | APPROVED by MT on 2026-08-31 | 2026-08-31 | by Accounting] kind=rent ref=1 amount=2400.00 account=checking..."
+  },
+  {
+    "time": "2026-10-14T17:21:05+00:00",
+    "run_id": "c6c0eb18580c",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2093,
+      "output": 306
+    }
+  },
+  {
+    "time": "2026-10-14T17:21:05+00:00",
+    "run_id": "c6c0eb18580c",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"The $2,400 rent payment for lease 1 was approved. The earlier note confirms it was checked against the lease; no further action is needed on this ticket.\", \"facts\": [\"Rent payment request R102-1: $2,400.00, approved 2026-08-31 (ticket notes).\", \"Accounting\\u2019s approval note says monthly rent was confirmed against lease 1 and records a checking balance of $2,552....",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 3961,
+      "ticket_output_total": 325
+    }
+  },
+  {
+    "time": "2026-10-14T17:21:05+00:00",
+    "run_id": "c6c0eb18580c",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "tool_call",
+    "tool": "record_decision",
+    "tool_input": {
+      "ticket_id": 102,
+      "decision": "[done] The $2,400 rent payment for lease 1 was approved. The earlier note confirms it was checked against the lease; no further action is needed on this ticket.",
+      "decided_by": "boss"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 102, \"recorded\": true}"
+  },
+  {
+    "time": "2026-10-14T17:22:01+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1868,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T17:22:01+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 103
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 103, \"type\": \"price_override\", \"requester\": \"Yale AI Club\", \"subject\": \"Bulk hoodie discount\", \"sku\": \"CC-HOOD-NAVY\", \"size\": \"M\", \"qty\": 20, \"lease_id\": null, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Student org wants 20 hoodies, size M, asking for a bulk discount.\", \"created_at\": \"2026-08-31T16:55:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T17:22:21+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate, delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2006,
+      "output": 160
+    }
+  },
+  {
+    "time": "2026-10-14T17:22:21+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 103 price_override: Yale AI Club asks for 20 hoodies SKU CC-HOOD-NAVY, size M. Check on-hand quantity and restock vendor/lead time for any shortage. Report exact facts."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-14T17:22:21+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 103 price_override: Yale AI Club asks for bulk discount on 20 hoodies SKU CC-HOOD-NAVY size M. Check margin/discount math and identify a price that stays at or above unit cost; report relevant numbers. Do not request purchase order unless inventory confirms shortage and cash allows."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-14T17:22:24+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, quote_bulk_order",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1990,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-14T17:22:24+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 103
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 103, \"type\": \"price_override\", \"requester\": \"Yale AI Club\", \"subject\": \"Bulk hoodie discount\", \"sku\": \"CC-HOOD-NAVY\", \"size\": \"M\", \"qty\": 20, \"lease_id\": null, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Student org wants 20 hoodies, size M, asking for a bulk discount.\", \"created_at\": \"2026-08-31T16:55:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T17:22:24+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 6,
+    "step_type": "tool_call",
+    "tool": "quote_bulk_order",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY",
+      "size": "M",
+      "qty": 20
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-HOOD-NAVY\", \"name\": \"Basic Hoodie Big Yale\", \"size\": \"M\", \"qty_requested\": 20, \"qty_on_hand\": 8, \"shortfall\": 12, \"list_price\": 58.0, \"unit_cost\": 22.0, \"list_total\": 1160.0, \"cost_total\": 440.0, \"max_discount_pct_before_loss\": 62.1, \"vendors\": [{\"id\": 3, \"name\": \"QuickShip CT\", \"specialty\": \"local courier\", \"lead_days\": 1}, {\"id\": 2, \"name..."
+  },
+  {
+    "time": "2026-10-14T17:22:28+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 7,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_margin, check_margin",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2346,
+      "output": 209
+    }
+  },
+  {
+    "time": "2026-10-14T17:22:28+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 8,
+    "step_type": "tool_call",
+    "tool": "check_margin",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY",
+      "unit_price": 22,
+      "qty": 20
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-HOOD-NAVY\", \"qty\": 20, \"unit_price\": 22.0, \"list_price\": 58.0, \"unit_cost\": 22.0, \"discount_pct_off_list\": 62.1, \"margin_per_unit\": 0.0, \"margin_pct\": 0.0, \"revenue_total\": 440.0, \"cost_total\": 440.0, \"margin_total\": 0.0, \"below_cost\": false}"
+  },
+  {
+    "time": "2026-10-14T17:22:28+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 9,
+    "step_type": "tool_call",
+    "tool": "check_margin",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY",
+      "unit_price": 40,
+      "qty": 20
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-HOOD-NAVY\", \"qty\": 20, \"unit_price\": 40.0, \"list_price\": 58.0, \"unit_cost\": 22.0, \"discount_pct_off_list\": 31.0, \"margin_per_unit\": 18.0, \"margin_pct\": 45.0, \"revenue_total\": 800.0, \"cost_total\": 440.0, \"margin_total\": 360.0, \"below_cost\": false}"
+  },
+  {
+    "time": "2026-10-14T17:22:32+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 10,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2755,
+      "output": 251
+    }
+  },
+  {
+    "time": "2026-10-14T17:22:32+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 10,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"Unit cost is $22, so $22 per hoodie is the lowest allowable price: a 62.1% discount from the $58 list price, with zero margin. A $40 price is a 31.0% discount and leaves $18 margin per hoodie ($360 total); no purchase order was requested.\", \"facts\": [\"List price $58/unit; unit cost $22 (quote_bulk_order).\", \"For 20 units at $22: revenue $440, cost $440, margin $0 (...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 10965,
+      "ticket_output_total": 702
+    }
+  },
+  {
+    "time": "2026-10-14T17:23:28+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 11,
+    "step_type": "model_call",
+    "result_summary": "requested tools: quote_bulk_order, get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1332,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-14T17:23:28+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 12,
+    "step_type": "tool_call",
+    "tool": "quote_bulk_order",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY",
+      "size": "M",
+      "qty": 20
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-HOOD-NAVY\", \"name\": \"Basic Hoodie Big Yale\", \"size\": \"M\", \"qty_requested\": 20, \"qty_on_hand\": 8, \"shortfall\": 12, \"list_price\": 58.0, \"unit_cost\": 22.0, \"list_total\": 1160.0, \"cost_total\": 440.0, \"max_discount_pct_before_loss\": 62.1, \"vendors\": [{\"id\": 3, \"name\": \"QuickShip CT\", \"specialty\": \"local courier\", \"lead_days\": 1}, {\"id\": 2, \"name..."
+  },
+  {
+    "time": "2026-10-14T17:23:28+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 13,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 103
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 103, \"type\": \"price_override\", \"requester\": \"Yale AI Club\", \"subject\": \"Bulk hoodie discount\", \"sku\": \"CC-HOOD-NAVY\", \"size\": \"M\", \"qty\": 20, \"lease_id\": null, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Student org wants 20 hoodies, size M, asking for a bulk discount.\", \"created_at\": \"2026-08-31T16:55:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T17:23:42+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 14,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1688,
+      "output": 26
+    }
+  },
+  {
+    "time": "2026-10-14T17:23:42+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-HOOD-NAVY\", \"name\": \"Basic Hoodie Big Yale\", \"vendors\": [{\"id\": 3, \"name\": \"QuickShip CT\", \"specialty\": \"local courier\", \"lead_days\": 1, \"ready_by_if_ordered_today\": \"2026-09-01\", \"open_unpaid_invoices\": [], \"blocked_by_unpaid_invoice\": false, \"past_invoices_for_this_sku\": []}, {\"id\": 2, \"name\": \"Elm City Gifts\", \"specialty\": \"mugs and smal..."
+  },
+  {
+    "time": "2026-10-14T17:25:28+00:00",
+    "run_id": "f0d1316c66cf",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 15,
+    "step_type": "error",
+    "result_summary": "ModelHTTPError: status_code: 500, model_name: gpt-6-luna, body: {'status': 'failure', 'message': 'Internal Server Error', 'request_id': 'a1a75ff5-b34d-4104-b594-fe26992d2dd3'}"
+  },
+  {
+    "time": "2026-10-14T17:29:17+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1868,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T17:29:17+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 103
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 103, \"type\": \"price_override\", \"requester\": \"Yale AI Club\", \"subject\": \"Bulk hoodie discount\", \"sku\": \"CC-HOOD-NAVY\", \"size\": \"M\", \"qty\": 20, \"lease_id\": null, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Student org wants 20 hoodies, size M, asking for a bulk discount.\", \"created_at\": \"2026-08-31T16:55:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T17:29:18+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate, delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2006,
+      "output": 160
+    }
+  },
+  {
+    "time": "2026-10-14T17:29:18+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 103 price_override: Yale AI Club asks for 20 hoodies SKU CC-HOOD-NAVY, size M. Check on-hand quantity and restock vendor/lead time for any shortage. Report exact facts."
+    },
+    "result_summary": "boss handed work to inventory",
+    "handoff_from": "boss",
+    "handoff_to": "inventory"
+  },
+  {
+    "time": "2026-10-14T17:29:18+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 103 price_override: Yale AI Club asks for bulk discount on 20 hoodies SKU CC-HOOD-NAVY size M. Check margin/discount math and identify a price that stays at or above unit cost; report relevant numbers. Do not request purchase order unless inventory confirms shortage and cash allows."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-14T17:29:19+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, quote_bulk_order",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1990,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-14T17:29:19+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 5,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 103
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 103, \"type\": \"price_override\", \"requester\": \"Yale AI Club\", \"subject\": \"Bulk hoodie discount\", \"sku\": \"CC-HOOD-NAVY\", \"size\": \"M\", \"qty\": 20, \"lease_id\": null, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Student org wants 20 hoodies, size M, asking for a bulk discount.\", \"created_at\": \"2026-08-31T16:55:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T17:29:19+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 6,
+    "step_type": "tool_call",
+    "tool": "quote_bulk_order",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY",
+      "size": "M",
+      "qty": 20
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-HOOD-NAVY\", \"name\": \"Basic Hoodie Big Yale\", \"size\": \"M\", \"qty_requested\": 20, \"qty_on_hand\": 8, \"shortfall\": 12, \"list_price\": 58.0, \"unit_cost\": 22.0, \"list_total\": 1160.0, \"cost_total\": 440.0, \"max_discount_pct_before_loss\": 62.1, \"vendors\": [{\"id\": 3, \"name\": \"QuickShip CT\", \"specialty\": \"local courier\", \"lead_days\": 1}, {\"id\": 2, \"name..."
+  },
+  {
+    "time": "2026-10-14T17:29:19+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 7,
+    "step_type": "model_call",
+    "result_summary": "requested tools: check_margin, check_margin",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2346,
+      "output": 209
+    }
+  },
+  {
+    "time": "2026-10-14T17:29:19+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 8,
+    "step_type": "tool_call",
+    "tool": "check_margin",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY",
+      "unit_price": 22,
+      "qty": 20
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-HOOD-NAVY\", \"qty\": 20, \"unit_price\": 22.0, \"list_price\": 58.0, \"unit_cost\": 22.0, \"discount_pct_off_list\": 62.1, \"margin_per_unit\": 0.0, \"margin_pct\": 0.0, \"revenue_total\": 440.0, \"cost_total\": 440.0, \"margin_total\": 0.0, \"below_cost\": false}"
+  },
+  {
+    "time": "2026-10-14T17:29:19+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 9,
+    "step_type": "tool_call",
+    "tool": "check_margin",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY",
+      "unit_price": 40,
+      "qty": 20
+    },
+    "result_summary": "{\"found\": true, \"sku\": \"CC-HOOD-NAVY\", \"qty\": 20, \"unit_price\": 40.0, \"list_price\": 58.0, \"unit_cost\": 22.0, \"discount_pct_off_list\": 31.0, \"margin_per_unit\": 18.0, \"margin_pct\": 45.0, \"revenue_total\": 800.0, \"cost_total\": 440.0, \"margin_total\": 360.0, \"below_cost\": false}"
+  },
+  {
+    "time": "2026-10-14T17:29:20+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 10,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2755,
+      "output": 251
+    }
+  },
+  {
+    "time": "2026-10-14T17:29:20+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 10,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"Unit cost is $22, so $22 per hoodie is the lowest allowable price: a 62.1% discount from the $58 list price, with zero margin. A $40 price is a 31.0% discount and leaves $18 margin per hoodie ($360 total); no purchase order was requested.\", \"facts\": [\"List price $58/unit; unit cost $22 (quote_bulk_order).\", \"For 20 units at $22: revenue $440, cost $440, margin $0 (...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 10965,
+      "ticket_output_total": 702
+    }
+  },
+  {
+    "time": "2026-10-14T17:29:21+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 11,
+    "step_type": "model_call",
+    "result_summary": "requested tools: quote_bulk_order, get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1332,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-14T17:29:21+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 12,
+    "step_type": "tool_call",
+    "tool": "quote_bulk_order",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY",
+      "size": "M",
+      "qty": 20
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-HOOD-NAVY\", \"name\": \"Basic Hoodie Big Yale\", \"size\": \"M\", \"qty_requested\": 20, \"qty_on_hand\": 8, \"shortfall\": 12, \"list_price\": 58.0, \"unit_cost\": 22.0, \"list_total\": 1160.0, \"cost_total\": 440.0, \"max_discount_pct_before_loss\": 62.1, \"vendors\": [{\"id\": 3, \"name\": \"QuickShip CT\", \"specialty\": \"local courier\", \"lead_days\": 1}, {\"id\": 2, \"name..."
+  },
+  {
+    "time": "2026-10-14T17:29:21+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 13,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 103
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 103, \"type\": \"price_override\", \"requester\": \"Yale AI Club\", \"subject\": \"Bulk hoodie discount\", \"sku\": \"CC-HOOD-NAVY\", \"size\": \"M\", \"qty\": 20, \"lease_id\": null, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Student org wants 20 hoodies, size M, asking for a bulk discount.\", \"created_at\": \"2026-08-31T16:55:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T17:29:25+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 14,
+    "step_type": "model_call",
+    "result_summary": "requested tools: find_restock_vendors",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1688,
+      "output": 26
+    }
+  },
+  {
+    "time": "2026-10-14T17:29:25+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "find_restock_vendors",
+    "tool_input": {
+      "sku": "CC-HOOD-NAVY"
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"sku\": \"CC-HOOD-NAVY\", \"name\": \"Basic Hoodie Big Yale\", \"vendors\": [{\"id\": 3, \"name\": \"QuickShip CT\", \"specialty\": \"local courier\", \"lead_days\": 1, \"ready_by_if_ordered_today\": \"2026-09-01\", \"open_unpaid_invoices\": [], \"blocked_by_unpaid_invoice\": false, \"past_invoices_for_this_sku\": []}, {\"id\": 2, \"name\": \"Elm City Gifts\", \"specialty\": \"mugs and smal..."
+  },
+  {
+    "time": "2026-10-14T17:30:06+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 16,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1963,
+      "output": 213
+    }
+  },
+  {
+    "time": "2026-10-14T17:30:06+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "inventory",
+    "depth": 1,
+    "step": 16,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"There are 8 size M hoodies on hand for the requested 20, leaving a shortfall of 12. Best-fit restock vendor is Bulldog Print Co (apparel reprint): 5 days, ready by 2026-09-05 if ordered today; it has no open unpaid invoice.\", \"facts\": [\"CC-HOOD-NAVY size M: 8 on hand, 20 requested, shortfall 12 (quote_bulk_order).\", \"Bulldog Print Co, vendor ID 1: apparel reprint, ...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 15948,
+      "ticket_output_total": 1004
+    }
+  },
+  {
+    "time": "2026-10-14T17:30:06+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 17,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "inventory",
+      "task": "Ticket 103 price_override: Yale AI Club asks for 20 hoodies SKU CC-HOOD-NAVY, size M. Check on-hand quantity and restock vendor/lead time for any shortage. Report exact facts."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"There are 8 size M hoodies on hand for the requested 20, leaving a shortfall of 12. Best-fit restock vendor is Bulldog Print Co (apparel reprint): 5 days, ready by 2026-09-05 if ordered today; it has no open unpaid invoice.\",\"facts\":[\"CC-HOOD-NAVY size M: 8 on hand, 20 requested, shortfall 12 (quote_bulk_order).\",\"Bulldog Print Co, vendor ID 1: apparel reprint, 5-day ..."
+  },
+  {
+    "time": "2026-10-14T17:30:06+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 18,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 103 price_override: Yale AI Club asks for bulk discount on 20 hoodies SKU CC-HOOD-NAVY size M. Check margin/discount math and identify a price that stays at or above unit cost; report relevant numbers. Do not request purchase order unless inventory confirms shortage and cash allows."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"Unit cost is $22, so $22 per hoodie is the lowest allowable price: a 62.1% discount from the $58 list price, with zero margin. A $40 price is a 31.0% discount and leaves $18 margin per hoodie ($360 total); no purchase order was requested.\",\"facts\":[\"List price $58/unit; unit cost $22 (quote_bulk_order).\",\"For 20 units at $22: revenue $440, cost $440, margin $0 (check_..."
+  },
+  {
+    "time": "2026-10-14T17:30:15+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 19,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2547,
+      "output": 183
+    }
+  },
+  {
+    "time": "2026-10-14T17:30:15+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 19,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 103 price_override: Draft customer reply to Yale AI Club. Request is 20 CC-HOOD-NAVY hoodies size M. Only 8 are currently on hand; remaining 12 would require restock from Bulldog Print Co, expected ready by 2026-09-05 if ordered today, but no purchase order has been placed. Approved offer for in-stock quantity: $40 each (list $58, unit cost $22, $18 margin each); don't promise restock/order or offer less than $22. Give an honest partial offer and explain rest."
+    },
+    "result_summary": "boss handed work to customer_service",
+    "handoff_from": "boss",
+    "handoff_to": "customer_service"
+  },
+  {
+    "time": "2026-10-14T17:30:50+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 20,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1253,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T17:30:50+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 21,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 103
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 103, \"type\": \"price_override\", \"requester\": \"Yale AI Club\", \"subject\": \"Bulk hoodie discount\", \"sku\": \"CC-HOOD-NAVY\", \"size\": \"M\", \"qty\": 20, \"lease_id\": null, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Student org wants 20 hoodies, size M, asking for a bulk discount.\", \"created_at\": \"2026-08-31T16:55:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T17:31:33+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 22,
+    "step_type": "model_call",
+    "result_summary": "requested tools: draft_customer_message",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1391,
+      "output": 114
+    }
+  },
+  {
+    "time": "2026-10-14T17:31:33+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 23,
+    "step_type": "tool_call",
+    "tool": "draft_customer_message",
+    "tool_input": {
+      "ticket_id": 103,
+      "message": "Hi there,\nWe can offer 8 CC-HOOD-NAVY hoodies in size M at $40 each. The remaining 12 are not currently in stock; if ordered today, they are expected to be ready by September 5, 2026, but an order has not been placed, so we can’t guarantee that timing. A team member will confirm the next step with you.\nCampus Customs",
+      "written_by": "customer_service"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 103, \"saved_as\": \"draft on the ticket\", \"sent\": false}"
+  },
+  {
+    "time": "2026-10-14T17:31:37+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 24,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1540,
+      "output": 158
+    }
+  },
+  {
+    "time": "2026-10-14T17:31:37+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "customer_service",
+    "depth": 1,
+    "step": 24,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Saved a draft offering 8 size M hoodies at $40 each and explaining that the remaining 12 are out of stock and their estimated restock timing is not guaranteed because no order has been placed.\", \"facts\": [\"Ticket 103 lists 20 CC-HOOD-NAVY hoodies in size M requested; ticket notes that only 8 are on hand and the remaining 12 would be expected ready 2026-09-05...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 22679,
+      "ticket_output_total": 1478
+    }
+  },
+  {
+    "time": "2026-10-14T17:31:37+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 25,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "customer_service",
+      "task": "Ticket 103 price_override: Draft customer reply to Yale AI Club. Request is 20 CC-HOOD-NAVY hoodies size M. Only 8 are currently on hand; remaining 12 would require restock from Bulldog Print Co, expected ready by 2026-09-05 if ordered today, but no purchase order has been placed. Approved offer for in-stock quantity: $40 each (list $58, unit cost $22, $18 margin each); don't promise restock/order or offer less than $22. Give an honest partial offer and explain rest."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Saved a draft offering 8 size M hoodies at $40 each and explaining that the remaining 12 are out of stock and their estimated restock timing is not guaranteed because no order has been placed.\",\"facts\":[\"Ticket 103 lists 20 CC-HOOD-NAVY hoodies in size M requested; ticket notes that only 8 are on hand and the remaining 12 would be expected ready 2026-09-05 if o..."
+  },
+  {
+    "time": "2026-10-14T17:32:07+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2885,
+      "output": 329
+    }
+  },
+  {
+    "time": "2026-10-14T17:32:07+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Approve a partial offer of 8 in-stock size M hoodies at $40 each; the requested remaining 12 are out of stock. Bulldog Print Co could restock them with an estimated 5-day lead time (ready by 2026-09-05 if ordered today), but no order has been placed, so that timing is not guaranteed. Customer Service has drafted a reply; this price_override can be closed wit...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 25564,
+      "ticket_output_total": 1807
+    }
+  },
+  {
+    "time": "2026-10-14T17:32:07+00:00",
+    "run_id": "9b0d024ae4ae",
+    "ticket": 103,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "tool_call",
+    "tool": "record_decision",
+    "tool_input": {
+      "ticket_id": 103,
+      "decision": "[needs_human] Approve a partial offer of 8 in-stock size M hoodies at $40 each; the requested remaining 12 are out of stock. Bulldog Print Co could restock them with an estimated 5-day lead time (ready by 2026-09-05 if ordered today), but no order has been placed, so that timing is not guaranteed. Customer Service has drafted a reply; this price_override can be closed with the partial offer without ordering the restock. Human action: Review and send the Customer Service draft. No purchase order approval is required to close this price_override.",
+      "decided_by": "boss"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 103, \"recorded\": true}"
   }
 ]

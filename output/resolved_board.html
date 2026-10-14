@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Customs - Resolved Board</title>
+<style>
+  body { margin: 0; padding: 32px 24px; background: #fff; color: #222; font-family: Calibri, Carlito, sans-serif; font-size: 16px; line-height: 1.45; }
+  main { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: normal; margin: 0 0 4px; }
+  .sub { color: #555; margin: 0 0 24px; }
+  .cash { border: 1px solid #bbb; border-radius: 8px; padding: 10px 14px; margin-bottom: 28px; background: #fafafa; }
+  figure { margin: 0 0 40px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { padding: 12px 16px; border-top: 1px solid #ddd; background: #fafafa; }
+  figcaption b { font-size: 18px; }
+  .run { font-family: Consolas, "Courier New", monospace; font-size: 13px; color: #555; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Campus Customs - all three tickets resolved</h1>
+  <p class="sub">Screenshots of the React board (output/screenshots), taken in headless Chrome right after each ticket resolved. Shop date 2026-08-31.</p>
+
+  <p class="cash"><b>Checking:</b> $3,400.00 at the start &rarr; $2,552.00 after ticket 101 &rarr; $152.00 after ticket 102 &rarr; $152.00 after ticket 103.
+    Every payment was approved by hand on the board.</p>
+
+  <figure>
+    <img src="screenshots/ticket-101.png" alt="Board after ticket 101 resolved: checking $2,552, ticket 101 stamped Resolved in the Done row">
+    <figcaption><b>Ticket 101 - Bulldog tee (customer order)</b><br>
+      Paid overdue invoice 501 (R101-1, $840) so the vendor could ship, then ordered 1 tee in size S (R101-2, $8). Balance shown: $2,552.<br>
+      <span class="run">runs 432bd05d484b, ef809f2a173f</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="screenshots/ticket-102.png" alt="Board after ticket 102 resolved: checking $152, tickets 101 and 102 stamped Resolved">
+    <figcaption><b>Ticket 102 - Rent due (rent notice)</b><br>
+      Notice matched lease 1; paid $2,400 rent to Elm City Properties (R102-1). Balance shown: $152.<br>
+      <span class="run">runs 3871abba50ed, ecf4790fddde, c6c0eb18580c</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="screenshots/ticket-103.png" alt="Board after ticket 103 resolved: checking $152, all three tickets stamped Resolved">
+    <figcaption><b>Ticket 103 - Bulk hoodie discount (price request)</b><br>
+      Offered the 8 hoodies in stock at $40 each ($18 margin each); no purchase order, no cash moved. Balance shown: $152.<br>
+      <span class="run">runs f0d1316c66cf, 9b0d024ae4ae</span></figcaption>
+  </figure>
+</main>
+</body>
+</html>

@@ -348,3 +348,70 @@ When done, show me git status, git log, the build result, and which backend rout
 ### Follow-up
 
 None.
+
+## Problem 9 - Resolve the tickets
+
+### Prompt
+
+````text
+Problem 9: Resolve the tickets.
+
+First check that Problem 8 is committed. If not, stop and tell me.
+
+Rules for this problem
+- I click Approve and Decline myself, in the dashboard. You never approve or decline for me. When a request is waiting, tell me which one and wait until I have clicked.
+- One run per ticket step. If a run fails or does something wrong, stop and tell me. Do not retry more than once.
+- Keep the real money numbers from the run. Do not edit the database by hand. Do not reset at the end.
+- gpt-6-luna only. No emails or calls to anyone.
+
+Steps
+1. Reset data/campus_customs_new.db from the original, then write down the starting checking balance.
+2. Start the backend and the dashboard. If they are already running, use them after the reset. Tell me when they are up, and I will open the board.
+3. Run tickets 101, 102 and 103 from the board, in that order, until each is resolved. Ticket 101 needs two runs (use Continue after I approve the invoice). Note the run id of every run.
+4. When each ticket resolves, save a screenshot of the React board in output/screenshots/ (ticket-101.png, ticket-102.png, ticket-103.png). Use a real browser tool if you can. If you can't, tell me and I will take them myself with a screenshot tool. The balance and the resolved ticket must both show in each one. Screenshots must show no customer emails or phone numbers.
+
+Files to make
+- output/desk_tickets.html: on each ticket tab, fill the Actual section from this run only (use the run ids): which agents worked, what they delegated, and which tools they used. Do not change the Expected sections at all. Do not write the Reflection tab yet.
+- Cash tab in the same file: the start balance (after the reset); then for each ticket, how cash changed when it resolved and why (which payment or purchase, the request id, the dollar amount); then the ending balance. Work the numbers from the payments table with SQL, show the arithmetic, and check that the ending balance matches cash_accounts in the working database. If a ticket moved no cash, say $0 and why.
+- output/resolved_tickets.json: for each ticket: id, final status, a short outcome, what each agent contributed, and every human approval or decline (request id, amount, who, when).
+- output/resolved_board.html: a page that opens with a double click, with the screenshot for each resolved ticket (101, 102, 103), in simple style. Use relative image paths.
+- output/audit_trail.json: the real runs are appended. Do not edit or wipe it.
+- Finish output/harness.md so it covers: the tables, all MCP tools with their tables (read the list live from the server), the five agents, all API routes (read them from the code), the dashboard, and the safety rules. Remove anything out of date.
+
+Check before you commit
+- gpt-6-luna is the only model name in the repo.
+- Nothing in the outputs holds a key, a customer email or a phone number.
+- The Expected sections in desk_tickets.html are unchanged.
+
+Add a Problem 9 section to AI_prompts.md. Commit as "Problem 9 - Resolve the tickets". Do not push.
+
+When done, show me git status, git log, the cash table (start, each ticket, end), the SQL check, and a one-line outcome per ticket.
+````
+
+### Follow-up
+
+````text
+approved R101-1
+````
+
+````text
+approved R101-2
+````
+
+````text
+approved R102-1, yes raise the timeout and retry
+````
+
+````text
+approved R102-1
+````
+
+````text
+option 1, ping the provider and retry 102
+````
+
+````text
+yes, ping the provider and retry 103
+````
+
+After the first try, the model provider failed on 4 of 7 runs (HTTP 500 three times, one timeout), and my first click on R102-1 never reached the backend, so I had to approve again, raise the timeout, and allow a health check before each retry.

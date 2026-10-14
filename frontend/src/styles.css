@@ -195,3 +195,7 @@ code { font-family: Consolas, "Courier New", monospace; font-size: 0.88em; backg
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* In the four smaller seats, the state sits under the name so nothing crowds. */
+.seats .seat-head { flex-wrap: wrap; }
+.seats .seat-state { flex-basis: 100%; margin-left: 44px; margin-top: -4px; }

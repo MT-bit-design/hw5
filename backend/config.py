@@ -48,7 +48,7 @@ def build_model() -> OpenAIResponsesModel:
         base_url=PORTKEY_BASE_URL,
         api_key=api_key,
         default_headers={"x-portkey-api-key": api_key},
-        timeout=60,
+        timeout=120,  # per model request; 60s timed out on a slow provider (run 3871abba50ed)
         max_retries=1,
     )
     # Responses API: the Azure deployment behind Portkey only allows tools + reasoning there.

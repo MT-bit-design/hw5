@@ -64,7 +64,10 @@ export default function App() {
       const running = t.run.running;
       const runTicket = t.run.last_run?.ticket ?? null;
       if (selectedRef.current === null) {
-        const first = (running && runTicket) || t.tickets.find((x) => x.status !== "resolved")?.id || t.tickets[0]?.id || null;
+        // ?ticket=101 opens the board on that ticket (handy for links and screenshots).
+        const asked = Number(new URLSearchParams(window.location.search).get("ticket"));
+        const fromUrl = t.tickets.find((x) => x.id === asked)?.id ?? null;
+        const first = fromUrl || (running && runTicket) || t.tickets.find((x) => x.status !== "resolved")?.id || t.tickets[0]?.id || null;
         setSelected(first);
         selectedRef.current = first;
       } else if (running && runTicket !== null && !wasRunning.current) {

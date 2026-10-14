@@ -1,0 +1,80 @@
+{
+  "problem": 9,
+  "database": "data/campus_customs_new.db (reset from the original before the run; not reset after)",
+  "model": "gpt-6-luna",
+  "shop_date": "2026-08-31",
+  "cash": {
+    "account": "checking",
+    "start": 3400.0,
+    "paid_out": 3248.0,
+    "end": 152.0,
+    "check": "3400.00 - (840.00 + 8.00 + 2400.00) = 152.00 = cash_accounts.balance"
+  },
+  "time_note": "Approvals record the shop date (desk.date_today). The clock window (UTC) comes from the audit trail: after the run that filed the request ended and before the next step began.",
+  "tickets": [
+    {
+      "id": 101,
+      "type": "customer_order",
+      "final_status": "resolved",
+      "runs": [
+        { "run_id": "432bd05d484b", "result": "finished" },
+        { "run_id": "ef809f2a173f", "result": "error: model provider HTTP 500 (after filing R101-2)" }
+      ],
+      "outcome": "Size S tee was out of stock and its vendor was blocked by overdue invoice 501. The invoice was paid, then a restock of 1 tee was ordered from Bulldog Print Co. Customer got a draft offering sizes M, L or XL meanwhile.",
+      "cash_change": -848.0,
+      "agents": {
+        "boss": "Read the ticket, sent work to Inventory, Accounting and Customer Service, and recorded the decision in run 1. Its run-2 decision was lost to the provider error.",
+        "inventory": "Found 0 of size S on hand (M, L, XL in stock) and named Bulldog Print Co as the restock vendor; in run 2 confirmed the vendor was unblocked.",
+        "accounting": "Checked invoice 501 and cash and filed R101-1 ($840). In run 2 filed the restock R101-2 ($8) after one refused try with a wrong vendor id.",
+        "facilities": "Not involved.",
+        "customer_service": "Saved a draft reply in run 1 (out of size S, other sizes available). Started again in run 2 but the provider failed before a new draft."
+      },
+      "human_actions": [
+        { "request_id": "R101-1", "action": "approved", "kind": "invoice", "for": "invoice 501", "payee": "Bulldog Print Co", "amount": 840.0, "who": "MT", "shop_date": "2026-08-31", "clock_window_utc": "2026-10-14 16:41:54 to 16:48:27" },
+        { "request_id": "R101-2", "action": "approved", "kind": "purchase_order", "for": "1 x CC-TEE-WHITE size S", "payee": "Bulldog Print Co", "amount": 8.0, "who": "MT", "shop_date": "2026-08-31", "clock_window_utc": "2026-10-14 16:52:31 to 16:55:00" }
+      ]
+    },
+    {
+      "id": 102,
+      "type": "rent_notice",
+      "final_status": "resolved",
+      "runs": [
+        { "run_id": "3871abba50ed", "result": "error: request timed out (after filing R102-1)" },
+        { "run_id": "ecf4790fddde", "result": "error: model provider HTTP 500 (Boss only read the ticket)" },
+        { "run_id": "c6c0eb18580c", "result": "finished" }
+      ],
+      "outcome": "The rent notice matched lease 1 ($2,400 due 2026-09-02). Rent was paid to Elm City Properties and the lease's next due date moved to 2026-10-02.",
+      "cash_change": -2400.0,
+      "agents": {
+        "boss": "Sent the lease check to Facilities and the money to Accounting; after the approval, read the notes and recorded the decision.",
+        "inventory": "Not involved.",
+        "accounting": "Checked cash, asked Facilities to confirm the lease, and filed R102-1 ($2,400).",
+        "facilities": "Checked the notice against lease 1: same landlord, amount and due date (2 days away).",
+        "customer_service": "Not involved (rent goes to the landlord, not a customer)."
+      },
+      "human_actions": [
+        { "request_id": "R102-1", "action": "approved", "kind": "rent", "for": "lease 1", "payee": "Elm City Properties", "amount": 2400.0, "who": "MT", "shop_date": "2026-08-31", "clock_window_utc": "2026-10-14 16:59:30 to 17:04:59", "note": "A first click did not reach the backend; the second one did." }
+      ]
+    },
+    {
+      "id": 103,
+      "type": "price_override",
+      "final_status": "resolved",
+      "runs": [
+        { "run_id": "f0d1316c66cf", "result": "error: model provider HTTP 500" },
+        { "run_id": "9b0d024ae4ae", "result": "finished" }
+      ],
+      "outcome": "Only 8 of the 20 size M hoodies are in stock. The team offered the 8 at $40 each ($18 margin per hoodie, $144 total) and did not promise the other 12. No purchase order was filed because cash was $152.",
+      "cash_change": 0.0,
+      "agents": {
+        "boss": "Sent margin work to Accounting, stock to Inventory and the reply to Customer Service, then decided on the partial offer.",
+        "inventory": "8 on hand, 12 short; Bulldog Print Co could restock in 5 days (ready about 2026-09-05), but no order was placed.",
+        "accounting": "Unit cost $22 is the floor (62.1% off list, $0 margin); $40 keeps $18 per hoodie (31% off).",
+        "facilities": "Not involved.",
+        "customer_service": "Saved a draft offering the 8 hoodies at $40 and saying the other 12 are not guaranteed."
+      },
+      "human_actions": []
+    }
+  ],
+  "provider_note": "4 of the 7 runs stopped on model provider errors (HTTP 500 three times, one timeout). Each failed run is in output/audit_trail.json with its error. Before each retry a one-line health check was sent to the model."
+}

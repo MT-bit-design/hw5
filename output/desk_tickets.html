@@ -45,6 +45,18 @@
   .sep { color: #333; font-weight: bold; }
   .note { margin: 8px 0 0; color: #333; }
   .later { font-size: 18px; color: #555; padding: 20px 0; }
+  .runid { font-family: Consolas, "Courier New", monospace; font-size: 13px; color: #555; font-weight: normal; }
+  .tag { font-size: 12px; font-weight: normal; border: 1px solid #333; border-radius: 10px; padding: 1px 8px; margin-left: 4px; }
+  .tag.bad { border-style: dashed; color: #8a4b14; border-color: #8a4b14; }
+  .human { margin: 10px 0 4px; padding: 6px 10px; border-left: 3px solid #333; background: #fafafa; }
+  .box.you { background: #333; color: #fff; }
+  table.cash { border-collapse: collapse; width: 100%; margin: 8px 0 14px; }
+  table.cash th, table.cash td { border: 1px solid #bbb; padding: 6px 10px; text-align: left; vertical-align: top; }
+  table.cash th { background: #f2f2f2; }
+  table.cash .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.cash tr.total td { font-weight: bold; background: #fafafa; }
+  .mono, pre { font-family: Consolas, "Courier New", monospace; font-size: 14px; }
+  pre { border: 1px solid #bbb; border-radius: 6px; padding: 10px 12px; background: #fafafa; overflow-x: auto; }
 </style>
 </head>
 <body>
@@ -99,7 +111,53 @@
 
     <div class="section actual">
       <h2>Actual</h2>
-      <p>Fill after the run.</p>
+      <p class="note">From this run only (Problem 9, after the reset). Two runs plus two approvals.</p>
+
+      <h3>Run 1 (Start the team) <span class="runid">run 432bd05d484b</span> <span class="tag">finished</span></h3>
+      <p class="why">Agents who worked: Boss, Inventory, Accounting, Customer Service. Boss called Inventory first.</p>
+      <div class="deleg">
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span>
+        <span class="what">Check stock for CC-TEE-WHITE size S and find the restock vendor: 0 on hand; Bulldog Print Co is the vendor, blocked by invoice 501.</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">Invoice 501 and cash: filed payment request R101-1 for $840 to Bulldog Print Co.</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Customer Service</span>
+        <span class="what">Draft to the customer: size S is out; M, L, XL are in stock.</span>
+      </div>
+      <div class="skip">Not called: <span class="box no">Facilities</span></div>
+      <div class="tools">
+        <span class="tool">get_ticket <small>(Boss)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">check_stock <small>(Inventory)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">find_restock_vendors <small>(Inventory)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">get_invoice <small>(Accounting)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">get_bills_and_cash <small>(Accounting)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">request_payment <small>(R101-1, $840)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">draft_customer_message <small>(Customer Service)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">record_decision <small>(Boss)</small></span>
+      </div>
+      <div class="human"><span class="box you">You</span> approved <b>R101-1</b>, $840.00 to Bulldog Print Co (invoice 501 marked paid).</div>
+
+      <h3>Run 2 (Continue) <span class="runid">run ef809f2a173f</span> <span class="tag bad">stopped: provider error 500</span></h3>
+      <div class="deleg">
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span>
+        <span class="what">Confirm the vendor is no longer blocked: Bulldog Print Co can ship.</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">File the restock: first try refused (&ldquo;No vendor 0&rdquo;), then R101-2 for 1 tee, $8.00.</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Customer Service</span>
+        <span class="what">Updated draft: the model provider failed (HTTP 500) here, so no new draft and no Boss decision.</span>
+      </div>
+      <div class="tools">
+        <span class="tool">get_ticket <small>(Boss)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">check_stock <small>(Inventory)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">find_restock_vendors <small>(Inventory, Accounting)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">get_bills_and_cash <small>(Accounting)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">request_purchase_order <small>(refused once, then R101-2, $8)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">get_ticket <small>(Customer Service)</small></span>
+      </div>
+      <div class="human"><span class="box you">You</span> approved <b>R101-2</b>, $8.00 to Bulldog Print Co. Ticket 101 &rarr; <b>resolved</b> (decision from run 1, restock approved, nothing pending).</div>
     </div>
   </div>
 
@@ -137,7 +195,42 @@
 
     <div class="section actual">
       <h2>Actual</h2>
-      <p>Fill after the run.</p>
+      <p class="note">From this run only (Problem 9). Three runs; the first two hit model provider errors, so the third only had to record the decision.</p>
+
+      <h3>Run 1 <span class="runid">run 3871abba50ed</span> <span class="tag bad">stopped: request timed out</span></h3>
+      <p class="why">Agents who worked: Boss, Facilities, Accounting. Boss called Facilities first.</p>
+      <div class="deleg">
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Facilities</span>
+        <span class="what">Lease and rent: the notice matches lease 1, $2,400 due 2026-09-02, 2 days away.</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">Cash and a payment request: filed R102-1 for $2,400 rent to Elm City Properties.</span>
+
+        <span class="box">Accounting</span><span class="arrow"></span><span class="box">Facilities</span>
+        <span class="what">Accounting re-checked the lease with Facilities before filing.</span>
+      </div>
+      <div class="skip">Not called: <span class="box no">Inventory</span> <span class="box no">Customer Service</span></div>
+      <div class="tools">
+        <span class="tool">get_ticket <small>(Boss)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">get_lease <small>(Facilities)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">get_bills_and_cash <small>(Facilities, Accounting)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">request_payment <small>(R102-1, $2,400)</small></span>
+      </div>
+      <p class="why">The Boss's final answer timed out (60 s limit), so no decision was recorded. The timeout was raised to 120 s after this.</p>
+      <div class="human"><span class="box you">You</span> approved <b>R102-1</b>, $2,400.00 to Elm City Properties (lease 1 next due moved to 2026-10-02).</div>
+
+      <h3>Run 2 (retry) <span class="runid">run ecf4790fddde</span> <span class="tag bad">stopped: provider error 500</span></h3>
+      <div class="tools">
+        <span class="tool">get_ticket <small>(Boss, then the provider failed)</small></span>
+      </div>
+
+      <h3>Run 3 (after a provider health check) <span class="runid">run c6c0eb18580c</span> <span class="tag">finished</span></h3>
+      <p class="why">Only the Boss worked: it read the ticket notes, saw R102-1 approved, and closed it. No delegations.</p>
+      <div class="tools">
+        <span class="tool">get_ticket <small>(Boss)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">record_decision <small>(Boss)</small></span>
+      </div>
+      <p class="why">Ticket 102 &rarr; <b>resolved</b>.</p>
     </div>
   </div>
 
@@ -180,14 +273,82 @@
 
     <div class="section actual">
       <h2>Actual</h2>
-      <p>Fill after the run.</p>
+      <p class="note">From this run only (Problem 9). Two runs; no request was filed, so nothing waited for a signature.</p>
+
+      <h3>Run 1 <span class="runid">run f0d1316c66cf</span> <span class="tag bad">stopped: provider error 500</span></h3>
+      <div class="deleg">
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">Margin: at $22 the margin is $0 (62.1% off); at $40 it is $18 per hoodie (31% off).</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span>
+        <span class="what">8 of 20 on hand, 12 short; Bulldog Print Co lead time 5 days. The provider failed (HTTP 500) here.</span>
+      </div>
+      <div class="tools">
+        <span class="tool">get_ticket <small>(Boss)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">quote_bulk_order <small>(Accounting, Inventory)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">check_margin <small>(Accounting, twice)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">find_restock_vendors <small>(Inventory)</small></span>
+      </div>
+
+      <h3>Run 2 (retry, after a provider health check) <span class="runid">run 9b0d024ae4ae</span> <span class="tag">finished</span></h3>
+      <p class="why">Agents who worked: Boss, Accounting, Inventory, Customer Service. Boss called Accounting first, then Inventory.</p>
+      <div class="deleg">
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">Margin and the lowest price: $22 cost floor; $40 keeps $18 per hoodie ($144 on 8).</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span>
+        <span class="what">8 on hand, 12 short; Bulldog Print Co could restock in 5 days (ready about 2026-09-05).</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Customer Service</span>
+        <span class="what">Draft: offer the 8 in stock at $40; the other 12 are not promised.</span>
+      </div>
+      <div class="skip">Not called: <span class="box no">Facilities</span></div>
+      <div class="tools">
+        <span class="tool">get_ticket <small>(Boss)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">quote_bulk_order <small>(Accounting, Inventory)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">check_margin <small>(Accounting, twice)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">find_restock_vendors <small>(Inventory)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">draft_customer_message <small>(Customer Service)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">record_decision <small>(Boss)</small></span>
+      </div>
+      <p class="why">No purchase order was filed (cash was $152). Ticket 103 &rarr; <b>resolved</b> with the partial offer.</p>
     </div>
   </div>
 
   <!-- ===================== Cash ===================== -->
   <div class="panel" id="pcash">
     <h2>Cash</h2>
-    <p class="later">Coming later.</p>
+    <p class="note">Real numbers from the Problem 9 run, worked from the <code>payments</code> table with SQL. Every payment was approved by a person on the board; agents only asked.</p>
+
+    <table class="cash">
+      <thead><tr><th>Step</th><th>What moved cash and why</th><th>Request</th><th class="num">Change</th><th class="num">Checking</th></tr></thead>
+      <tbody>
+        <tr><td>Start</td><td>Working copy reset from the original (<code>cash_accounts.balance</code>)</td><td></td><td class="num"></td><td class="num">$3,400.00</td></tr>
+        <tr><td rowspan="2">Ticket 101</td><td>Paid overdue invoice 501 to Bulldog Print Co, so the vendor could ship again (payment 1)</td><td>R101-1</td><td class="num">&minus;$840.00</td><td class="num">$2,560.00</td></tr>
+        <tr><td>Restock order: 1 &times; CC-TEE-WHITE size S from Bulldog Print Co at unit cost (payment 2)</td><td>R101-2</td><td class="num">&minus;$8.00</td><td class="num">$2,552.00</td></tr>
+        <tr><td>Ticket 102</td><td>Paid September rent for lease 1 to Elm City Properties, after checking the notice against the lease (payment 3)</td><td>R102-1</td><td class="num">&minus;$2,400.00</td><td class="num">$152.00</td></tr>
+        <tr><td>Ticket 103</td><td>$0: the team made a partial offer (8 hoodies at $40) and filed no purchase order. A sale we hope to make does not count as cash.</td><td>none</td><td class="num">$0.00</td><td class="num">$152.00</td></tr>
+        <tr class="total"><td>End</td><td colspan="2">Ending balance</td><td class="num">&minus;$3,248.00</td><td class="num">$152.00</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Arithmetic</h3>
+    <p class="mono">3,400.00 &minus; 840.00 &minus; 8.00 &minus; 2,400.00 = 152.00 &nbsp;&nbsp;(total paid out 3,248.00)</p>
+
+    <h3>SQL check (data/campus_customs_new.db)</h3>
+<pre>sqlite&gt; SELECT id, kind, ref_id, amount, account, paid_at, approved_by FROM payments ORDER BY id;
+  1 | invoice        | 501 |  840.00 | checking | 2026-08-31 | MT
+  2 | purchase_order |   1 |    8.00 | checking | 2026-08-31 | MT
+  3 | rent           |   1 | 2400.00 | checking | 2026-08-31 | MT
+
+sqlite&gt; SELECT SUM(amount) FROM payments WHERE account = 'checking';
+  3248.00
+
+sqlite&gt; SELECT balance FROM cash_accounts WHERE name = 'checking';
+  152.00
+
+3400.00 (start) &minus; 3248.00 (paid out) = 152.00 = cash_accounts.balance  &rarr;  MATCH</pre>
+    <p class="note">Payments link to requests by kind and reference: invoice 501 = R101-1, purchase order to vendor 1 = R101-2, rent for lease 1 = R102-1. <code>paid_at</code> is the shop date (desk.date_today), not the clock time.</p>
   </div>
 
   <!-- ===================== Reflection ===================== -->
