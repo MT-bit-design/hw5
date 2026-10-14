@@ -143,6 +143,22 @@ def list_requests(con: sqlite3.Connection, status: str | None = None, ticket_id:
     return out
 
 
+def payee(con: sqlite3.Connection, req: dict) -> str | None:
+    """Who a request would pay: the vendor for invoices and purchase orders, the landlord for rent."""
+    if req["kind"] == "invoice":
+        row = con.execute(
+            "SELECT v.name FROM invoices i JOIN vendors v ON v.id = i.vendor_id WHERE i.id = ?",
+            (req.get("ref_id"),),
+        ).fetchone()
+    elif req["kind"] == "rent":
+        row = con.execute("SELECT landlord AS name FROM leases WHERE id = ?", (req.get("ref_id"),)).fetchone()
+    elif req["kind"] == "purchase_order":
+        row = con.execute("SELECT name FROM vendors WHERE id = ?", (req.get("vendor_id"),)).fetchone()
+    else:
+        row = None
+    return row["name"] if row else None
+
+
 def _next_request_id(con: sqlite3.Connection, ticket_id: int) -> str:
     n = sum(1 for _ in list_requests(con, ticket_id=ticket_id)) + 1
     return f"R{ticket_id}-{n}"

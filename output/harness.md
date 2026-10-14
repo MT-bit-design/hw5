@@ -141,7 +141,7 @@ FastAPI in `backend/main.py`. Start it from `backend/` with `..\.venv\Scripts\py
 - `GET /api/tickets`: the three tickets with their real `tickets.status` (open or resolved), plus whether each has a Boss decision and how many requests are pending.
 - `POST /api/tickets/{id}/run`: starts the agent team on one ticket in the background and returns a `run_id` right away (202). Refuses if a run is going or the ticket is resolved.
 - `GET /api/events?ticket=&limit=&run_id=`: agent events from the audit trail, newest first (what each agent said, its tools and handoffs). Defaults to the latest run. Key, emails, and phones are scrubbed.
-- `GET /api/requests?status=pending|approved|declined|all`: payment and purchase order requests, so the board can show Approve and Decline buttons.
+- `GET /api/requests?status=pending|approved|declined|all`: payment and purchase order requests, so the board can show Approve and Decline buttons. Each request includes `payee` (the vendor or landlord it would pay).
 - `POST /api/requests/{request_id}/approve` (body `{"approved_by": "name"}`): the only route that moves cash. Refuses if the request is not pending, cash is short, the vendor has an open unpaid invoice, or the approver is an agent.
 - `POST /api/requests/{request_id}/decline` (body `{"declined_by": "name", "reason": "optional"}`): a person says no. Moves no cash and changes only the request status. Refuses if the request is not pending or the decliner is an agent. A declined request is never filed again on that ticket.
 - `GET /api/cash`: the current checking balance from `cash_accounts`.
@@ -154,3 +154,8 @@ Continuing a ticket: an open ticket can be run again. The Boss reads the notes f
 Requests live in `tickets.notes`, because there is no requests table. Each is one line: `[REQUEST R102-1 | PENDING | date | by agent] kind=... amount=... account=... :: text`. Approval changes `PENDING` to `APPROVED by <name> on <date>`. Decline changes it to `DECLINED by <name> on <date>`.
 Cash rules live in one place, `mcp_server/ledger.py`, which both the MCP request tools and the approve route use. `approve_request` and `decline_request` are not MCP tools, so agents cannot reach them.
 On approval: cash goes down, a `payments` row is added (with `approved_by`), and then an invoice is marked `paid`, or a lease's `next_due` moves forward one month. A purchase order adds no stock, because goods have not arrived.
+
+## Dashboard
+
+React + Vite + TypeScript in `frontend/`. Run `npm install`, then `npm run dev`, from `frontend/`. It opens http://localhost:5173 (`strictPort`). The backend address lives only in `src/api.ts` (from `VITE_API_URL`, see `frontend/.env.example`). The frontend holds no keys. Design notes are in `output/design.md`.
+The board polls every 2 seconds while a run goes and every 8 seconds when idle. It knows a run is done from the `run` field in `/api/tickets` and `/api/events`. Start, Approve, Decline, and Reset are locked while a run goes.

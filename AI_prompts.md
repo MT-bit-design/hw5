@@ -289,3 +289,62 @@ Show me git status and git log.
 
 Before this follow-up there was no way to say no to a request: a pending payment or purchase order held its ticket open until someone approved it.
 
+
+## Problem 8 - Agent dashboard
+
+### Prompt
+
+````text
+Problem 8: Agent dashboard.
+
+Build the dashboard in frontend/ with React, Vite and TypeScript.
+
+Setup
+- It talks to the backend at http://localhost:8000. Put that address in one place (src/api.ts, from VITE_API_URL, plus a frontend/.env.example). No keys in the frontend, ever.
+- Read backend/main.py first and use the real routes and responses (they start with /api). Type them. Do not guess.
+- npm run dev opens the browser on port 5173 (use strictPort). Make sure the backend allows http://localhost:5173 and http://127.0.0.1:5173.
+
+What the board does
+1. Lists the three tickets with their status. Open tickets show what they are waiting for, using open_because, as a plain line: "Waiting for: ...".
+2. I pick a ticket and start the team on it. If a ticket is open and nothing is pending, the button says "Continue".
+3. Shows the five agents live while a run goes (a run takes 3 to 4 minutes): what each is saying and doing, from the events route. Poll while it runs. If the backend can't tell the board when a run is done, add a small field for that and tell me.
+4. A ticket shows Resolved only when the backend says so. A request that waits for me shows "Waiting for you".
+5. A short summary of what each agent did on that ticket. Build it from the events. No new model calls.
+6. Pending payments and purchases, each with an Approve button and a Decline button.
+   - Approve calls the approve route.
+   - Decline calls POST /api/requests/{id}/decline with declined_by "MT" and an optional reason. Declining moves no cash.
+   - If the backend refuses (like cash is short), show it in plain words.
+7. The checking balance. It drops only after I click Approve, and I can see it drop. Declining leaves it alone.
+8. A small "Reset desk" button with a confirm.
+Also: loading, empty, error, and "backend is not running" states. Lock the buttons while a run goes. The Boss's final answer comes back as a JSON string, so show it as plain readable text.
+
+Look and feel
+A calm desk where five colleagues work together. A place people would enjoy sitting at.
+- Minimal. White background. Calibri (then Carlito, then sans-serif). Lots of space. One calm main color plus one soft color per agent. Quiet, rounded, light shadows. Not a stock admin dashboard.
+- Take the feel, not the pixels, from these sites I like: Claude's design interface, Mubadala Capital, Renaissance Philanthropy, quartey.com. Look at them if you can. If you can't reach one, say so. Copy no logo, text, image or layout.
+- Ideas, pick what works and add your own:
+  - Five agents as five seats across the desk. The Boss is wider and speaks in short decisions. The others have their own color and voice.
+  - The active agent glows softly. Tool calls are small chips. A handoff shows a note sliding from one agent to the next.
+  - An approval looks like a slip that needs my signature: amount, who gets paid, cash after. Approve and Decline sit side by side, and Approve is the stronger button.
+  - Cash is one big calm number. After an approval it counts down, with a small "was $3,400" trail.
+  - A resolved ticket gets a quiet stamp and settles into a done row.
+  - Respect reduced motion. Good contrast. Works with the keyboard.
+
+Docs
+Write output/design.md in simple words: the layout, how the agents read differently, how resolved tickets and cash show up, and why. Include the creative choices and what you took from my sites.
+
+Test
+- npm run build passes with no TypeScript errors, and the browser console is clean. Open it in a real browser if you can.
+- Run ticket 102 once from the dashboard, approve its payment, and watch the balance drop. Then reset.
+- Then test Decline without an agent run: file one pending request by calling the request tool directly, decline it from the dashboard, and check that cash did not change. Then reset.
+- No other agent runs, they cost tokens. Leave no test data behind.
+
+Git
+Ignore node_modules and dist. Commit package-lock.json. Add a Problem 8 section to AI_prompts.md. Commit as "Problem 8 - Agent dashboard". Do not push.
+
+When done, show me git status, git log, the build result, and which backend route each part of the board uses.
+````
+
+### Follow-up
+
+None.

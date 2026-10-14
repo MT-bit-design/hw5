@@ -5437,5 +5437,524 @@
       "decided_by": "boss"
     },
     "result_summary": "{\"ok\": true, \"ticket_id\": 101, \"recorded\": true}"
+  },
+  {
+    "time": "2026-10-14T16:26:14+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 1,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1868,
+      "output": 19
+    }
+  },
+  {
+    "time": "2026-10-14T16:26:14+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 2,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\", \"created_at\": \"2026-08-31T11:05:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:26:25+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate, delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1992,
+      "output": 153
+    }
+  },
+  {
+    "time": "2026-10-14T16:26:25+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "facilities",
+      "task": "Ticket 102 rent_notice, lease_id 1. Notice says shop rent due in 2 days; today 2026-08-31. Check notice against the real lease and report amount/due date/any issue."
+    },
+    "result_summary": "boss handed work to facilities",
+    "handoff_from": "boss",
+    "handoff_to": "facilities"
+  },
+  {
+    "time": "2026-10-14T16:26:25+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 3,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 102 rent_notice, lease_id 1. Check current cash and bills; determine whether rent can be paid and prepare a payment request for the proper rent amount if possible. Do not request without confirmed amount from lease; you may look up lease as needed."
+    },
+    "result_summary": "boss handed work to accounting",
+    "handoff_from": "boss",
+    "handoff_to": "accounting"
+  },
+  {
+    "time": "2026-10-14T16:26:29+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 4,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1981,
+      "output": 63
+    }
+  },
+  {
+    "time": "2026-10-14T16:26:29+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 4,
+    "step_type": "handoff",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "facilities",
+      "task": "Ticket 102 rent_notice, lease_id 1. Check lease against notice and provide confirmed monthly rent amount. User asks check current cash/bills and prepare rent payment request if possible; accounting will check cash."
+    },
+    "result_summary": "accounting handed work to facilities",
+    "handoff_from": "accounting",
+    "handoff_to": "facilities"
+  },
+  {
+    "time": "2026-10-14T16:26:37+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 5,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_lease, get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1138,
+      "output": 66
+    }
+  },
+  {
+    "time": "2026-10-14T16:26:37+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 6,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\", \"created_at\": \"2026-08-31T11:05:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:26:37+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 7,
+    "step_type": "tool_call",
+    "tool": "get_lease",
+    "tool_input": {
+      "lease_id": 1
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"notes\": null, \"days_until_due\": 2, \"overdue\": false, \"linked_tickets\": [{\"id\": 102, \"type\": \"rent_notice\", \"subject\": \"Rent due\", \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\"}]}"
+  },
+  {
+    "time": "2026-10-14T16:26:37+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 8,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"days_until_due\": ..."
+  },
+  {
+    "time": "2026-10-14T16:26:47+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 9,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_lease, get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1142,
+      "output": 66
+    }
+  },
+  {
+    "time": "2026-10-14T16:26:47+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 10,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\", \"created_at\": \"2026-08-31T11:05:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:26:47+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 11,
+    "step_type": "tool_call",
+    "tool": "get_lease",
+    "tool_input": {
+      "lease_id": 1
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"notes\": null, \"days_until_due\": 2, \"overdue\": false, \"linked_tickets\": [{\"id\": 102, \"type\": \"rent_notice\", \"subject\": \"Rent due\", \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\"}]}"
+  },
+  {
+    "time": "2026-10-14T16:26:47+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 12,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"days_until_due\": ..."
+  },
+  {
+    "time": "2026-10-14T16:26:55+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 13,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1618,
+      "output": 172
+    }
+  },
+  {
+    "time": "2026-10-14T16:26:55+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 1,
+    "step": 13,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"done\", \"answer\": \"The notice matches lease 1: $2,400 due 2026-09-02, in 2 days. No landlord, amount, or due-date mismatch; rent is covered by current cash, though paying rent and the overdue vendor invoice would leave $160.\", \"facts\": [\"Lease 1 landlord is Elm City Properties and monthly_rent is $2,400 (get_lease).\", \"Lease 1 next_due is 2026-09-02 and days_until_due is 2 (get_lease...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 9739,
+      "ticket_output_total": 539
+    }
+  },
+  {
+    "time": "2026-10-14T16:27:05+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 14,
+    "step_type": "model_call",
+    "result_summary": "requested tools: delegate",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1614,
+      "output": 217
+    }
+  },
+  {
+    "time": "2026-10-14T16:27:05+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 15,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 102, lease_id 1. Facilities verified rent notice matches: landlord Elm City Properties, monthly rent $2,400, due 2026-09-02 (2 days from 2026-08-31). Current cash/bills: $3,400 cash, $840 overdue invoice, total due including rent $3,240, leaving $160 after all. User asks to prepare rent payment request if possible; please assess and handle the payment request under your rules."
+    },
+    "result_summary": "Refused: max delegation depth (2) reached. Answer with what you already know and say what is missing."
+  },
+  {
+    "time": "2026-10-14T16:27:10+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 16,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 1864,
+      "output": 303
+    }
+  },
+  {
+    "time": "2026-10-14T16:27:10+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "facilities",
+    "depth": 2,
+    "step": 16,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"The notice matches lease 1: Elm City Properties, $2,400 monthly rent due 2026-09-02, in 2 days. Cash is $3,400; including the $840 overdue invoice, total due is $3,240, leaving $160. I could not route the payment request to Accounting because the delegation limit was reached.\", \"facts\": [\"Lease 1 landlord Elm City Properties; monthly_rent $2,400; next_due 20...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 13217,
+      "ticket_output_total": 1059
+    }
+  },
+  {
+    "time": "2026-10-14T16:27:10+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 17,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "facilities",
+      "task": "Ticket 102 rent_notice, lease_id 1. Check lease against notice and provide confirmed monthly rent amount. User asks check current cash/bills and prepare rent payment request if possible; accounting will check cash."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"The notice matches lease 1: Elm City Properties, $2,400 monthly rent due 2026-09-02, in 2 days. Cash is $3,400; including the $840 overdue invoice, total due is $3,240, leaving $160. I could not route the payment request to Accounting because the delegation limit was reached.\",\"facts\":[\"Lease 1 landlord Elm City Properties; monthly_rent $2,400; next_due 2026-09..."
+  },
+  {
+    "time": "2026-10-14T16:27:54+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 18,
+    "step_type": "model_call",
+    "result_summary": "requested tools: get_ticket, get_bills_and_cash",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2270,
+      "output": 50
+    }
+  },
+  {
+    "time": "2026-10-14T16:27:54+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 19,
+    "step_type": "tool_call",
+    "tool": "get_ticket",
+    "tool_input": {
+      "ticket_id": 102
+    },
+    "result_summary": "{\"found\": true, \"date_today\": \"2026-08-31\", \"id\": 102, \"type\": \"rent_notice\", \"requester\": \"Elm City Properties\", \"subject\": \"Rent due\", \"sku\": null, \"size\": null, \"qty\": null, \"lease_id\": 1, \"invoice_id\": null, \"status\": \"open\", \"notes\": \"Email: shop rent due in 2 days.\", \"created_at\": \"2026-08-31T11:05:00-04:00\"}"
+  },
+  {
+    "time": "2026-10-14T16:27:54+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 20,
+    "step_type": "tool_call",
+    "tool": "get_bills_and_cash",
+    "tool_input": {},
+    "result_summary": "{\"date_today\": \"2026-08-31\", \"leases\": [{\"id\": 1, \"space_name\": \"Chapel Street shop\", \"landlord\": \"Elm City Properties\", \"monthly_rent\": 2400.0, \"next_due\": \"2026-09-02\", \"days_until_due\": 2}], \"unpaid_invoices\": [{\"id\": 501, \"vendor_id\": 1, \"vendor\": \"Bulldog Print Co\", \"amount\": 840.0, \"due_date\": \"2026-08-28\", \"status\": \"open\", \"description\": \"Rush reprint CC-TEE-WHITE S\", \"days_until_due\": ..."
+  },
+  {
+    "time": "2026-10-14T16:28:03+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 21,
+    "step_type": "model_call",
+    "result_summary": "requested tools: request_payment",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2615,
+      "output": 61
+    }
+  },
+  {
+    "time": "2026-10-14T16:28:03+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 22,
+    "step_type": "tool_call",
+    "tool": "request_payment",
+    "tool_input": {
+      "ticket_id": 102,
+      "kind": "rent",
+      "ref_id": 1,
+      "amount": 2400,
+      "account": "checking",
+      "reason": "Monthly rent due 2026-09-02 per lease; prepare approval request.",
+      "requested_by": "Accounting"
+    },
+    "result_summary": "{\"ok\": true, \"request_id\": \"R102-1\", \"status\": \"pending_human_approval\", \"paid\": false, \"kind\": \"rent\", \"ref_id\": 1, \"amount\": 2400.0, \"account\": \"checking\", \"balance_now\": 3400.0, \"balance_after_if_approved\": 1000.0}"
+  },
+  {
+    "time": "2026-10-14T16:28:30+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 23,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2751,
+      "output": 241
+    }
+  },
+  {
+    "time": "2026-10-14T16:28:30+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "accounting",
+    "depth": 1,
+    "step": 23,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"Lease 1 confirms monthly rent of $2,400 due September 2, 2026. The rent payment request is pending human approval; paying rent would leave $1,000, and paying rent plus the overdue invoice would leave only $160.\", \"facts\": [\"Lease 1 monthly rent: $2,400; due in 2 days (get_bills_and_cash; lease details confirmed by Facilities).\", \"Checking balance: $3,400 (ge...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 20853,
+      "ticket_output_total": 1411
+    }
+  },
+  {
+    "time": "2026-10-14T16:28:30+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 24,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "facilities",
+      "task": "Ticket 102 rent_notice, lease_id 1. Notice says shop rent due in 2 days; today 2026-08-31. Check notice against the real lease and report amount/due date/any issue."
+    },
+    "result_summary": "{\"status\":\"done\",\"answer\":\"The notice matches lease 1: $2,400 due 2026-09-02, in 2 days. No landlord, amount, or due-date mismatch; rent is covered by current cash, though paying rent and the overdue vendor invoice would leave $160.\",\"facts\":[\"Lease 1 landlord is Elm City Properties and monthly_rent is $2,400 (get_lease).\",\"Lease 1 next_due is 2026-09-02 and days_until_due is 2 (get_lease).\",\"C..."
+  },
+  {
+    "time": "2026-10-14T16:28:30+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 25,
+    "step_type": "tool_call",
+    "tool": "delegate",
+    "tool_input": {
+      "to": "accounting",
+      "task": "Ticket 102 rent_notice, lease_id 1. Check current cash and bills; determine whether rent can be paid and prepare a payment request for the proper rent amount if possible. Do not request without confirmed amount from lease; you may look up lease as needed."
+    },
+    "result_summary": "{\"status\":\"needs_human\",\"answer\":\"Lease 1 confirms monthly rent of $2,400 due September 2, 2026. The rent payment request is pending human approval; paying rent would leave $1,000, and paying rent plus the overdue invoice would leave only $160.\",\"facts\":[\"Lease 1 monthly rent: $2,400; due in 2 days (get_bills_and_cash; lease details confirmed by Facilities).\",\"Checking balance: $3,400 (get_bill..."
+  },
+  {
+    "time": "2026-10-14T16:28:35+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "model_call",
+    "result_summary": "requested tools: final_result",
+    "model": "gpt-6-luna",
+    "served_model": "gpt-6-luna-global",
+    "tokens": {
+      "input": 2507,
+      "output": 223
+    }
+  },
+  {
+    "time": "2026-10-14T16:28:35+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "answer",
+    "result_summary": "{\"status\": \"needs_human\", \"answer\": \"The rent notice matches lease 1: $2,400 is due September 2, 2026. Accounting prepared rent payment request R102-1; it is pending human approval, and no payment has been made.\", \"facts\": [\"Facilities: lease 1 lists Elm City Properties and monthly rent of $2,400, due 2026-09-02 (2 days after ticket date 2026-08-31).\", \"Accounting: checking balance is $3,400; r...",
+    "model": "gpt-6-luna",
+    "tokens": {
+      "ticket_input_total": 23360,
+      "ticket_output_total": 1634
+    }
+  },
+  {
+    "time": "2026-10-14T16:28:35+00:00",
+    "run_id": "f16c138a4209",
+    "ticket": 102,
+    "agent": "boss",
+    "depth": 0,
+    "step": 26,
+    "step_type": "tool_call",
+    "tool": "record_decision",
+    "tool_input": {
+      "ticket_id": 102,
+      "decision": "[needs_human] The rent notice matches lease 1: $2,400 is due September 2, 2026. Accounting prepared rent payment request R102-1; it is pending human approval, and no payment has been made. Human action: Approve rent payment request R102-1 for $2,400 from checking.",
+      "decided_by": "boss"
+    },
+    "result_summary": "{\"ok\": true, \"ticket_id\": 102, \"recorded\": true}"
   }
 ]

@@ -201,6 +201,8 @@ def get_requests(status: str = Query("pending", pattern="^(pending|approved|decl
     con = ledger.connect()
     try:
         reqs = ledger.list_requests(con, None if status == "all" else status)
+        for r in reqs:
+            r["payee"] = ledger.payee(con, r)
     finally:
         con.close()
     return {"status": status, "count": len(reqs), "requests": _scrub(reqs)}
