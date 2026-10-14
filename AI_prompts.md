@@ -259,3 +259,17 @@ Show me git status, git log, and what happened at each step.
 ````
 
 After the first try, approving the invoice 501 payment marked ticket 101 resolved and a new run was refused, so the team could never file the restock order for the tees.
+
+````text
+Quick check, no runs.
+
+Does the new rule "a short customer order needs an approved restock order before it can resolve" apply to ticket 103 (20 hoodies, size M, price override)? Show me the rule from the code.
+
+If it does, change it. Ticket 103 must be able to resolve with an honest answer even when we can't afford the restock. For example: offer the 8 we have at a price that still keeps a margin, say the rest is waiting, and record that. A purchase order can still be filed when cash allows, but it must not be the only way to resolve.
+
+Check that 101 still needs its order and 102 is unchanged. Test with a scratch copy of the database, not a real run. Commit as a follow-up. Do not push.
+
+Show me the rule, the test result, git status and git log.
+````
+
+The rule in the code only checked `customer_order` tickets, so 103 could already resolve. But the Boss prompt said "a customer order that is short on stock stays open" without naming the type, so the Boss could have held 103 open waiting for a purchase order.
