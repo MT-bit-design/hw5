@@ -77,7 +77,7 @@ Every agent has a `delegate` tool, so any agent can hand work to any other. Each
 
 | Agent | Role file / prompt | Job | MCP tools |
 |---|---|---|---|
-| Boss | `agents/boss.py`, `prompts/boss.md` | Reads the ticket, routes the work, makes and records the final call | list_open_tickets, get_ticket, record_decision |
+| Boss | `agents/boss.py`, `prompts/boss.md` | Reads the ticket (and notes from earlier runs), routes the work, makes the final call | list_open_tickets, get_ticket (its final answer is put on the board by the team runner through the MCP `record_decision` tool) |
 | Inventory | `agents/inventory.py`, `prompts/inventory.md` | Stock by SKU and size, shortfalls, which vendor can restock | get_ticket, check_stock, quote_bulk_order, find_restock_vendors |
 | Accounting | `agents/accounting.py`, `prompts/accounting.md` | Cash, invoices, margins; prepares payment and purchase order requests for a human | get_ticket, get_bills_and_cash, get_invoice, check_margin, quote_bulk_order, find_restock_vendors, request_payment, request_purchase_order |
 | Facilities | `agents/facilities.py`, `prompts/facilities.md` | Shop space, lease, rent; checks a rent notice against the lease | get_ticket, get_lease, get_bills_and_cash |
@@ -103,7 +103,7 @@ The agents get shop facts only from this server. There is no second tool layer.
 | draft_customer_message | tickets (append note) | yes | Saves a draft reply on the ticket. Never sends. Refuses emails and phone numbers |
 | request_payment | desk, invoices, leases, cash_accounts, payments, tickets (append note) | yes | Asks a human to pay an invoice or rent. Refuses wrong amounts, already-paid bills, short cash, and duplicates. Never pays |
 | request_purchase_order | desk, vendors, invoices, inventory, pricing, cash_accounts, tickets (append note) | yes | Asks a human to approve a restock. Refuses a vendor with an open unpaid invoice, short cash, and duplicates. Never orders |
-| record_decision | tickets (append note) | yes | Boss writes the final call on the board |
+| record_decision | tickets (append note) | yes | Writes the Boss's final call on the board. The team runner calls it with the Boss's final answer |
 
 No MCP tool writes to `payments` or `cash_accounts`, or changes stock or prices. Money only moves when a human clicks Approve on the board (`POST /api/requests/{id}/approve`, see Backend Routes).
 
@@ -146,7 +146,9 @@ FastAPI in `backend/main.py`. Start it from `backend/` with `..\.venv\Scripts\py
 - `GET /api/cash`: the current checking balance from `cash_accounts`.
 - `POST /api/reset`: copies `campus_customs.db` over `campus_customs_new.db`. Refuses while a run is going. Keeps the audit trail.
 
-How a ticket becomes resolved: the Boss has recorded a decision on it, and no payment or purchase request on it is still pending. The backend checks this after every run and every approval, and then sets `tickets.status = 'resolved'`.
+How a ticket becomes resolved: (1) the Boss has a decision on it, (2) no payment or purchase request on it is still pending, and (3) for a customer order that is short on stock, a restock purchase order for that SKU and size has been approved. Paying a vendor's invoice alone does not resolve it. The backend checks this after every run and every approval, and then sets `tickets.status = 'resolved'`. `GET /api/tickets` shows `open_because` with the reasons a ticket is still open.
+
+Continuing a ticket: an open ticket can be run again. The Boss reads the notes from earlier runs, skips finished work, and picks up the next step. For example, after a person approves a vendor's invoice payment, the next run files the restock purchase order, which also waits for Approve.
 
 Requests live in `tickets.notes`, because there is no requests table. Each is one line: `[REQUEST R102-1 | PENDING | date | by agent] kind=... amount=... account=... :: text`. Approval changes `PENDING` to `APPROVED by <name> on <date>`.
 Cash rules live in one place, `mcp_server/ledger.py`, which both the MCP request tools and the approve route use. `approve_request` is not an MCP tool, so agents cannot reach it.

@@ -245,4 +245,17 @@ When done, show me git status, git log, the route list, and a short sample respo
 
 ### Follow-up
 
-None.
+````text
+Check ticket 101 from start to end.
+
+Run ticket 101. Approve its payment for invoice 501. Then check: can the team still order the tees now that the invoice is paid?
+
+If it cannot (for example the ticket shows resolved and a new run is refused), fix it. A ticket must stay open until the restock order is filed. After a payment unblocks a vendor, I should be able to start the team again on the same ticket, and it should file the purchase order. Every payment and order still waits for my Approve click.
+
+Then approve the order too, check the cash, and reset. Leave no test data behind.
+Commit as "Problem 7 - Let a ticket continue after its payment is approved". Do not push.
+
+Show me git status, git log, and what happened at each step.
+````
+
+After the first try, approving the invoice 501 payment marked ticket 101 resolved and a new run was refused, so the team could never file the restock order for the tees.

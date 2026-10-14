@@ -336,15 +336,51 @@ def _set_request_status(con: sqlite3.Connection, ticket_id: int, request_id: str
 
 # ---------- tickets, balance, reset ----------
 
+def open_reasons(con: sqlite3.Connection, ticket_id: int) -> list[str]:
+    """Why a ticket cannot be resolved yet. Empty list means it can be resolved.
+
+    Rules:
+    - the Boss has recorded a decision on it;
+    - no payment or purchase request on it is still pending;
+    - a customer order that is short on stock needs an approved restock purchase
+      order for that SKU and size first (paying a vendor's invoice is not enough).
+    """
+    row = con.execute(
+        "SELECT type, sku, size, qty, notes FROM tickets WHERE id = ?", (ticket_id,)
+    ).fetchone()
+    if row is None:
+        return ["no such ticket"]
+    reasons = []
+    if "[DECISION |" not in (row["notes"] or ""):
+        reasons.append("no Boss decision yet")
+    pending = list_requests(con, "pending", ticket_id)
+    if pending:
+        reasons.append("waiting for approval: " + ", ".join(r["request_id"] for r in pending))
+    if row["type"] == "customer_order" and row["sku"] and row["size"] and row["qty"]:
+        stock = con.execute(
+            "SELECT qty FROM inventory WHERE sku = ? AND size = ?", (row["sku"], row["size"])
+        ).fetchone()
+        on_hand = stock["qty"] if stock else 0
+        restocked = any(
+            r["kind"] == "purchase_order" and (r["sku"], r["size"]) == (row["sku"], row["size"])
+            for r in list_requests(con, "approved", ticket_id)
+        )
+        if on_hand < row["qty"] and not restocked:
+            reasons.append(
+                f"short on stock ({on_hand} of {row['qty']} {row['sku']} {row['size']}): "
+                "needs an approved restock purchase order"
+            )
+    return reasons
+
+
 def resolve_ticket_if_done(con: sqlite3.Connection, ticket_id: int) -> str:
-    """A ticket is resolved once the Boss has recorded a decision and no request on it is pending."""
-    row = con.execute("SELECT status, notes FROM tickets WHERE id = ?", (ticket_id,)).fetchone()
+    """Set tickets.status = 'resolved' once open_reasons() is empty. Returns the status."""
+    row = con.execute("SELECT status FROM tickets WHERE id = ?", (ticket_id,)).fetchone()
     if row is None:
         return "missing"
     if row["status"] == "resolved":
         return "resolved"
-    has_decision = "[DECISION |" in (row["notes"] or "")
-    if has_decision and not list_requests(con, "pending", ticket_id):
+    if not open_reasons(con, ticket_id):
         con.execute("UPDATE tickets SET status = 'resolved' WHERE id = ?", (ticket_id,))
         return "resolved"
     return row["status"]
@@ -373,6 +409,7 @@ def list_tickets() -> list[dict]:
                 "sku": r["sku"], "size": r["size"], "qty": r["qty"], "status": r["status"],
                 "has_decision": "[DECISION |" in notes,
                 "pending_requests": len(list_requests(con, "pending", r["id"])),
+                "open_because": [] if r["status"] == "resolved" else open_reasons(con, r["id"]),
             })
         return out
     finally:

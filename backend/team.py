@@ -167,17 +167,32 @@ class Team:
         if run.steps > config.MAX_STEPS_PER_TICKET:
             raise StepLimitReached(f"ticket {run.ticket_id} hit {config.MAX_STEPS_PER_TICKET} steps")
 
+    async def _record_decision(self, run: TicketRun, reply: AgentReply) -> None:
+        """Put the Boss's final answer on the board through the MCP record_decision tool.
+        Done here, not by the Boss mid-turn, so the final answer is one clean step."""
+        decision = f"[{reply.status}] {reply.answer}"
+        if reply.human_action:
+            decision += f" Human action: {reply.human_action}"
+        args = {"ticket_id": run.ticket_id, "decision": decision, "decided_by": "boss"}
+        result = await self.mcp.direct_call_tool("record_decision", args)
+        self.audit.record(
+            run, agent="boss", depth=0, step_type="tool_call", tool="record_decision",
+            tool_input=args, result_summary=self.audit.summarize(run, result),
+        )
+
     # ---------- entry point ----------
 
     async def run_ticket(self, ticket_id: int, run_id: str | None = None) -> AgentReply:
         run = TicketRun(ticket_id=ticket_id, run_id=run_id or uuid.uuid4().hex[:12], audit=self.audit)
         task = (
-            f"Work ticket {ticket_id}. Read it with get_ticket, send the right parts to the right agents, "
-            "then make the final call and record it with record_decision."
+            f"Work ticket {ticket_id}. Read it with get_ticket, including the notes from earlier runs, "
+            "send the right parts to the right agents, then give your final call as your answer."
         )
         try:
             async with self.mcp:
-                return await self.run_agent("boss", task, run)
+                reply = await self.run_agent("boss", task, run)
+                await self._record_decision(run, reply)
+                return reply
         except (StepLimitReached, UsageLimitExceeded) as exc:
             self.audit.record(
                 run, agent="boss", depth=0, step_type="limit_stop", result_summary=str(exc)

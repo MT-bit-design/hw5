@@ -31,7 +31,7 @@ A small [FastMCP](https://gofastmcp.com) server, and the only way the Campus Cus
 | `draft_customer_message(ticket_id, message, written_by)` | tickets | Saves a draft reply. Never sends. Refuses emails and phone numbers |
 | `request_payment(ticket_id, kind, ref_id, amount, account, reason, requested_by)` | desk, invoices, leases, cash_accounts, payments, tickets | Asks a human to pay an invoice or rent. Refuses a wrong amount, an already-paid bill, short cash, or a duplicate. Never pays |
 | `request_purchase_order(ticket_id, vendor_id, sku, size, qty, account, reason, requested_by)` | desk, vendors, invoices, inventory, pricing, cash_accounts, tickets | Asks a human to approve a restock. Refuses a vendor with an open unpaid invoice, short cash, or a duplicate. Never orders |
-| `record_decision(ticket_id, decision, decided_by)` | tickets | Records the Boss's final call |
+| `record_decision(ticket_id, decision, decided_by)` | tickets | Records the Boss's final call. The team runner calls it with the Boss's final answer |
 
 ## Cash rules (`ledger.py`)
 
