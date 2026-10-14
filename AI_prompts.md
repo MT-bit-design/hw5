@@ -167,3 +167,43 @@ When done, show me git status, git log, the MCP tool list, and the first few row
 ````
 
 After the first run, the audit trail showed `gpt-6-luna-global` with no explanation, which could look like a second model.
+
+## Problem 6 - Plan the three tickets
+
+### Prompt
+
+````text
+Problem 6: Plan the three tickets.
+
+Make output/desk_tickets.html. It must open with a double click. One self-contained file, no server, no outside links. Simple look: white background, Calibri, with boxes and arrows.
+
+Tabs: Ticket 101, Ticket 102, Ticket 103, Cash, Reflection.
+- Each ticket tab has an "Expected" section (filled in below) and an empty "Actual" section with a short note: "Fill after the run".
+- Cash and Reflection tabs just say "Coming later".
+
+Do not run the agents. Do not use audit_trail.json to write Expected. This is my plan from before the run. Check the ticket facts in the database, but put my plan in as written. Keep customer emails and phone numbers out of the page.
+
+Each Expected section has three parts: Boss calls first and why; Delegations; MCP tools.
+
+Ticket 101 (tee, size S, 0 on hand)
+- Boss calls first: Inventory. The order depends on stock, and the tee is out of size S.
+- Delegations: Boss to Inventory (check stock, find the vendor who can restock, and lead time). Inventory to Accounting (this vendor may have an unpaid invoice, invoice 501, and a vendor won't ship while it's open; can we pay it). Boss to Customer Service for a draft to the customer. No Facilities.
+- Tools: get_ticket, check_stock, find_restock_vendors, get_invoice, get_bills_and_cash, request_payment (invoice 501, for human approval), request_purchase_order (only after that payment), draft_customer_message, record_decision.
+
+Ticket 102 (rent notice)
+- Boss calls first: Facilities. It's about the lease and the $2,400 rent due 2026-09-02.
+- Delegations: Boss to Facilities (lease and rent). Facilities to Accounting (do we have the cash; paying this and invoice 501 together leaves only $160). No Inventory. No Customer Service, because the rent goes to the landlord, not a customer.
+- Tools: get_ticket, get_lease, get_bills_and_cash, request_payment (rent, for human approval), record_decision.
+
+Ticket 103 (20 big Yale hoodies, size M, price override)
+- Boss calls first: Inventory. We only have 8 of 20, so the discount doesn't matter if we can't fill the order in time.
+- Delegations: Boss to Inventory (12 short, vendor and lead time). Boss to Accounting (margin and how low the price can go). Boss to Customer Service for the reply draft. No Facilities.
+- Tools: get_ticket, quote_bulk_order, check_stock, find_restock_vendors, check_margin, draft_customer_message, record_decision. A purchase order for the missing 12 is unlikely, because rent and invoice 501 use almost all of the cash.
+
+Also add a Problem 6 section to AI_prompts.md.
+Commit as "Problem 6 - Plan the three tickets". Do not push.
+````
+
+### Follow-up
+
+None.

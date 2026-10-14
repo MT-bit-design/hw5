@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Customs - Desk Tickets Plan</title>
+<style>
+  body { margin: 0; padding: 24px; background: #fff; color: #222; font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size: 16px; line-height: 1.45; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sub { color: #555; margin: 0 0 18px; }
+  h2 { font-size: 20px; margin: 0 0 10px; }
+  h3 { font-size: 17px; margin: 18px 0 8px; }
+
+  /* CSS-only tabs: works on double-click, no script needed */
+  .tabs > input { position: absolute; opacity: 0; pointer-events: none; }
+  .tabs > label { display: inline-block; padding: 8px 16px; margin-right: 4px; border: 1px solid #999; border-bottom: none; border-radius: 6px 6px 0 0; background: #f2f2f2; cursor: pointer; }
+  .tabs > input:checked + label { background: #fff; font-weight: bold; position: relative; top: 1px; }
+  .tabs > input:focus-visible + label { outline: 2px solid #333; }
+  .panel { display: none; border: 1px solid #999; padding: 18px; border-radius: 0 6px 6px 6px; }
+  #t101:checked ~ #p101, #t102:checked ~ #p102, #t103:checked ~ #p103,
+  #tcash:checked ~ #pcash, #trefl:checked ~ #prefl { display: block; }
+
+  .facts { border: 1px solid #bbb; background: #fafafa; padding: 8px 12px; border-radius: 6px; margin-bottom: 14px; }
+  .section { border: 2px solid #333; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; }
+  .section.actual { border-style: dashed; color: #555; }
+  .section > h2 { margin-bottom: 4px; }
+
+  .box { display: inline-block; border: 2px solid #333; border-radius: 6px; padding: 4px 12px; background: #fff; font-weight: bold; white-space: nowrap; }
+  .box.boss { background: #f2f2f2; }
+  .box.no { border-style: dashed; color: #777; font-weight: normal; }
+
+  .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+  .arrow { display: inline-flex; align-items: center; }
+  .arrow::before { content: ""; width: 34px; height: 2px; background: #333; }
+  .arrow::after { content: ""; border-left: 9px solid #333; border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+  .why { margin: 4px 0 0; }
+
+  .deleg { display: grid; grid-template-columns: auto auto auto 1fr; align-items: center; gap: 10px 8px; margin: 6px 0; }
+  .deleg .what { color: #333; }
+  .skip { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+  .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
+  .tool { border: 1px solid #333; border-radius: 4px; padding: 2px 8px; font-family: Consolas, "Courier New", monospace; font-size: 14px; background: #fff; }
+  .tool small { font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif; color: #555; }
+  .sep { color: #333; font-weight: bold; }
+  .note { margin: 8px 0 0; color: #333; }
+  .later { font-size: 18px; color: #555; padding: 20px 0; }
+</style>
+</head>
+<body>
+
+<h1>Campus Customs - Desk Tickets</h1>
+<p class="sub">My plan from before the agent run. Shop date (desk.date_today): 2026-08-31.</p>
+
+<div class="tabs">
+  <input type="radio" name="tab" id="t101" checked><label for="t101">Ticket 101</label>
+  <input type="radio" name="tab" id="t102"><label for="t102">Ticket 102</label>
+  <input type="radio" name="tab" id="t103"><label for="t103">Ticket 103</label>
+  <input type="radio" name="tab" id="tcash"><label for="tcash">Cash</label>
+  <input type="radio" name="tab" id="trefl"><label for="trefl">Reflection</label>
+
+  <!-- ===================== Ticket 101 ===================== -->
+  <div class="panel" id="p101">
+    <div class="facts"><b>Ticket 101 - customer order:</b> Classic Bulldog Tee (CC-TEE-WHITE), size S, qty 1. Size S: 0 on hand. Linked to invoice 501.</div>
+
+    <div class="section">
+      <h2>Expected</h2>
+
+      <h3>1. Boss calls first, and why</h3>
+      <div class="flow"><span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span></div>
+      <p class="why">The order depends on stock, and the tee is out of size S.</p>
+
+      <h3>2. Delegations</h3>
+      <div class="deleg">
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span>
+        <span class="what">Check stock, find the vendor who can restock, and lead time.</span>
+
+        <span class="box">Inventory</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">This vendor may have an unpaid invoice, invoice 501, and a vendor won't ship while it's open. Can we pay it?</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Customer Service</span>
+        <span class="what">A draft to the customer.</span>
+      </div>
+      <div class="skip">Not called: <span class="box no">Facilities</span></div>
+
+      <h3>3. MCP tools</h3>
+      <div class="tools">
+        <span class="tool">get_ticket</span><span class="sep">&rarr;</span>
+        <span class="tool">check_stock</span><span class="sep">&rarr;</span>
+        <span class="tool">find_restock_vendors</span><span class="sep">&rarr;</span>
+        <span class="tool">get_invoice</span><span class="sep">&rarr;</span>
+        <span class="tool">get_bills_and_cash</span><span class="sep">&rarr;</span>
+        <span class="tool">request_payment <small>(invoice 501, for human approval)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">request_purchase_order <small>(only after that payment)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">draft_customer_message</span><span class="sep">&rarr;</span>
+        <span class="tool">record_decision</span>
+      </div>
+    </div>
+
+    <div class="section actual">
+      <h2>Actual</h2>
+      <p>Fill after the run.</p>
+    </div>
+  </div>
+
+  <!-- ===================== Ticket 102 ===================== -->
+  <div class="panel" id="p102">
+    <div class="facts"><b>Ticket 102 - rent notice:</b> lease 1, $2,400 rent due 2026-09-02 (2 days after today). Checking: $3,400.</div>
+
+    <div class="section">
+      <h2>Expected</h2>
+
+      <h3>1. Boss calls first, and why</h3>
+      <div class="flow"><span class="box boss">Boss</span><span class="arrow"></span><span class="box">Facilities</span></div>
+      <p class="why">It's about the lease and the $2,400 rent due 2026-09-02.</p>
+
+      <h3>2. Delegations</h3>
+      <div class="deleg">
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Facilities</span>
+        <span class="what">Lease and rent.</span>
+
+        <span class="box">Facilities</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">Do we have the cash? Paying this and invoice 501 together leaves only $160.</span>
+      </div>
+      <div class="skip">Not called: <span class="box no">Inventory</span> <span class="box no">Customer Service</span></div>
+      <p class="note">No Customer Service, because the rent goes to the landlord, not a customer.</p>
+
+      <h3>3. MCP tools</h3>
+      <div class="tools">
+        <span class="tool">get_ticket</span><span class="sep">&rarr;</span>
+        <span class="tool">get_lease</span><span class="sep">&rarr;</span>
+        <span class="tool">get_bills_and_cash</span><span class="sep">&rarr;</span>
+        <span class="tool">request_payment <small>(rent, for human approval)</small></span><span class="sep">&rarr;</span>
+        <span class="tool">record_decision</span>
+      </div>
+    </div>
+
+    <div class="section actual">
+      <h2>Actual</h2>
+      <p>Fill after the run.</p>
+    </div>
+  </div>
+
+  <!-- ===================== Ticket 103 ===================== -->
+  <div class="panel" id="p103">
+    <div class="facts"><b>Ticket 103 - price override:</b> 20 Basic Hoodie Big Yale (CC-HOOD-NAVY), size M, bulk discount asked. Size M: 8 on hand (12 short). Unit cost $22, list price $58.</div>
+
+    <div class="section">
+      <h2>Expected</h2>
+
+      <h3>1. Boss calls first, and why</h3>
+      <div class="flow"><span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span></div>
+      <p class="why">We only have 8 of 20, so the discount doesn't matter if we can't fill the order in time.</p>
+
+      <h3>2. Delegations</h3>
+      <div class="deleg">
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span>
+        <span class="what">12 short, vendor and lead time.</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">Margin and how low the price can go.</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Customer Service</span>
+        <span class="what">The reply draft.</span>
+      </div>
+      <div class="skip">Not called: <span class="box no">Facilities</span></div>
+
+      <h3>3. MCP tools</h3>
+      <div class="tools">
+        <span class="tool">get_ticket</span><span class="sep">&rarr;</span>
+        <span class="tool">quote_bulk_order</span><span class="sep">&rarr;</span>
+        <span class="tool">check_stock</span><span class="sep">&rarr;</span>
+        <span class="tool">find_restock_vendors</span><span class="sep">&rarr;</span>
+        <span class="tool">check_margin</span><span class="sep">&rarr;</span>
+        <span class="tool">draft_customer_message</span><span class="sep">&rarr;</span>
+        <span class="tool">record_decision</span>
+      </div>
+      <p class="note">A purchase order for the missing 12 is unlikely, because rent and invoice 501 use almost all of the cash.</p>
+    </div>
+
+    <div class="section actual">
+      <h2>Actual</h2>
+      <p>Fill after the run.</p>
+    </div>
+  </div>
+
+  <!-- ===================== Cash ===================== -->
+  <div class="panel" id="pcash">
+    <h2>Cash</h2>
+    <p class="later">Coming later.</p>
+  </div>
+
+  <!-- ===================== Reflection ===================== -->
+  <div class="panel" id="prefl">
+    <h2>Reflection</h2>
+    <p class="later">Coming later.</p>
+  </div>
+</div>
+
+</body>
+</html>
