@@ -427,3 +427,20 @@ you can make the width of that block slightly wider so its aligns with the rest.
 ````
 
 After the first fix, "Customer Service" still wrapped onto two lines, so its header did not line up with the other seats.
+
+````text
+Read only, no agent runs, no changes.
+
+1. For run 9b0d024ae4ae (ticket 103), list the agents the Boss called, in the order it called them.
+2. Show me the text of ticket 103, so I can see what price the customer asked for. Leave out any email or phone number.
+3. For ticket 101 run 432bd05d484b, did Inventory ever hand work to Accounting, or did only the Boss call Accounting?
+4. For ticket 102 run c6c0eb18580c, who called Facilities: the Boss, Accounting, or both?
+
+Short answers only.
+````
+
+````text
+yes, correct the Actual section for 103 and commit
+````
+
+The Actual section for ticket 103 said the Boss called Accounting first, then Inventory; the audit trail shows it called both in the same step, with Inventory logged first.

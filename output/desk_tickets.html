@@ -276,12 +276,13 @@
       <p class="note">From this run only (Problem 9). Two runs; no request was filed, so nothing waited for a signature.</p>
 
       <h3>Run 1 <span class="runid">run f0d1316c66cf</span> <span class="tag bad">stopped: provider error 500</span></h3>
+      <p class="why">Boss called Inventory and Accounting together, in the same step.</p>
       <div class="deleg">
-        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
-        <span class="what">Margin: at $22 the margin is $0 (62.1% off); at $40 it is $18 per hoodie (31% off).</span>
-
         <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span>
         <span class="what">8 of 20 on hand, 12 short; Bulldog Print Co lead time 5 days. The provider failed (HTTP 500) here.</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">Margin: at $22 the margin is $0 (62.1% off); at $40 it is $18 per hoodie (31% off).</span>
       </div>
       <div class="tools">
         <span class="tool">get_ticket <small>(Boss)</small></span><span class="sep">&rarr;</span>
@@ -291,13 +292,13 @@
       </div>
 
       <h3>Run 2 (retry, after a provider health check) <span class="runid">run 9b0d024ae4ae</span> <span class="tag">finished</span></h3>
-      <p class="why">Agents who worked: Boss, Accounting, Inventory, Customer Service. Boss called Accounting first, then Inventory.</p>
+      <p class="why">Agents who worked: Boss, Inventory, Accounting, Customer Service. Boss called Inventory and Accounting together in the same step, then Customer Service.</p>
       <div class="deleg">
-        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
-        <span class="what">Margin and the lowest price: $22 cost floor; $40 keeps $18 per hoodie ($144 on 8).</span>
-
         <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Inventory</span>
         <span class="what">8 on hand, 12 short; Bulldog Print Co could restock in 5 days (ready about 2026-09-05).</span>
+
+        <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Accounting</span>
+        <span class="what">Margin and the lowest price: $22 cost floor; $40 keeps $18 per hoodie ($144 on 8).</span>
 
         <span class="box boss">Boss</span><span class="arrow"></span><span class="box">Customer Service</span>
         <span class="what">Draft: offer the 8 in stock at $40; the other 12 are not promised.</span>
