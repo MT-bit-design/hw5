@@ -585,3 +585,48 @@ yes, make that change and commit
 
 On ticket 101 the board showed the raw provider error from the failed second run, and it hid the Boss's real decision from the first run.
 
+
+## Problem 11 - Submit to GitHub
+
+### Prompt
+
+````text
+Problem 11: Submit to GitHub.
+
+You may push now, but only to https://github.com/MT-bit-design/hw5 (public, empty, I made it). Do not force push. If the repo is missing or not empty, stop and tell me.
+
+1. Stop the backend, the board and anything else running, so no file is in use.
+
+2. Match the expected layout: AI_prompts.md, requirements.txt, .env.example (at the root), .gitignore, .mcp.json, README.md, data/campus_customs.db, data/campus_customs_new.db, mcp_server/server.py and README.md, frontend/, backend/main.py, models.py, prompts/ (boss.md, inventory.md, accounting.md, facilities.md, customer_service.md), output/ (harness.md, mcp_smoke.json, desk_tickets.html, design.md, resolved_tickets.json, resolved_board.html, audit_trail.json, github_url.txt). Show me every difference between this list and the repo, then fix it:
+   - add a root .env.example with a placeholder key and no real key. The backend must find the key in backend/.env or in a .env at the project root.
+   - write output/github_url.txt with the repo URL.
+
+3. .gitignore: the two database files must now be tracked. Keep ignoring .env, *.zip, node_modules, .venv, dist, and SQLite temp files (*.db-journal, *.db-wal, *.db-shm).
+
+4. Check the databases before adding them:
+   - the original data/campus_customs.db is unchanged (same as the copy inside data.zip)
+   - the working copy is in the final state of my Problem 9 run (checking $152, matching the Cash tab, with 3 payments). Do not change it.
+   - tell me if either file holds customer emails or phone numbers. Do not change the files.
+
+5. Update README.md: the databases are in the repo; the working copy holds the final state of the run, and Reset desk gives a fresh start; the setup steps no longer need data.zip; where the key goes.
+
+6. Run the scans again and show each result:
+   - git ls-files has exactly two .db files, no .env, no .zip, no node_modules, no .venv, no dist
+   - the Portkey key value appears nowhere in tracked files or the whole history (search without printing it)
+   - every commit has the author and committer email 322972046+MT-bit-design@users.noreply.github.com
+   - gpt-6-luna is the only model name in the code
+   - no emails or phone numbers in the tracked text files
+   - no file over 5 MB
+
+7. Add a Problem 11 section to AI_prompts.md. Commit as "Problem 11 - Submit to GitHub".
+
+8. Push: git remote add origin https://github.com/MT-bit-design/hw5.git, then git push -u origin main. If a sign-in window opens, tell me. Check with git ls-remote that the remote main equals my local HEAD.
+
+9. Clone the GitHub repo into a new folder outside OneDrive. Check that the layout matches step 2, that .env is not there, that both databases are there, and that all commits show the noreply email. Run npm run build there. Delete the clone.
+
+No agent runs. Show me git status, git log, git ls-files, the scan results, and the repo URL.
+````
+
+### Follow-up
+
+None.

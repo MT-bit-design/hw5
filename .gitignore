@@ -14,9 +14,13 @@ __pycache__/
 node_modules/
 dist/
 
-# Data and artifacts
-data/
-*.db
+# Data: the two shop databases in data/ are tracked on purpose
+# (campus_customs.db = original, campus_customs_new.db = final state of the run).
+# SQLite temp files and archives are not.
+*.db-journal
+*.db-wal
+*.db-shm
+*.db.tmp
 *.zip
 
 # Claude Code local settings

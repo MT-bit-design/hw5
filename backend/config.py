@@ -15,7 +15,8 @@ PROMPTS_DIR = BACKEND_DIR / "prompts"
 MCP_SERVER_SCRIPT = ROOT / "mcp_server" / "server.py"
 AUDIT_PATH = ROOT / "output" / "audit_trail.json"
 
-load_dotenv(BACKEND_DIR / ".env")
+load_dotenv(BACKEND_DIR / ".env")  # first choice: backend/.env
+load_dotenv(ROOT / ".env")         # also allowed: a .env at the project root (never overrides)
 
 # The only model the team may use, called through Portkey.
 MODEL_NAME = "gpt-6-luna"

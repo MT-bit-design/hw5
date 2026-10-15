@@ -12,7 +12,7 @@ React board (frontend/, :5173) --HTTP--> FastAPI (backend/main.py, :8000) --> ag
 - Original: `data/campus_customs.db`. Read-only, never changed.
 - Working copy: `data/campus_customs_new.db`. All tools and routes use it. `POST /api/reset` copies the original over it.
 - "Today" for everyone is `desk.date_today` (2026-08-31), not the system clock.
-- `data/` and every `.db` file stay out of git.
+- Both databases are in git: the original, and the working copy in the final state of the Problem 9 run (checking $152, three payments). SQLite temp files (`*.db-journal`, `*.db-wal`, `*.db-shm`) and `*.zip` stay out.
 
 ## Tables
 

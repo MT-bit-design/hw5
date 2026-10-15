@@ -12,7 +12,6 @@ There are three parts:
 
 - Windows with Python 3.12 or newer and Node.js 20 or newer
 - A Portkey API key with access to `gpt-6-luna`
-- The course's shop database, `campus_customs.db` (it comes in the course's `data.zip`)
 
 ## Setup from a clean clone
 
@@ -25,23 +24,18 @@ Run these in a terminal (Command Prompt or PowerShell) from the project folder.
    .venv\Scripts\python.exe -m pip install -r requirements.txt
    ```
 
-2. Add your Portkey key. Copy the example file, then open `backend\.env` and put your key after `PORTKEY_API_KEY=`.
+2. Add your Portkey key. Copy the example file, then open the new `.env` and put your key after `PORTKEY_API_KEY=`:
 
    ```
    copy backend\.env.example backend\.env
    ```
 
-   `backend\.env` is ignored by git. Never commit it. If `PORTKEY_API_KEY` is also set as a system environment variable, that value is used first.
+   Either place works: `backend\.env` (read first) or a `.env` at the project root (from the root `.env.example`). Both are ignored by git, so never commit them. If `PORTKEY_API_KEY` is also set as a system environment variable, that value is used first.
 
-3. Put the shop database in `data\`. If you have the course's `data.zip`, put it in the project folder and unzip it there; it holds `data\campus_customs.db`. In PowerShell:
-
-   ```
-   Expand-Archive data.zip -DestinationPath .
-   ```
-
-   Or create a `data` folder and copy `campus_customs.db` into it. The result must be `data\campus_customs.db`.
-
-   The agents never change that file. They work on a copy, `data\campus_customs_new.db`, which the backend (or the MCP server) makes automatically from the original the first time it starts. The **Reset desk** button makes a fresh copy at any time.
+3. The databases are already in the repo, in `data\`. There is nothing to unzip.
+   - `data\campus_customs.db` is the course's original shop data. Nothing ever changes it.
+   - `data\campus_customs_new.db` is the working copy the agents use. It holds the **final state of the run** (all three tickets resolved, checking $152, three approved payments), so the board opens on the finished desk.
+   - To start fresh, press **Reset desk** on the board. It copies the original over the working copy. (If the working copy is ever missing, the backend makes it from the original on start.)
 
 4. Install the dashboard packages:
 
@@ -105,8 +99,9 @@ backend/          FastAPI app (main.py), the agent team (team.py), settings (con
   .env.example    copy to .env and add your key
 mcp_server/       MCP server (server.py) and the cash rules (ledger.py)
 frontend/         React + Vite + TypeScript dashboard (src/api.ts holds the backend address)
-data/             the shop database goes here (not in git)
+data/             campus_customs.db (original) and campus_customs_new.db (final state of the run)
 output/           results and docs (below)
+.env.example      copy to .env (or use backend/.env) and add your key
 .mcp.json         lets Claude Code start the MCP server
 requirements.txt  Python packages
 AI_prompts.md     the prompts used to build this project
@@ -124,3 +119,4 @@ Files in `output/`:
 | `design.md` | Why the dashboard looks and behaves the way it does. |
 | `mcp_smoke.json` | The first live test of the MCP tools, checked against the database with SQL. |
 | `screenshots/` | The three board screenshots used by `resolved_board.html`. |
+| `github_url.txt` | The address of this repo on GitHub. |
