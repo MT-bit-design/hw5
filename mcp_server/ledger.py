@@ -505,6 +505,19 @@ def get_balance(account: str) -> dict | None:
         con.close()
 
 
+def ensure_working_copy() -> bool:
+    """Create the working copy from the original if it does not exist yet (fresh clone).
+    Never overwrites an existing working copy. Returns True if it was created."""
+    if DB_PATH.exists():
+        return False
+    if not ORIGINAL_DB_PATH.exists():
+        raise FileNotFoundError(
+            f"Missing {ORIGINAL_DB_PATH}. Put the course's campus_customs.db in the data/ folder."
+        )
+    reset_working_copy()
+    return True
+
+
 def reset_working_copy() -> str:
     """Copy the original over the working copy. Never writes to the original."""
     tmp = DB_PATH.with_suffix(".db.tmp")

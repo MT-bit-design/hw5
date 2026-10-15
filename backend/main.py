@@ -39,6 +39,8 @@ from mcp_server import ledger  # noqa: E402
 
 CASH_ACCOUNT = "checking"
 
+ledger.ensure_working_copy()  # fresh clone: make data/campus_customs_new.db from the original
+
 app = FastAPI(title="Campus Customs desk API")
 app.add_middleware(
     CORSMiddleware,

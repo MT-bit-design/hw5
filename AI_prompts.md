@@ -538,3 +538,39 @@ Show me git status, git log, and the Reflection tab text as it reads on the page
 ````
 
 After the first try, check (a) stopped the work: the Actual-sections fix was committed as "Problem 9 - Correct the handoff order in ticket 103 Actual" (9d1e1b9), not under the title I gave.
+
+## Final - README and submission check
+
+### Prompt
+
+````text
+Final step: get the repo ready to submit. Do not push. No agent runs, they cost tokens.
+
+1. Write a README.md at the project root, in simple words:
+   - what Campus Customs is, and the three parts (MCP server, FastAPI backend with the five agents, React dashboard)
+   - setup from a clean clone: Python venv and pip install, PORTKEY_API_KEY in backend/.env (from backend/.env.example), placing the course's campus_customs.db in data/ and how the working copy data/campus_customs_new.db gets made, npm install
+   - how to start the backend (from backend/: uvicorn main:app --reload --port 8000) and the dashboard (from frontend/: npm run dev), for Windows
+   - how to use the board: pick a ticket, start the team, approve or decline, reset
+   - the rules: only gpt-6-luna, human approval for every payment, no negative cash, drafts only
+   - a short map of the folders and the files in output/ (desk_tickets.html, resolved_board.html, resolved_tickets.json, audit_trail.json, harness.md, design.md, mcp_smoke.json)
+   No keys. No personal details.
+
+2. Test it from a clean clone: clone this repo into a new folder outside OneDrive, follow the README exactly, copy the database in, start the backend, check that /api/tickets and /api/cash answer, and run npm install and npm run build in frontend/. Fix anything the README missed. Check that .mcp.json works with its relative paths in the clone. Delete the test clone when done.
+
+3. Pre-push scans. Show me the result of each:
+   - git ls-files has no .env, no .db, no .zip, no node_modules, no .venv, no dist
+   - the Portkey key value appears nowhere in any tracked file or anywhere in the git history (search without printing the key)
+   - no .db file was ever added in any commit
+   - every commit has the author AND committer email 322972046+MT-bit-design@users.noreply.github.com
+   - gpt-6-luna is the only model name in the code
+   - no customer emails or phone numbers in output/ or anywhere else tracked
+   - no file larger than 2 MB is tracked
+
+4. Commit the README and any fixes as "Final - README and submission check". Do not push.
+
+Show me git status, git log, the README, and the scan results.
+````
+
+### Follow-up
+
+None.

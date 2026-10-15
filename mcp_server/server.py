@@ -410,4 +410,5 @@ for _tool in (
 
 
 if __name__ == "__main__":
+    ledger.ensure_working_copy()  # fresh clone: make data/campus_customs_new.db from the original
     mcp.run(show_banner=False)
