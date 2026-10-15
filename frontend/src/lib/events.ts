@@ -90,13 +90,24 @@ function lineFor(e: AgentEvent): string | null {
       return r.answer ? firstSentence(r.answer, 220) : null;
     }
     case "limit_stop":
-      return `Stopped by a safety limit. ${e.said ?? ""}`;
+      return "This run stopped at a safety limit (too many steps or tokens). Nothing was paid.";
     case "error":
-      return `Something went wrong: ${firstSentence(e.said ?? "", 160)}`;
+      return failureLine(e.said);
   }
 }
 
 const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** Plain words for a failed run, instead of the raw error text. */
+export function failureLine(raw: string | undefined): string {
+  const text = raw ?? "";
+  const code = text.match(/status_code:\s*(\d{3})/)?.[1];
+  let why = "something went wrong";
+  if (code) why = `the AI service had an error (HTTP ${code})`;
+  else if (/timed out|timeout/i.test(text)) why = "the AI service did not answer in time";
+  else if (/connect|session/i.test(text)) why = "the tool server did not start in time";
+  return `This run stopped: ${why}. Nothing was paid.`;
+}
 
 /** Build the five seats from events (oldest first). */
 export function deriveDesk(eventsAsc: AgentEvent[], running: boolean): DeskView {

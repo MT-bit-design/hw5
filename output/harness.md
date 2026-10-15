@@ -99,7 +99,7 @@ FastAPI in `backend/main.py` (this list was read from the code). Start it from `
 
 CORS allows only `http://localhost` and `http://127.0.0.1` origins (the React dev server).
 
-- `GET /api/tickets`: the tickets with their real `tickets.status`, `has_decision`, `pending_requests`, and `open_because`, plus the run state (`run.running`, `run.last_run`).
+- `GET /api/tickets`: the tickets with their real `tickets.status`, `has_decision`, `pending_requests`, `open_because`, and `last_decision` (the Boss's latest recorded decision), plus the run state (`run.running`, `run.last_run`).
 - `POST /api/tickets/{ticket_id}/run`: starts the team on one ticket in the background and returns a `run_id` right away (202). Refuses if a run is going or the ticket is resolved.
 - `GET /api/events?ticket=&limit=&run_id=`: agent events from the audit trail, newest first. Defaults to the latest run. The key, emails, and phones are scrubbed.
 - `GET /api/requests?status=pending|approved|declined|all`: payment and purchase order requests with their `payee`.
@@ -115,6 +115,7 @@ React + Vite + TypeScript in `frontend/`. From `frontend/`, run `npm install`, t
 - The backend address lives only in `src/api.ts` (`VITE_API_URL`, see `frontend/.env.example`). The frontend holds no keys.
 - It polls every 2 s during a run, every 8 s when idle, and every 5 s when the backend is down. Start, Approve, Decline, and Reset lock while a run goes.
 - It shows a ticket as Resolved only when the backend says so. Approve and Decline are always a person's click, signed "MT".
+- A run that failed shows one plain line (for example, "This run stopped: the AI service had an error (HTTP 500). Nothing was paid.") instead of the raw error. If that run never reached a decision, the Boss seat shows the last recorded decision, labelled "from an earlier run".
 
 ## Audit Trail
 

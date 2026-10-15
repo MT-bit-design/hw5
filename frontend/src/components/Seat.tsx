@@ -9,6 +9,8 @@ interface Props {
   wide?: boolean;
   /** For the Boss: the final call, in plain words. */
   decision?: string | null;
+  /** When the decision comes from an earlier run, say so (and still show this run's line). */
+  decisionFrom?: string | null;
 }
 
 const STATE_WORDS: Record<SeatData["state"], string> = {
@@ -18,7 +20,7 @@ const STATE_WORDS: Record<SeatData["state"], string> = {
   done: "Done",
 };
 
-export function Seat({ agent, seat, wide = false, decision }: Props) {
+export function Seat({ agent, seat, wide = false, decision, decisionFrom }: Props) {
   const meta = AGENTS[agent];
   const style = { "--accent": meta.accent, "--tint": meta.tint } as CSSProperties;
   const chips = seat.chips.slice(-6);
@@ -45,8 +47,12 @@ export function Seat({ agent, seat, wide = false, decision }: Props) {
         </p>
       )}
 
+      {wide && decision && decisionFrom && seat.line && <p className="seat-line seat-line--stopped">{seat.line}</p>}
       {wide && decision ? (
-        <blockquote className="seat-decision">{decision}</blockquote>
+        <>
+          {decisionFrom && <p className="seat-decision-from">{decisionFrom}</p>}
+          <blockquote className="seat-decision">{decision}</blockquote>
+        </>
       ) : (
         <p className={`seat-line${seat.line ? "" : " muted"}`}>{seat.line ?? "Nothing yet on this ticket."}</p>
       )}

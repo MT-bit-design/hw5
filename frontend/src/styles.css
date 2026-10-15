@@ -203,3 +203,7 @@ code { font-family: Consolas, "Courier New", monospace; font-size: 0.88em; backg
 .seats .seat-head > div { flex: 1 1 0; min-width: 0; }
 .seats .seat-state { flex-basis: 100%; margin-left: 44px; margin-top: -4px; }
 .seats .seat { padding: 16px; }
+
+/* A run that stopped, and the earlier decision shown under it. */
+.seat-line--stopped { color: var(--warn); }
+.seat-decision-from { margin: 0; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }

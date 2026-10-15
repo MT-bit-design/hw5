@@ -35,6 +35,7 @@ Everything on the seats comes from `GET /api/events`. The board makes no model c
 - **Approval slips look like paper:** a warm off-white card with the amount in large type, who gets paid, what it is for, the account, the cash after, and who asked. Approve and Decline sit side by side. Approve is the strong filled button, and Decline is quiet. A dashed line and "Signed, MT" sit at the bottom, like a signature line. Decline takes an optional reason.
 - **Cash drops only after Approve.** It is one big calm number from `GET /api/cash`. After an approval it counts down smoothly to the new amount and leaves a small trail: "was ~~$3,400~~ · $2,400 paid out". Declining moves no cash, so the number stays still.
 - **Refusals in plain words.** If the backend says no (cash short, not pending, vendor blocked), the board shows its reason as a simple banner.
+- **Failures in plain words.** A run that hit an AI service error shows one calm line ("This run stopped: … Nothing was paid."), not raw error text. The Boss seat then shows the last decision from an earlier run, clearly labelled, so you still see what was decided.
 
 **Why:** money and customers are the two places where a mistake is real. So those are the only places that ask for your hand, and they look the most like real paper. Everything else stays quiet so those moments stand out.
 

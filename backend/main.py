@@ -150,7 +150,7 @@ def _event_view(row: dict) -> dict:
 @app.get("/api/tickets")
 def get_tickets() -> dict:
     """The tickets and whether each is open or resolved (tickets.status)."""
-    return {"tickets": ledger.list_tickets(), "run": RUN.snapshot()}
+    return {"tickets": _scrub(ledger.list_tickets()), "run": RUN.snapshot()}
 
 
 @app.post("/api/tickets/{ticket_id}/run", status_code=202)

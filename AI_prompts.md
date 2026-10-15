@@ -574,3 +574,14 @@ Show me git status, git log, the README, and the scan results.
 ### Follow-up
 
 None.
+
+````text
+on the boss tab it says something went wrong and put a bunch of error messages, is that correct?
+````
+
+````text
+yes, make that change and commit
+````
+
+On ticket 101 the board showed the raw provider error from the failed second run, and it hid the Boss's real decision from the first run.
+

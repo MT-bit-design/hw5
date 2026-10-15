@@ -145,7 +145,10 @@ export default function App() {
     const last = eventsAsc.filter((e) => e.agent === "boss" && e.depth === 0 && e.type === "answer").pop();
     return last ? parseReply(last.said) : null;
   }, [run.last_run, selected, eventsRunId, eventsAsc, oldRun, showOldRun]);
-  const decision = runningHere ? null : bossReply?.answer ?? null;
+  // If the shown run never reached a decision (it failed), show the last recorded one, labelled.
+  const earlier = !runningHere && !bossReply?.answer && !oldRun ? ticket?.last_decision ?? null : null;
+  const decision = runningHere ? null : bossReply?.answer ?? earlier?.text ?? null;
+  const decisionFrom = earlier ? `Last decision, from an earlier run (${earlier.date}):` : null;
 
   const startRun = async () => {
     if (!ticket) return;
@@ -278,7 +281,7 @@ export default function App() {
 
             {ticket && (
               <section className={`desk${runningHere ? " desk--live" : ""}`} aria-label="The team">
-                <Seat agent="boss" seat={desk.seats.boss} wide decision={decision} />
+                <Seat agent="boss" seat={desk.seats.boss} wide decision={decision} decisionFrom={decisionFrom} />
                 {bossReply?.human_action && !runningHere && (
                   <p className="next-for-you"><span>Next for you</span>{bossReply.human_action}</p>
                 )}

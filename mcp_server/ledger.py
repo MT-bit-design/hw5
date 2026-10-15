@@ -468,10 +468,30 @@ def finish_run(ticket_id: int) -> str:
         con.close()
 
 
+DECISION_RE = re.compile(r"^\[DECISION \| (?P<date>[\d-]+) \| by [^\]]+\] (?:\[(?P<status>[a-z_]+)\] )?(?P<text>.*)$")
+
+
+def last_decision(notes: str, requester: str | None = None, ticket_type: str | None = None) -> dict | None:
+    """The Boss's most recent decision on a ticket, from its board notes (or None)."""
+    found = None
+    for line in (notes or "").splitlines():
+        m = DECISION_RE.match(line)
+        if m:
+            found = m
+    if not found:
+        return None
+    text = found["text"].strip()
+    if requester and ticket_type == "customer_order":  # never show a customer's name
+        text = re.sub(re.escape(requester), "the customer", text, flags=re.IGNORECASE)
+    return {"date": found["date"], "status": found["status"], "text": text}
+
+
 def list_tickets() -> list[dict]:
     con = connect()
     try:
-        rows = con.execute("SELECT id, type, subject, sku, size, qty, status, notes FROM tickets ORDER BY id").fetchall()
+        rows = con.execute(
+            "SELECT id, type, requester, subject, sku, size, qty, status, notes FROM tickets ORDER BY id"
+        ).fetchall()
         out = []
         for r in rows:
             notes = r["notes"] or ""
@@ -481,6 +501,7 @@ def list_tickets() -> list[dict]:
                 "has_decision": "[DECISION |" in notes,
                 "pending_requests": len(list_requests(con, "pending", r["id"])),
                 "open_because": [] if r["status"] == "resolved" else open_reasons(con, r["id"]),
+                "last_decision": last_decision(notes, r["requester"], r["type"]),
             })
         return out
     finally:

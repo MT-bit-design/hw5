@@ -14,6 +14,8 @@ export interface Ticket {
   has_decision: boolean;
   pending_requests: number;
   open_because: string[];
+  /** The Boss's most recent recorded decision on this ticket (from any run), or null. */
+  last_decision: { date: string; status: string | null; text: string } | null;
 }
 
 /** The Boss's structured answer (backend/models.py AgentReply). */
