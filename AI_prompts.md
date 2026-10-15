@@ -444,3 +444,97 @@ yes, correct the Actual section for 103 and commit
 ````
 
 The Actual section for ticket 103 said the Boss called Accounting first, then Inventory; the audit trail shows it called both in the same step, with Inventory logged first.
+
+## Problem 10 - Reflection
+
+### Prompt
+
+````text
+Problem 10: Reflection.
+
+First check three things. If any fails, stop and tell me.
+a. The follow-up commit that fixed the Actual sections ("Problem 9 - Fix the Actual sections to match the audit trail") exists. If it does not, tell me.
+b. Look up the customer name on ticket 103 in the database. It must be the AI Club (Yale AI Club is fine). If it says something else, stop and tell me the name. Do not put a different name in.
+c. Every fact in the text below must match the Actual sections and the Cash tab. If something does not match, do not fix it quietly. List the mismatches and stop.
+
+Then fill the Reflection tab in output/desk_tickets.html with the text below. Use these exact words, as simple HTML: a heading for each question, short bullet lists, and the same plain look as the other tabs. Do not reword or add anything. Do not change the Expected sections, the Actual sections or the Cash tab. No agent runs. No database changes.
+
+Add a Problem 10 section to AI_prompts.md. Include this prompt and the text. Commit as "Problem 10 - Reflection". Do not push.
+
+When done, show me git status, git log, and the Reflection tab text as it reads on the page. Confirm the Expected, Actual and Cash parts are unchanged.
+
+TEXT:
+
+1. How I judge the agents on each ticket
+
+I judge each ticket on seven things: did it resolve, did it pick the right agents, did it stay in the shop rules, did it wait for my click, did the cash end up right, how many extra steps, and was the answer honest.
+
+Ticket 101 (tee, size S): good.
+- It resolved, and the cash was right: $840 for invoice 501 (R101-1), then $8 for the tee (R101-2).
+- Accounting did not order the tee until the invoice was paid. That follows the rule that a vendor will not ship with an unpaid invoice.
+- Accounting first used a wrong vendor id on R101-2. The tool refused it, and Accounting fixed it. The tool caught the mistake.
+- Weak spot: run 2 hit a provider error. So the customer draft was never updated, and 101 resolved on the Boss decision from run 1.
+
+Ticket 102 (rent): good, and the simplest.
+- Facilities matched the notice to lease 1: same landlord, amount ($2,400) and due date (2026-09-02).
+- Accounting filed R102-1. The first run timed out right after that, but the request was safe and waiting. After I approved it, the last run only read the ticket and recorded the decision.
+- Cash went down by exactly $2,400, and the next due date moved to 2026-10-02.
+- Inventory and Customer Service were left out, which is correct.
+- Small extra: Accounting asked Facilities to confirm the lease after the Boss had already sent the lease check to Facilities.
+
+Ticket 103 (20 hoodies, price override): best judgment.
+- Only 8 of 20 were in stock. The AI Club asked only for "a bulk discount" and named no price. The team picked $40 itself: $18 margin each, $144 total.
+- It did not promise the other 12.
+- It stayed far above the $22 cost floor. The loss line is 62.1% off list, and the offer is only 31% off.
+- It filed no purchase order. Cash was $152, and 12 hoodies would cost 12 x $22 = $264.
+
+Run failures are a separate issue from agent quality. 4 of the 7 runs stopped on model provider errors (HTTP 500 three times, one timeout). No money moved in any failed run. Each failed run is in the audit trail with its error.
+
+2. Actual vs my Expected plan
+
+Ticket 101: mostly matched.
+- Matched: the Boss called Inventory first. The payment came first, then the tee order. Facilities stayed out.
+- Different: I planned Inventory handing the invoice question to Accounting. In the run, only the Boss called other agents: Inventory, then Accounting, then Customer Service.
+
+Ticket 102: mostly matched.
+- Matched: Facilities and Accounting did the work. Inventory and Customer Service were not used.
+- Different: I planned Facilities handing the cash question to Accounting. It went the other way: Accounting asked Facilities to confirm the lease. All of this happened in the first run (3871abba50ed). The last run had no handoffs.
+
+Ticket 103: close.
+- Matched: Inventory, Accounting and Customer Service, with no Facilities. I also expected no purchase order, because rent and invoice 501 would use most of the cash, and that is what happened.
+- Different: I planned Inventory first. The Boss called Inventory and Accounting at the same time (step 3), then Customer Service later (step 19).
+
+Cash tab: I got one number wrong. My plan said $160 would be left after the invoice and the rent. The real ending balance is $152, because I forgot the $8 tee order. $3,400 - $840 - $8 - $2,400 = $152.
+
+3. What would be simpler as one agent with tools
+
+- Ticket 102 is the clearest case. One agent with get_ticket, get_lease, get_bills_and_cash and request_payment could do it in a few steps. Facilities' check and Accounting's second check of the lease use the same data.
+- Ticket 103: the margin math is one lookup (the $22 cost floor against the $40 price). The same agent could save the reply draft. Three handoffs added tokens and time.
+- Ticket 101: the customer draft only needs the stock result. One agent could write it right after.
+
+What I would lose:
+- Accounting is the only agent that files payments. All three requests (R101-1, R101-2, R102-1) came from Accounting.
+- Each audit row is tagged with the agent. That made the run easy to read.
+- The safety actually lives in the tools: human approval, no negative cash, and the vendor block. So one agent would still be safe. The split mostly helps reading and roles, not safety.
+
+4. Three new problems the team could solve with my tools
+
+- Another vendor invoice blocks a restock, like ticket 101. Boss, Inventory and Accounting would use get_invoice, find_restock_vendors, request_payment and request_purchase_order.
+- A second club asks for a bulk discount, like ticket 103. Boss, Inventory, Accounting and Customer Service would use quote_bulk_order, check_margin, check_stock and draft_customer_message. They would offer what is in stock above the cost floor.
+- A customer asks if a size will come back and when. Inventory finds the vendor lead time (Bulldog Print Co: 5 days for hoodies) and Customer Service drafts the answer.
+
+5. Three new problems the team could not solve
+
+- Next month's rent with no money coming in. Rent is due again 2026-10-02, and checking has only $152. The pay tool refuses a negative balance, and the shop only has cash going out. I would need a record_sale tool, a cash forecast tool, and a Revenue agent. A Facilities draft asking the landlord for more time would also help.
+- Tees that arrive. R101-2 was paid ($8), but stock for size S stays 0, because an approved order adds no stock. Nothing tracks the delivery date either. I would need receive_shipment and delivery date tools, and a Receiving agent, with a human confirming each delivery.
+- Sending messages and negotiating. Customer Service only saves drafts for 101 and 103. It cannot send, follow up, or ask Bulldog Print Co for a payment plan on invoice 501. I would need a send_message tool that waits for my approval, a customer record tool, and a Vendor Relations agent.
+````
+
+### Follow-up
+
+````text
+Accept 9d1e1b9 as the Actual-sections fix. Do not rename it. The "same landlord" line is fine, keep it as written. Go ahead with the Reflection exactly as in my last message: same text, same rules, commit as "Problem 10 - Reflection". Do not push.
+Show me git status, git log, and the Reflection tab text as it reads on the page. Confirm the Expected, Actual and Cash parts are unchanged.
+````
+
+After the first try, check (a) stopped the work: the Actual-sections fix was committed as "Problem 9 - Correct the handoff order in ticket 103 Actual" (9d1e1b9), not under the title I gave.
